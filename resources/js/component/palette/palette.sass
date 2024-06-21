@@ -1,0 +1,83 @@
+@import ../../variables
+
+.palette
+  margin-top: 50px
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  gap: 5px
+
+  &__input
+    display: none
+
+  &__check-mark
+    color: $font-strong
+
+  &__color-box
+    display: grid
+    place-items: center
+    aspect-ratio: 1 / 1
+    border-radius: 50px
+    cursor: pointer
+    height: 50px
+    transition: 0.3s
+
+    &.red
+      background: $red-weak
+
+      @media (pointer: fine)
+        &:hover
+          background: $red
+
+      &.selected
+        background: $red
+
+    &.orange
+      background: $orange-weak
+
+      @media (pointer: fine)
+        &:hover
+          background: $orange
+
+      &.selected
+        background: $orange
+
+    &.yellow
+      background: $yellow-weak
+
+      @media (pointer: fine)
+        &:hover
+          background: $yellow
+
+      &.selected
+        background: $yellow
+
+    &.green
+      background: $green-weak
+
+      @media (pointer: fine)
+        &:hover
+          background: $green
+
+      &.selected
+        background: $green
+
+    &.blue
+      background: $blue-weak
+
+      @media (pointer: fine)
+        &:hover
+          background: $blue
+
+      &.selected
+        background: $blue
+
+    &.purple
+      background: $purple-weak
+
+      @media (pointer: fine)
+        &:hover
+          background: $purple
+
+      &.selected
+        background: $purple

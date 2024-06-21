@@ -1,0 +1,162 @@
+@import ../../variables
+
+.record-card
+  background: $background
+  border-radius: 10px
+  transition: 0.3s
+  cursor: pointer
+  overflow: hidden
+
+  @media (pointer: fine)
+    &:hover
+      background: lighten($background, 2%)
+
+  &__header
+    display: flex
+    border-bottom: 1px solid $delimiter
+    align-items: center
+    gap: 10px
+    padding: 10px
+
+  &__date
+    font-size: 16px
+    text-transform: uppercase
+    color: $font-strong
+
+  &__mood
+    font-size: 60px
+    font-variation-settings: 'FILL' 0, 'wght' 200
+
+    &.radiating
+      color: $green
+
+    &.happy
+      color: $yellow
+
+    &.neutral
+      color: white
+
+    &.bad
+      color: $orange
+
+    &.awful
+      color: $red
+
+  &__weather
+    font-size: 60px
+    font-variation-settings: 'FILL' 0, 'wght' 200
+
+    &.heat
+      color: $orange
+
+    &.sunny
+      color: $yellow
+
+    &.cloudy
+      color: #8d8d8d
+
+    &.windy
+      color: $blue
+
+    &.rainy
+      color: $blue
+
+    &.thunder
+      color: $purple
+
+    &.foggy
+      color: #D3D3D3
+
+    &.snowy
+      color: #FFFAFA
+
+    &.cold
+      color: $blue
+
+  &__weather-name
+    margin-top: 5px
+    font-size: 14px
+
+  &__collections
+    padding: 15px
+
+  &__notes
+    text-align: justify
+    position: relative
+    border-top: 1px solid $delimiter
+    border-bottom: 1px solid $delimiter
+    padding: 25px 15px
+    white-space: pre-line
+    font-size: 12px
+    overflow: hidden
+    color: darken($font-strong, 10%)
+
+  &__photos
+    max-width: 100%
+    margin: 20px 15px 15px
+    display: flex
+    flex-wrap: wrap
+    gap: 3px
+    border-radius: 10px
+    overflow: hidden
+
+  &__photo-container
+    flex: 1 1 30%
+
+  &__photo
+    aspect-ratio: 1 / 1
+    height: 100%
+    width: 100%
+    object-fit: cover
+
+.record-card-collection
+  margin-top: 7px
+  border-bottom: 1px dashed $delimiter
+
+  &:last-child
+    border-bottom: none
+
+  &__name
+    display: inline-block
+    font-size: 13px
+    font-weight: bold
+
+    &.red
+      color: $red
+
+    &.orange
+      color: $orange
+
+    &.yellow
+      color: $yellow
+
+    &.green
+      color: $green
+
+    &.blue
+      color: $blue
+
+    &.purple
+      color: $purple
+
+
+  &__activities
+    margin-top: 2px
+    gap: 0 10px
+    display: flex
+    flex-wrap: wrap
+    margin-bottom: 7px
+
+
+.record-card-activity
+  display: flex
+  align-items: center
+  gap: 2px
+
+  &__icon
+    width: 25px
+    height: 25px
+
+  &__name
+    font-size: 12px
+    color: darken($font-strong, 10%)

@@ -1,0 +1,46 @@
+@import ../../variables
+
+.mood-select
+  margin-bottom: 80px
+
+  &__input
+    display: none
+
+  &__label
+    text-align: center
+    font-size: 24px
+    color: $font-strong
+    margin-bottom: 30px
+
+  &__moods
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+
+  &__mood
+    cursor: pointer
+    font-size: 70px
+    font-variation-settings: 'FILL' 0, 'wght' 200
+    transition: .3s
+
+    @media (pointer: fine)
+      &:hover
+        font-variation-settings: 'wght' 300
+
+    &:nth-child(1)
+      color: $green
+
+    &:nth-child(2)
+      color: $yellow
+
+    &:nth-child(3)
+      color: $blue
+
+    &:nth-child(4)
+      color: $orange
+
+    &:nth-child(5)
+      color: $red
+
+    &.selected
+      font-variation-settings: 'FILL' 1

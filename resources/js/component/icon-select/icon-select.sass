@@ -1,0 +1,81 @@
+@import ../../variables
+
+.icon-select
+  display: flex
+  flex-direction: column
+  gap: 10px
+
+  &__input
+    display: none
+
+.icon-select-list
+
+  &__header
+    user-select: none
+    border-radius: 10px
+    display: flex
+    align-items: center
+    height: 60px
+    padding: 0 20px
+    cursor: pointer
+
+    @media(pointer: fine)
+      &:hover
+        background: lighten($background, 3%)
+
+  &__name
+    font-size: 20px
+    color: $font-strong
+    margin-bottom: 3px
+
+  &__chevron
+    font-size: 30px
+    margin-left: auto
+
+  &__list
+    margin-top: 20px
+    overflow: hidden
+    display: grid
+    gap: 15px
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr))
+    transition: 0.75s ease
+    max-height: 900px
+    margin-bottom: 70px
+
+  &.invisible &__list
+    display: none
+
+  &__item
+    cursor: pointer
+    aspect-ratio: 1 / 1
+    display: grid
+    justify-content: center
+    align-content: center
+    border-radius: 10px
+
+    @media (pointer: fine)
+      &:hover
+        background: $background
+
+    &.selected
+      &.red
+        background: $red
+
+      &.orange
+        background: $orange
+
+      &.yellow
+        background: $yellow
+
+      &.green
+        background: $green
+
+      &.blue
+        background: $blue
+
+      &.purple
+        background: $purple
+
+  &__icon
+    width: 100%
+

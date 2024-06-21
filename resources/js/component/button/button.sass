@@ -1,0 +1,169 @@
+@import ../../../css/variables
+
+.button
+  user-select: none
+  display: flex
+  border-radius: 12px
+  height: 64px
+  align-items: center
+  justify-content: center
+  gap: 10px
+  padding: 24px 32px
+  cursor: pointer
+  transition: .3s
+
+  &.even
+    padding: 0
+    aspect-ratio: 1 / 1 !important
+
+  &.round
+    border-radius: 1000px
+
+  &.primary
+    font-weight: bold
+    color: $font-strong
+
+    &.red
+      background: $red
+      color: $font-strong
+
+      @media (pointer: fine)
+        &:hover
+          background: darken($red, 5%)
+
+      &:active
+        background: darken($red, 3%)
+
+    &.orange
+      background: $orange
+
+      @media (pointer: fine)
+        &:hover
+          background: darken($orange, 5%)
+
+      &:active
+        background: darken($orange, 3%)
+
+    &.yellow
+      background: $yellow
+      color: #444
+
+      @media (pointer: fine)
+        &:hover
+          background: darken($yellow, 5%)
+
+      &:active
+        background: darken($yellow, 3%)
+
+    &.green
+      background: $green
+
+      @media (pointer: fine)
+        &:hover
+          background: darken($green, 5%)
+
+      &:active
+        background: darken($green, 3%)
+
+    &.blue
+      background: $blue
+
+      @media (pointer: fine)
+        &:hover
+          background: darken($blue, 5%)
+
+      &:active
+        background: darken($blue, 3%)
+
+    &.purple
+      background: $purple
+
+      @media (pointer: fine)
+        &:hover
+          background: darken($purple, 5%)
+
+      &:active
+        background: darken($purple, 3%)
+
+    &.accent
+      background: $accent-strong
+      text-shadow: 0 0 3px #00000088
+
+      @media (pointer: fine)
+        &:hover
+          background: darken($accent-strong, 5%)
+
+      &:active
+        background: darken($accent-strong, 3%)
+
+  &.secondary
+
+    &.red
+      color: $red
+      background: $red-weak
+
+      &:hover
+        background: lighten($red-weak, 3%)
+
+      &:active
+        background: lighten($red-weak, 4%)
+
+    &.orange
+      color: $orange
+      background: $orange-weak
+
+      &:hover
+        background: darken($orange-weak, 3%)
+
+      &:active
+        background: darken($orange-weak, 4%)
+
+    &.yellow
+      color: $yellow
+      background: $yellow-weak
+
+      &:hover
+        background: darken($yellow-weak, 3%)
+
+      &:active
+        background: darken($yellow-weak, 4%)
+
+    &.green
+      color: $green
+      background: $green-weak
+
+      &:hover
+        background: darken($green-weak, 3%)
+
+      &:active
+        background: darken($green-weak, 4%)
+
+    &.blue
+      color: $blue
+      background: $blue-weak
+
+      &:hover
+        background: darken($blue-weak, 3%)
+
+      &:active
+        background: darken($blue-weak, 4%)
+
+    &.purple
+      color: $purple
+      background: $purple-weak
+
+      &:hover
+        background: darken($purple-weak, 3%)
+
+      &:active
+        background: darken($purple-weak, 4%)
+
+    &.accent
+      color: $accent-strong
+      background: $accent
+
+      &:hover
+        background: darken($accent, 3%)
+
+      &:active
+        background: darken($accent, 4%)
