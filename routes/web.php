@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -22,3 +23,10 @@ Route::post('/signup', [AuthController::class, "store"]);
 
 Route::get('/login', [AuthController::class, 'login']);
 Route::post('/login', [AuthController::class, 'authenticate']);
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::group(['prefix' => 'collections'], function () {
+        Route::get('/new', [CollectionController::class, 'create'])->name('collections.create');
+        Route::post('/', [CollectionController::class, 'store'])->name('collections.store');
+    });
+});
