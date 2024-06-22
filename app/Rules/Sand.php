@@ -15,7 +15,7 @@ class Sand implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         // SAND --- Space Alpha Numeric Dash
-        if (preg_match('/[^а-яА-Яa-zA-Z0-9]/u', $value)) {
+        if (preg_match('/[^а-яА-Яa-zA-Z0-9 -]/u', $value)) {
             $fail(__('validation.sand'));
         }
     }
