@@ -1,4 +1,4 @@
-import ShortActivity from "./short-activity.ts";
+import ShortActivity from "./short-activity";
 
 export default class ShortCollection {
     id: string = ""

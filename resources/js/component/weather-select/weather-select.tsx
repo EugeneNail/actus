@@ -1,7 +1,7 @@
 import "./weather-select.sass"
-import {ChangeEvent} from "react";
-import {Weather, WeatherIcons} from "../../model/weather.ts";
-import Icon from "../icon/icon.tsx";
+import React, {ChangeEvent} from "react";
+import {Weather, WeatherIcons} from "../../model/weather";
+import Icon from "../icon/icon";
 import classNames from "classnames";
 
 type Props = {

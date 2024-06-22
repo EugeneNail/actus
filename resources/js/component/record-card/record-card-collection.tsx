@@ -1,8 +1,9 @@
 import "./record-card.sass"
-import ShortCollection from "../../model/short-collection.ts";
-import RecordCardActivity from "./record-card-activity.tsx";
+import ShortCollection from "../../model/short-collection";
+import RecordCardActivity from "./record-card-activity";
 import classNames from "classnames";
-import {Color} from "../../model/color.tsx";
+import {Color} from "../../model/color";
+import React from "react";
 type Props = {
     collection: ShortCollection
 }

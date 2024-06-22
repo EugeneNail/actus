@@ -1,5 +1,5 @@
 import "./notes.sass"
-import {useRef} from "react";
+import React, {useRef} from "react";
 import classNames from "classnames";
 
 type Props = {

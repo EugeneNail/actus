@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import "./icon.sass"
+import React from "react";
 
 type IconProps = {
     name: string

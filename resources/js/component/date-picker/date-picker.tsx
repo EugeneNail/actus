@@ -1,8 +1,8 @@
 import "./date-picker.sass"
-import {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import classNames from "classnames";
-import Icon from "../icon/icon.tsx";
-import Button, {ButtonStyle} from "../button/button.tsx";
+import Icon from "../icon/icon";
+import Button, {ButtonStyle} from "../button/button";
 
 type Props = {
     className?: string

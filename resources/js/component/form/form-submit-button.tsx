@@ -1,6 +1,7 @@
 import "./form.sass"
-import Button, {ButtonStyle} from "../button/button.tsx";
-import {Color} from "../../model/color.tsx";
+import Button, {ButtonStyle} from "../button/button";
+import {Color} from "../../model/color";
+import React from "react";
 
 type Props = {
     label: string

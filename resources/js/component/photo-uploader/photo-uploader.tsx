@@ -1,7 +1,6 @@
 import "./photo-uploader.sass"
-import {ChangeEvent} from "react";
-import Icon from "../icon/icon.tsx";
-import {useApi} from "../../service/use-api.ts";
+import React, {ChangeEvent} from "react";
+import Icon from "../icon/icon";
 
 type Props = {
     name: string
@@ -11,22 +10,19 @@ type Props = {
 }
 
 export default function PhotoUploader({name, values, deletePhoto, onPhotosUploaded}: Props) {
-    const api = useApi()
-
-
     async function loadBase64Images(event: ChangeEvent<HTMLInputElement>) {
         const files = event.target.files ?? [] as File[]
         const length = files.length
         const names: string[] = []
 
         for (let i = 0; i < length; i++) {
-            const {data, status} = await api.post("/api/photos", {
-                image: await fileToBase64(files[i])
-            })
+            // const {data, status} = await api.post("/api/photos", {
+            //     image: await fileToBase64(files[i])
+            // })
 
-            if (status == 201) {
-                names.push(data)
-            }
+            // if (status == 201) {
+            //     names.push(data)
+            // }
         }
 
         onPhotosUploaded(names)
@@ -55,7 +51,7 @@ export default function PhotoUploader({name, values, deletePhoto, onPhotosUpload
                         <div className="photo-uploader__delete-button" onClick={() => deletePhoto(name)}>
                             <Icon className="photo-uploader__delete-button-icon" bold name="close"/>
                         </div>
-                        <img className="photo-uploader__img" src={`${import.meta.env.VITE_API_DOMAIN}/api/photos/${name}`}
+                        <img className="photo-uploader__img" src={`/api/photos/${name}`}
                              alt={name}/>
                     </div>
                 ))}
