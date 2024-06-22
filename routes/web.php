@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -16,3 +17,8 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/signup', [AuthController::class, "register"]);
+Route::post('/signup', [AuthController::class, "store"]);
+
+Route::get('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'authenticate']);

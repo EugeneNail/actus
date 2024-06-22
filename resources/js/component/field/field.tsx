@@ -40,17 +40,6 @@ export default function Field({value, icon = "", name, label, max = 100, classNa
         }
     }, [])
 
-    function getInputType(): string {
-        if (email && !password) {
-            return "email"
-        }
-
-        if (password) {
-            return isVisible ? "text" : "password"
-        }
-
-        return "text"
-    }
 
     return (
         <div className={className}>
@@ -62,7 +51,7 @@ export default function Field({value, icon = "", name, label, max = 100, classNa
                        value={value}
                        placeholder={label}
                        maxLength={max}
-                       type={getInputType()}
+                       type={isVisible ? "text" : "password"}
                        id={name}
                        name={name}
                        inputMode={email ? "email" : "text"}

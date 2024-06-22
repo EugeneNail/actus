@@ -1,15 +1,16 @@
 import {ChangeEvent, useState} from "react";
+import {useForm} from "@inertiajs/react";
 
 export function useFormState<D>() {
-    const [state, setState] = useState<D & {[key: string]: any}>()
+    const {data, setData, errors, post, put, get} = useForm<D & {[key: string]: any}>()
 
     function setField(event: ChangeEvent<HTMLInputElement>) {
         event.preventDefault()
-        setState({
-            ...state,
+        setData({
+            ...data,
             [event.target.name] : event.target.value
         })
     }
 
-    return {state, setField, setState}
+    return {data, setData, setField, errors, post, put, get}
 }
