@@ -1,7 +1,7 @@
 import "./button.sass"
-import {ReactNode} from "react";
+import React, {ReactNode} from "react";
 import classNames from "classnames";
-import {Color} from "../../model/color.tsx";
+import {Color} from "../../model/color";
 
 export enum ButtonStyle {
     Primary,

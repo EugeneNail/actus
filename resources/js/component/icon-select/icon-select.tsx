@@ -1,8 +1,8 @@
 import "./icon-select.sass"
-import {ChangeEvent} from "react";
-import IconSelectList from "./icon-select-list.tsx";
+import React, {ChangeEvent} from "react";
+import IconSelectList from "./icon-select-list";
 import classNames from "classnames";
-import {Color} from "../../model/color.tsx";
+import {Color} from "../../model/color";
 
 type Props = {
     className?: string

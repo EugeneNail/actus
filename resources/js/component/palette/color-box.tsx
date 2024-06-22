@@ -1,7 +1,8 @@
 import "./palette.sass"
-import {Color} from "../../model/color.tsx";
-import Icon from "../icon/icon.tsx";
+import {Color} from "../../model/color";
+import Icon from "../icon/icon";
 import classNames from "classnames";
+import React from "react";
 
 type Props = {
     color: Color

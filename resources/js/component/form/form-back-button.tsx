@@ -1,7 +1,8 @@
 import "./form.sass"
-import Button, {ButtonStyle} from "../button/button.tsx";
-import Icon from "../icon/icon.tsx";
-import {Color} from "../../model/color.tsx";
+import Button, {ButtonStyle} from "../button/button";
+import Icon from "../icon/icon";
+import {Color} from "../../model/color";
+import React from "react";
 
 type Props = {
     color?: Color

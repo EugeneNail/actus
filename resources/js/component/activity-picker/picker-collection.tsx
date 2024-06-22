@@ -1,9 +1,9 @@
 import "./activity-picker.sass"
-import Collection from "../../model/collection.ts";
-import Icon from "../icon/icon.tsx";
+import Collection from "../../model/collection";
+import Icon from "../icon/icon";
 import classNames from "classnames";
-import {useState} from "react";
-import PickerActivity from "./picker-activity.tsx";
+import React, {useState} from "react";
+import PickerActivity from "./picker-activity";
 
 type Props = {
     collection: Collection

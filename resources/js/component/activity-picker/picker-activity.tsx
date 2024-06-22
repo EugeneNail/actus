@@ -1,8 +1,9 @@
 import "./activity-picker.sass"
-import {Color} from "../../model/color.tsx";
-import Activity from "../../model/activity.ts";
+import {Color} from "../../model/color";
+import Activity from "../../model/activity";
 import classNames from "classnames";
-import Icon8 from "../icon8/icon8.tsx";
+import Icon8 from "../icon8/icon8";
+import React from "react";
 
 type Props = {
     activity: Activity

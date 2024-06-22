@@ -1,5 +1,5 @@
-import Activity from "./activity.ts";
-import {Color} from "./color.tsx";
+import Activity from "./activity";
+import {Color} from "./color";
 
 export default class Collection {
     id: number = 0

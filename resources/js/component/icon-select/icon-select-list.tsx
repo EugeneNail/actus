@@ -1,10 +1,10 @@
 import "./icon-select.sass"
-import Icon from "../icon/icon.tsx";
+import Icon from "../icon/icon";
 import classNames from "classnames";
-import {useState} from "react";
-import {Icons8} from "../icon8/icons8.ts";
-import Icon8 from "../icon8/icon8.tsx";
-import {Color} from "../../model/color.tsx";
+import React, {useState} from "react";
+import {Icons8} from "../icon8/icons8";
+import Icon8 from "../icon8/icon8";
+import {Color} from "../../model/color";
 
 type Props = {
     label: string

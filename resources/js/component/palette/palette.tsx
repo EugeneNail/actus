@@ -1,7 +1,7 @@
 import "./palette.sass"
-import {ChangeEvent} from "react";
+import React, {ChangeEvent} from "react";
 import {Color} from "../../model/color";
-import ColorBox from "./color-box.tsx";
+import ColorBox from "./color-box";
 
 type Props = {
     name: string

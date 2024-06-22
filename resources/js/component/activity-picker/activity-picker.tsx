@@ -1,6 +1,7 @@
 import "./activity-picker.sass"
-import Collection from "../../model/collection.ts";
-import PickerCollection from "./picker-collection.tsx";
+import Collection from "../../model/collection";
+import PickerCollection from "./picker-collection";
+import React from "react";
 
 type Props = {
     collections: Collection[]

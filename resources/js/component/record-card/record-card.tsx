@@ -1,11 +1,12 @@
 import "./record-card.sass"
-import ShortRecord from "../../model/short-record.ts";
-import Icon from "../icon/icon.tsx";
-import {Mood, MoodIcons} from "../../model/mood.ts";
+import ShortRecord from "../../model/short-record";
+import Icon from "../icon/icon";
+import {Mood, MoodIcons} from "../../model/mood";
 import classNames from "classnames";
-import RecordCardCollection from "./record-card-collection.tsx";
-import {useNavigate} from "react-router-dom";
-import {Weather, WeatherIcons, WeatherNames} from "../../model/weather.ts";
+import RecordCardCollection from "./record-card-collection";
+import {Weather, WeatherIcons, WeatherNames} from "../../model/weather";
+import React from "react";
+import {router} from "@inertiajs/react";
 
 type Props = {
     record: ShortRecord
@@ -15,7 +16,6 @@ const months = ["Января", "Февраля", "Марта", "Апреля", 
 const weekdays = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
 
 export default function RecordCard({record}: Props) {
-    const navigate = useNavigate()
     const moodClassName = classNames(
         "record-card__mood",
         {radiating: record.mood == Mood.Radiating},
@@ -47,7 +47,7 @@ export default function RecordCard({record}: Props) {
 
 
     return (
-        <div className="record-card" onClick={() => navigate(`./${record.id}`)}>
+        <div className="record-card" onClick={() => router.get(`/records/${record.id}`)}>
             <div className="record-card__header">
                 <Icon className={moodClassName} name={MoodIcons[record.mood]}/>
                 <Icon className={weatherClassName} name={WeatherIcons[record.weather]}/>
@@ -65,7 +65,7 @@ export default function RecordCard({record}: Props) {
             {record.photos && <div className="record-card__photos">
                 {record.photos.map(photo =>
                     <div className="record-card__photo-container" key={photo}>
-                        <img className="record-card__photo" src={`${import.meta.env.VITE_API_DOMAIN}/api/photos/${photo}`} alt={photo} />
+                        <img className="record-card__photo" src={`/api/photos/${photo}`} alt={photo} />
                     </div>
                 )}
             </div>}

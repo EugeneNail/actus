@@ -1,6 +1,6 @@
 import "./mood-select.sass"
-import {ChangeEvent} from "react";
-import Icon from "../icon/icon.tsx";
+import React, {ChangeEvent} from "react";
+import Icon from "../icon/icon";
 import classNames from "classnames";
 
 type Props = {

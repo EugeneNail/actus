@@ -1,6 +1,6 @@
-import ShortCollection from "./short-collection.ts";
-import {Mood} from "./mood.ts";
-import {Weather} from "./weather.ts";
+import ShortCollection from "./short-collection";
+import {Mood} from "./mood";
+import {Weather} from "./weather";
 
 export default class ShortRecord {
     id: number = 0

@@ -1,7 +1,8 @@
 import "./activity-card.sass"
-import Activity from "../../model/activity.ts";
-import {useNavigate} from "react-router-dom";
-import Icon8 from "../icon8/icon8.tsx";
+import Activity from "../../model/activity";
+import React from "react";
+import Icon8 from "../icon8/icon8";
+import {router} from "@inertiajs/react";
 
 type Props ={
     collectionId: number
@@ -9,7 +10,6 @@ type Props ={
 }
 
 export default function ActivityCard({activity, collectionId}: Props) {
-    const navigate = useNavigate()
 
     function formatName(): string {
         const name = activity.name
@@ -20,7 +20,7 @@ export default function ActivityCard({activity, collectionId}: Props) {
     }
 
     return (
-        <div className="activity-card" onClick={() => navigate(`./${collectionId}/activities/${activity.id}`)}>
+        <div className="activity-card" onClick={() => router.get(`./${collectionId}/activities/${activity.id}`)}>
             <div className="activity-card__icon-container">
                 <Icon8 id={activity.icon} className="activity-card__icon"/>
             </div>

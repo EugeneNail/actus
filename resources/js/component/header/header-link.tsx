@@ -1,8 +1,9 @@
 import "./header.sass"
-import Icon from "../icon/icon.tsx";
-import {NavLink} from "react-router-dom";
+import Icon from "../icon/icon";
 import classNames from "classnames";
-import {Color} from "../../model/color.tsx";
+import {Color} from "../../model/color";
+import React from "react";
+import {Link} from "@inertiajs/react";
 
 type Props = {
     label: string
@@ -24,9 +25,9 @@ export default function HeaderLink({label, color, icon, to}:Props) {
     )
 
     return (
-        <NavLink className={className} to={to}>
+        <Link className={className} href={to}>
             <Icon className="header-link__icon" name={icon}/>
             <p className="header-link__label">{label}</p>
-        </NavLink>
+        </Link>
     )
 }

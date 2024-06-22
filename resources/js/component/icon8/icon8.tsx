@@ -1,6 +1,7 @@
 import "./icon8.sass"
 import classNames from "classnames";
-import {Icons8, icons8Names} from "./icons8.ts";
+import {Icons8, icons8Names} from "./icons8";
+import React from "react";
 
 type Props = {
     className?: string
