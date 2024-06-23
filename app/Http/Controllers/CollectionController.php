@@ -30,8 +30,14 @@ class CollectionController extends Controller
 
 
     public function store(StoreCollectionRequest $request): RedirectResponse {
-        if (Auth::user()->collections->count() >= 20) {
+        $user = Auth::user();
+        if ($user->collections->count() >= 20) {
             return back()->withErrors(['name' => 'Вы не можете иметь больше 20 коллекций.']);
+        }
+
+        $hasDuplicate = $user->collections->where('name', $request->name)->count() > 0;
+        if ($hasDuplicate) {
+            return back()->withErrors(['name' => 'У вас уже есть такая коллекция.']);
         }
 
         $collection = new Collection($request->validated());

@@ -46,6 +46,26 @@ class UpdateTest extends AuthorizedTestCase
     }
 
 
+    public function test_rejects_invalid_data(): void {
+        $route = route('collections.create');
+
+        $this
+            ->put(route('collections.update', Collection::first()->id), [
+                'name' => 'Название с символом!',
+                'color' => 7,
+            ], ['Referer' => $route])
+            ->assertRedirect($route)
+            ->assertSessionHasErrors(['name', 'color']);
+
+        $this
+            ->assertDatabaseCount('collections', 1)
+            ->assertDatabaseMissing('collections', [
+                'name' => 'Название с символом!',
+                'color' => 7,
+            ]);
+    }
+
+
     public function test_page_loading_passes_current_state_successfully(): void
     {
         $collection = Collection::first();

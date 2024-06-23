@@ -80,6 +80,23 @@ class StoreTest extends AuthorizedTestCase
     }
 
 
+    public function test_avoids_creating_name_duplicates(): void
+    {
+        $existing = Collection::factory()->for(User::first())->create();
+        $route = route('collections.create');
+
+        $this
+            ->post(route('collections.store'), [
+                'name' => $existing->name,
+                'color' => 1,
+            ], ['Referer' => $route])
+            ->assertRedirect($route)
+            ->assertSessionHasErrors(['name']);
+
+        $this->assertDatabaseCount('collections', 1)->assertDatabaseMissing('collections', ['id' => 2]);
+    }
+
+
     /**
      * @throws Exception
      */
