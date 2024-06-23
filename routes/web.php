@@ -26,6 +26,7 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.authe
 
 Route::group(['middleware' => 'auth'], function () {
     Route::prefix('collections')->name('collections.')->group(function () {
+        Route::get('/', [CollectionController::class, 'index'])->name('index');
         Route::get('/new', [CollectionController::class, 'create'])->name('create');
         Route::post('/', [CollectionController::class, 'store'])->name('store');
     });
