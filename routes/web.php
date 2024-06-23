@@ -18,15 +18,15 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/signup', [AuthController::class, "register"]);
-Route::post('/signup', [AuthController::class, "store"]);
+Route::get('/signup', [AuthController::class, "register"])->name('auth.register');
+Route::post('/signup', [AuthController::class, "store"])->name('auth.store');
 
-Route::get('/login', [AuthController::class, 'login']);
-Route::post('/login', [AuthController::class, 'authenticate']);
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.authenticate');
 
-Route::group(['middleware' => 'auth'], function() {
-    Route::group(['prefix' => 'collections'], function () {
-        Route::get('/new', [CollectionController::class, 'create'])->name('collections.create');
-        Route::post('/', [CollectionController::class, 'store'])->name('collections.store');
+Route::group(['middleware' => 'auth'], function () {
+    Route::prefix('collections')->name('collections.')->group(function () {
+        Route::get('/new', [CollectionController::class, 'create'])->name('create');
+        Route::post('/', [CollectionController::class, 'store'])->name('store');
     });
 });
