@@ -44,7 +44,7 @@ export default function Save({id, name, color}: Payload) {
                 <FormButtons>
                     <FormBackButton color={data.color}/>
                     <FormSubmitButton color={data.color} label="Сохранить" onClick={save}/>
-                    {!willStore && <FormDeleteButton onClick={() => router.get("/collections/delete")}/>}
+                    {!willStore && <FormDeleteButton onClick={() => router.get(`/collections/${id}/delete`)}/>}
                 </FormButtons>
             </Form>
         </div>

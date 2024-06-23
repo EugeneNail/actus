@@ -70,4 +70,28 @@ class CollectionController extends Controller
 
         return redirect()->route('collections.index');
     }
+
+
+    public function delete(Collection $collection): Response | RedirectResponse {
+        if ($collection->user_id != Auth::user()->id) {
+            abort(404);
+        }
+
+        return Inertia::render('Collection/Delete', [
+            'id' => $collection->id,
+            'name' => $collection->name,
+            'color' => $collection->color,
+        ]);
+    }
+
+
+    public function destroy(Collection $collection): RedirectResponse {
+        if ($collection->user_id != Auth::user()->id) {
+            abort(404);
+        }
+
+        $collection->delete();
+
+        return redirect(route('collections.index'));
+    }
 }

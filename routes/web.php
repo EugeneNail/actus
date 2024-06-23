@@ -31,5 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/', [CollectionController::class, 'store'])->name('store');
         Route::get('/{collection}', [CollectionController::class, 'edit'])->name('edit');
         Route::put('/{collection}', [CollectionController::class, 'update'])->name('update');
+        Route::get('/{collection}/delete', [CollectionController::class, 'delete'])->name('delete');
+        Route::delete('/{collection}', [CollectionController::class, 'destroy'])->name('destroy');
     });
 });
