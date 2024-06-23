@@ -11,33 +11,28 @@ import {useFormState} from "../../hooks/use-form-state";
 import {router} from "@inertiajs/react";
 
 interface Payload {
+    id: number
     name: string
     color: Color
 }
 
 
-export default function Save({name, color}: Payload) {
+export default function Save({id, name, color}: Payload) {
     const willStore = window.location.pathname.includes("/new")
-    const {data, setData, setField,errors, post, put} = useFormState<Payload>()
+    const {data, setData, setField, errors, post, put} = useFormState<Payload>()
 
 
     useEffect(() => {
-        if (!willStore) {
-            setData({
-                name: name,
-                color: color
-            })
-        } else {
-            setData({
-                ...data,
-                color: Color.Red
-            })
-        }
+        setData({
+            id: id ?? 0,
+            name: name ?? '',
+            color: color ?? Color.Red
+        })
     }, []);
 
 
     function save() {
-        willStore ? post('/collections') : put('/collections')
+        willStore ? post('/collections') : put(`/collections/${id}`)
     }
 
 
@@ -49,7 +44,7 @@ export default function Save({name, color}: Payload) {
                 <FormButtons>
                     <FormBackButton color={data.color}/>
                     <FormSubmitButton color={data.color} label="Сохранить" onClick={save}/>
-                    {!willStore && <FormDeleteButton onClick={() => router.get("./delete")}/>}
+                    {!willStore && <FormDeleteButton onClick={() => router.get("/collections/delete")}/>}
                 </FormButtons>
             </Form>
         </div>
