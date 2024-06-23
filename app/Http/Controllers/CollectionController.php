@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCollectionRequest;
+use App\Http\Requests\UpdateCollectionRequest;
 use App\Models\Collection;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -38,5 +39,35 @@ class CollectionController extends Controller
         $collection->save();
 
         return redirect()->intended('/collections');
+    }
+
+
+    public function edit(?Collection $collection): Response | RedirectResponse {
+        if ($collection->user_id != Auth::user()->id) {
+            abort(404);
+        }
+
+        return Inertia::render('Collection/Save', [
+            'id' => $collection->id,
+            'name' => $collection->name,
+            'color' => $collection->color,
+        ]);
+    }
+
+
+    public function update(UpdateCollectionRequest $request, Collection $collection) {
+        $user = Auth::user();
+        if ($collection->user_id != $user->id) {
+            abort(404);
+        }
+
+        $hasDuplicate = $user->collections->where('name', $request->name)->where('id', '!=', $collection->id)->count() > 0;
+        if ($hasDuplicate) {
+            return back()->withErrors(['name' => 'У вас уже есть такая коллекция.']);
+        }
+
+        $collection->update($request->validated());
+
+        return redirect()->route('collections.index');
     }
 }

@@ -29,5 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [CollectionController::class, 'index'])->name('index');
         Route::get('/new', [CollectionController::class, 'create'])->name('create');
         Route::post('/', [CollectionController::class, 'store'])->name('store');
+        Route::get('/{collection}', [CollectionController::class, 'edit'])->name('edit');
+        Route::put('/{collection}', [CollectionController::class, 'update'])->name('update');
     });
 });
