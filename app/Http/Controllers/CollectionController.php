@@ -13,7 +13,9 @@ use Inertia\Response;
 class CollectionController extends Controller
 {
     public function index(): Response {
-        return Inertia::render('Collection/Index');
+        return Inertia::render('Collection/Index', [
+            'collections' => Auth::user()->collections
+        ]);
     }
 
     public function create(): Response | RedirectResponse
