@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCollectionRequest;
-use App\Http\Requests\UpdateCollectionRequest;
-use App\Models\Activity;
+use App\Http\Requests\Collection\StoreRequest;
+use App\Http\Requests\Collection\UpdateRequest;
 use App\Models\Collection;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -41,7 +39,7 @@ class CollectionController extends Controller
     }
 
 
-    public function store(StoreCollectionRequest $request): RedirectResponse
+    public function store(StoreRequest $request): RedirectResponse
     {
         if ($this->service->exceededLimit(20)) {
             return back()->withErrors(['name' => 'Вы не можете иметь больше 20 коллекций.']);
@@ -69,7 +67,7 @@ class CollectionController extends Controller
     }
 
 
-    public function update(UpdateCollectionRequest $request, Collection $collection)
+    public function update(UpdateRequest $request, Collection $collection)
     {
         $this->service->verifyOwner($collection);
 

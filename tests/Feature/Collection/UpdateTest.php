@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Collection;
 
-use App\Http\Requests\UpdateCollectionRequest;
+use App\Http\Requests\Collection\UpdateRequest;
 use App\Models\Collection;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia;
@@ -114,7 +114,7 @@ class UpdateTest extends AuthorizedTestCase
      */
     public function test_validation(): void
     {
-        $request = UpdateCollectionRequest::class;
+        $request = UpdateRequest::class;
 
         $this->assertValidationPasses($request, "name", "Short", "Сон");
         $this->assertValidationPasses($request, "name", "One word", "Сидение");

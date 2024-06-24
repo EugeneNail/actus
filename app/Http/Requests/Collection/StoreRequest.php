@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Collection;
 
 use App\Rules\Sand;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateCollectionRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,7 +17,7 @@ class UpdateCollectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:3', 'max:20', new Sand()],
+            'name' => ['required', 'string', 'min:3', 'max:20', new Sand(), Rule::unique('collections', 'name')->where('user_id', $this->user_id)],
             'color' => ['required', 'numeric', 'integer', 'between:1,6'],
         ];
     }

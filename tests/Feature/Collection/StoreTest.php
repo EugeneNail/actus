@@ -2,16 +2,11 @@
 
 namespace Tests\Feature\Collection;
 
-use App\Http\Requests\StoreCollectionRequest;
+use App\Http\Requests\Collection\StoreRequest;
 use App\Models\Collection;
 use App\Models\User;
 use Exception;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Inertia\Testing\Assert;
-use Symfony\Component\HttpFoundation\Response;
 use Tests\Feature\AuthorizedTestCase;
-use Tests\TestCase;
 
 class StoreTest extends AuthorizedTestCase
 {
@@ -102,7 +97,7 @@ class StoreTest extends AuthorizedTestCase
      */
     public function test_validation(): void
     {
-        $request = StoreCollectionRequest::class;
+        $request = StoreRequest::class;
 
         $this->assertValidationPasses($request, 'name', 'Short', 'Бег');
         $this->assertValidationPasses($request, 'name', 'One word', 'Спорт');
