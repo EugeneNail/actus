@@ -7,22 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Activity extends Model
+class Entry extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'id',
-        'name',
-        'icon',
+        'mood',
+        'weather',
+        'date',
+        'diary'
     ];
 
     protected $hidden = [
         'user_id',
-        'collection_id',
         'created_at',
-        'updated_at',
-        'pivot'
+        'updated_at'
+    ];
+
+    protected $casts = [
+        'date' => 'date',
     ];
 
 
@@ -31,12 +34,7 @@ class Activity extends Model
     }
 
 
-    public function collection(): BelongsTo {
-        return $this->belongsTo(Collection::class);
-    }
-
-
-    public function entries(): BelongsToMany {
-        return $this->belongsToMany(Entry::class);
+    public function activities(): BelongsToMany {
+        return $this->belongsToMany(Activity::class);
     }
 }
