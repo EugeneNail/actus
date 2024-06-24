@@ -91,6 +91,7 @@ class CollectionController extends Controller
             'id' => $collection->id,
             'name' => $collection->name,
             'color' => $collection->color,
+            'activityCount' => $collection->activities->count(),
         ]);
     }
 

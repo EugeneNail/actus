@@ -11,14 +11,15 @@ type Props = {
     id: number,
     name: string,
     color: Color
+    activityCount: number
 }
 
-export default function Delete({id, name, color}: Props) {
+export default function Delete({id, name, color, activityCount}: Props) {
     console.log(color)
     return (
         <div className="delete-collection-page page">
             <Form title={`Удалить коллекцию "${name}"?`}>
-                <p className="justified">Удаление коллекции удалит все ее активности.</p>
+                <p className="justified">Удаление коллекции удалит все ее активности ({activityCount}).</p>
                 <br/>
                 <p className="justified">Активности также будут удалены из всех ваших записей. Это действие необратимо. Вы действительно хотите удалить коллекцию?</p>
                 <FormButtons>
