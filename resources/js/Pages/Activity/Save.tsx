@@ -11,6 +11,7 @@ import Collection from "../../model/collection";
 import {useFormState} from "../../hooks/use-form-state";
 import Activity from "../../model/activity";
 import {router} from "@inertiajs/react";
+import withLayout from "../../Layout/default-layout";
 
 interface Payload {
     name: string
@@ -22,7 +23,8 @@ type Props = {
     activity: Activity
 }
 
-export default function Save({collection, activity}: Props) {
+export default withLayout(Save);
+function Save({collection, activity}: Props) {
     const willStore = window.location.pathname.includes("/new")
     const {data, setData, setField, errors, post, put} = useFormState<Payload>()
 

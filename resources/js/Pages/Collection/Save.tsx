@@ -9,6 +9,7 @@ import Palette from "../../component/palette/palette";
 import {Color} from "../../model/color";
 import {useFormState} from "../../hooks/use-form-state";
 import {router} from "@inertiajs/react";
+import withLayout from "../../Layout/default-layout";
 
 interface Payload {
     id: number
@@ -16,8 +17,8 @@ interface Payload {
     color: Color
 }
 
-
-export default function Save({id, name, color}: Payload) {
+export default withLayout(Save);
+function Save({id, name, color}: Payload) {
     const willStore = window.location.pathname.includes("/new")
     const {data, setData, setField, errors, post, put} = useFormState<Payload>()
 

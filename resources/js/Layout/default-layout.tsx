@@ -1,13 +1,24 @@
 import "./default-layout.sass"
-import React, {ReactNode} from "react";
+import React, {FC, ReactNode} from "react";
+import Header from "../component/header/header";
 
 type Props = {
     children: ReactNode
 }
-export default function DefaultLayout({children}: Props) {
+function DefaultLayout({children}: Props) {
     return (
         <div className="default-layout">
             {children}
+            <Header/>
         </div>
     )
 }
+
+
+export default function withLayout(Component: FC) {
+    return (props) => (
+        <DefaultLayout>
+            <Component {...props} />
+        </DefaultLayout>
+    );
+};

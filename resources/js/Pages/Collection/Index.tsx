@@ -4,12 +4,14 @@ import Collection from "../../model/collection";
 import CollectionCard from "../../component/collection-card/collection-card";
 import Icon from "../../component/icon/icon";
 import {router} from "@inertiajs/react";
+import withLayout from "../../Layout/default-layout";
 
 type Props = {
     collections: Collection[]
 }
 
-export default function Index({collections}: Props) {
+export default withLayout(Index)
+function Index({collections}: Props) {
     return (
         <div className="collections-page page">
             {collections && collections.map((collection) =>
@@ -25,3 +27,5 @@ export default function Index({collections}: Props) {
         </div>
     )
 }
+
+

@@ -1,4 +1,3 @@
-import "./header.sass"
 import Icon from "../icon/icon";
 import classNames from "classnames";
 import {Color} from "../../model/color";

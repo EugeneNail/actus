@@ -5,6 +5,7 @@ import FormBackButton from "../../component/form/form-back-button";
 import FormSubmitButton from "../../component/form/form-submit-button";
 import {Color} from "../../model/color";
 import {router} from "@inertiajs/react";
+import withLayout from "../../Layout/default-layout";
 
 type Props = {
     activityName: string
@@ -12,7 +13,8 @@ type Props = {
     collectionId: number
 }
 
-export default function Delete({activityName, activityId, collectionId}: Props) {
+export default withLayout(Delete);
+function Delete({activityName, activityId, collectionId}: Props) {
     return (
         <div className="delete-activity-page page">
             <Form title={`Удалить активность "${activityName}"?`}>

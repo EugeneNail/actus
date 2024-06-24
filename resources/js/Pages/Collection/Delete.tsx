@@ -6,6 +6,7 @@ import FormBackButton from "../../component/form/form-back-button";
 import FormSubmitButton from "../../component/form/form-submit-button";
 import {Color} from "../../model/color";
 import {router} from "@inertiajs/react";
+import withLayout from "../../Layout/default-layout";
 
 type Props = {
     id: number,
@@ -14,7 +15,8 @@ type Props = {
     activityCount: number
 }
 
-export default function Delete({id, name, color, activityCount}: Props) {
+export default withLayout(Delete);
+function Delete({id, name, color, activityCount}: Props) {
     console.log(color)
     return (
         <div className="delete-collection-page page">
