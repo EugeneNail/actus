@@ -9,15 +9,18 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use service\ActivityServiceInterface;
 use service\CollectionServiceInterface;
 
 class ActivityController extends Controller
 {
     private CollectionServiceInterface $collectionService;
+    private ActivityServiceInterface $activityService;
 
-    public function __construct(CollectionServiceInterface $collectionService)
+    public function __construct(CollectionServiceInterface $collectionService, ActivityServiceInterface $activityService)
     {
         $this->collectionService = $collectionService;
+        $this->activityService = $activityService;
     }
 
 
@@ -33,10 +36,15 @@ class ActivityController extends Controller
     public function store(Collection $collection, StoreRequest $request): RedirectResponse {
         $this->collectionService->verifyOwner($collection);
 
-        $activity = new Activity($request->validated());
-        $activity->user()->associate(Auth::user());
-        $activity->collection()->associate($collection);
-        $activity->save();
+        if ($this->activityService->exceededLimit(20, $collection)) {
+            return back()->withErrors(['name' => 'Вы не можете иметь больше 20 активностей в этой коллекции.']);
+        }
+
+        if ($this->activityService->hasNameDuplicate($request->name, $collection)) {
+            return back()->withErrors(['name' => 'У вас уже есть такая активность в этой коллекции.']);
+        }
+
+        $this->activityService->create($collection, $request->validated());
 
         return redirect(route('collections.index'));
     }
