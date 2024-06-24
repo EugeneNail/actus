@@ -74,4 +74,25 @@ class ActivityController extends Controller
 
         return redirect()->intended(route('collections.index'));
     }
+
+
+    public function delete(Collection $collection, Activity $activity): Response {
+        $this->collectionService->verifyOwner($collection);
+        $this->activityService->verifyOwner($activity);
+
+        return Inertia::render('Activity/Delete', [
+            'activityName' => $activity->name,
+            'activityId' => $activity->id,
+            'collectionId' => $collection->id,
+        ]);
+    }
+
+
+    public function destroy(Collection $collection, Activity $activity): RedirectResponse {
+        $this->collectionService->verifyOwner($collection);
+        $this->activityService->verifyOwner($activity);
+        $this->activityService->destroy($activity);
+
+        return redirect(route('collections.index'));
+    }
 }

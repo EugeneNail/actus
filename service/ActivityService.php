@@ -44,6 +44,12 @@ class ActivityService implements ActivityServiceInterface
     }
 
 
+    public function destroy(Activity $activity): void
+    {
+        $activity->delete();
+    }
+
+
     public function exceededLimit(int $limit, Collection $collection): bool
     {
         return $collection->activities->count() >= $limit;

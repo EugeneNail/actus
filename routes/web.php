@@ -41,5 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/', [ActivityController::class, 'store'])->name('store');
         Route::get('/{activity}', [ActivityController::class, 'edit'])->name('edit');
         Route::put('/{activity}', [ActivityController::class, 'update'])->name('update');
+        Route::get('/{activity}/delete', [ActivityController::class, 'delete'])->name('delete');
+        Route::delete('/{activity}', [ActivityController::class, 'destroy'])->name('destroy');
     });
 });
