@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Auth;
 
 class ActivityService implements ActivityServiceInterface
 {
+    public function verifyOwner(Activity $activity): void
+    {
+        if ($activity->user_id != Auth::user()->id) {
+            abort(404);
+        }
+    }
+
+
     public function create(Collection $collection, array $data): void
     {
         $activity = new Activity($data);
@@ -26,6 +34,13 @@ class ActivityService implements ActivityServiceInterface
         }
 
         return $query->count() > 0;
+    }
+
+
+    public function update(Activity $activity, array $data): void
+    {
+        $activity->fill($data);
+        $activity->save();
     }
 
 

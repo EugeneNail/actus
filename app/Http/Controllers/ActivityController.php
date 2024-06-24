@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Activity\StoreRequest;
+use App\Http\Requests\Activity\UpdateRequest;
 use App\Models\Activity;
 use App\Models\Collection;
 use Illuminate\Http\RedirectResponse;
@@ -46,6 +47,31 @@ class ActivityController extends Controller
 
         $this->activityService->create($collection, $request->validated());
 
-        return redirect(route('collections.index'));
+        return redirect()->intended(route('collections.index'));
+    }
+
+
+    public function edit(Collection $collection, Activity $activity) {
+        $this->collectionService->verifyOwner($collection);
+        $this->activityService->verifyOwner($activity);
+
+        return Inertia::render('Activity/Save', [
+            'collection' => $collection,
+            'activity' => $activity,
+        ]);
+    }
+
+
+    public function update(UpdateRequest $request, Collection $collection, Activity $activity): RedirectResponse {
+        $this->collectionService->verifyOwner($collection);
+        $this->activityService->verifyOwner($activity);
+
+        if ($this->activityService->hasNameDuplicate($request->name, $collection, $activity->id)) {
+            return back()->withErrors(['name' => 'У вас уже есть такая активность в этой коллекции.']);
+        }
+
+        $this->activityService->update($activity, $request->validated());
+
+        return redirect()->intended(route('collections.index'));
     }
 }

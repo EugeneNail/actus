@@ -39,5 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('collections/{collection}/activities')->name('activities.')->group(function () {
         Route::get('/new', [ActivityController::class, 'create'])->name('create');
         Route::post('/', [ActivityController::class, 'store'])->name('store');
+        Route::get('/{activity}', [ActivityController::class, 'edit'])->name('edit');
+        Route::put('/{activity}', [ActivityController::class, 'update'])->name('update');
     });
 });
