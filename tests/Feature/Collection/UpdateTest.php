@@ -89,7 +89,7 @@ class UpdateTest extends AuthorizedTestCase
     public function test_404_when_collections_does_not_belong_to_user(): void
     {
         $collection = Collection::factory()->for(User::factory())->create();
-        $this->get(route('collections.edit', 99))->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->get(route('collections.edit', $collection->id))->assertStatus(Response::HTTP_NOT_FOUND);
         $this->put(route('collections.update', $collection->id), ['name' => 'Название', 'color' => 1])->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
