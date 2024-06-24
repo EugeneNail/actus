@@ -3,6 +3,7 @@ import {Color} from "../../model/color";
 import Icon from "../icon/icon";
 import classNames from "classnames";
 import React from "react";
+import selectColor from "../../service/select-color";
 
 type Props = {
     color: Color
@@ -11,19 +12,8 @@ type Props = {
 }
 
 export default function ColorBox({color, value, setColor}: Props) {
-    const className = classNames(
-        "palette__color-box",
-        {red: color == Color.Red},
-        {orange: color == Color.Orange},
-        {yellow: color == Color.Yellow},
-        {green: color == Color.Green},
-        {blue: color == Color.Blue},
-        {purple: color == Color.Purple},
-        {selected: value == color}
-    )
-
     return (
-        <div onClick={() => setColor(color)} className={className}>
+        <div onClick={() => setColor(color)} className={classNames("palette__color-box", selectColor(color), {selected: value == color})}>
             {value == color && <Icon bold className="palette__check-mark" name="check"/>}
         </div>
     )

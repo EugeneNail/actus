@@ -2,6 +2,7 @@ import "./button.sass"
 import React, {ReactNode} from "react";
 import classNames from "classnames";
 import {Color} from "../../model/color";
+import selectColor from "../../service/select-color";
 
 export enum ButtonStyle {
     Primary,
@@ -27,13 +28,7 @@ export default function Button({className, color = Color.Green, submit, even, ro
         {even: even},
         {round: round},
         {shadowed: shadowed},
-        {green: color == Color.Green},
-        {yellow: color == Color.Yellow},
-        {red: color == Color.Red},
-        {blue: color == Color.Blue},
-        {orange: color == Color.Orange},
-        {purple: color == Color.Purple},
-        {accent: color == Color.Accent},
+        selectColor(color),
         {primary: style == ButtonStyle.Primary},
         {secondary: style == ButtonStyle.Secondary}
     )

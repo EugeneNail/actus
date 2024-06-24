@@ -3,6 +3,7 @@ import classNames from "classnames";
 import "./field.sass"
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {Color} from "../../model/color";
+import selectColor from "../../service/select-color";
 
 type FieldProps = {
     value: string
@@ -21,19 +22,6 @@ type FieldProps = {
 export default function Field({value, icon = "", name, label, max = 100, className, error = "", email, password, color = Color.Accent, onChange}: FieldProps) {
     const [isVisible, setVisible] = useState(true)
 
-    className = classNames(
-        "field",
-        className,
-        {invalid: error?.length > 0},
-        {red: color == Color.Red},
-        {orange: color == Color.Orange},
-        {yellow: color == Color.Yellow},
-        {green: color == Color.Green},
-        {blue: color == Color.Blue},
-        {purple: color == Color.Purple},
-        {accent: color == Color.Accent}
-    )
-
     useEffect(() => {
         if (password) {
             setVisible(false)
@@ -42,8 +30,8 @@ export default function Field({value, icon = "", name, label, max = 100, classNa
 
 
     return (
-        <div className={className}>
-            <div className={classNames("field__content", className)}>
+        <div className={classNames("field", className, selectColor(color))}>
+            <div className={classNames("field__content")}>
                 <div className="field__icon-container">
                     <Icon name={icon}/>
                 </div>

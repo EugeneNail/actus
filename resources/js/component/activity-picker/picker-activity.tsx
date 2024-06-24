@@ -4,6 +4,7 @@ import Activity from "../../model/activity";
 import classNames from "classnames";
 import Icon8 from "../icon8/icon8";
 import React from "react";
+import selectColor from "../../service/select-color";
 
 type Props = {
     activity: Activity
@@ -13,19 +14,8 @@ type Props = {
 }
 
 export default function PickerActivity({activity, color, toggled, toggle}: Props) {
-    const className = classNames(
-        "picker-activity",
-        {toggled: toggled},
-        {red: color == Color.Red},
-        {orange: color == Color.Orange},
-        {yellow: color == Color.Yellow},
-        {green: color == Color.Green},
-        {blue: color == Color.Blue},
-        {purple: color == Color.Purple},
-    )
-
     return (
-        <div className={className} onClick={() => toggle(activity.id)}>
+        <div className={classNames("picker-activity", {toggled: toggled}, selectColor(color))} onClick={() => toggle(activity.id)}>
             <div className="picker-activity__icon-container">
                 <Icon8 id={activity.icon} className="picker-activity__icon"/>
             </div>
