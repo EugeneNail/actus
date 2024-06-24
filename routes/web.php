@@ -36,8 +36,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/{collection}', [CollectionController::class, 'destroy'])->name('destroy');
     });
 
-    Route::prefix('collections/{collection}/activities')->name('activites')->group(function () {
-        Route::get('/new', [ActivityController::class, 'create']);
-        Route::post('/', [ActivityController::class, 'store']);
+    Route::prefix('collections/{collection}/activities')->name('activities.')->group(function () {
+        Route::get('/new', [ActivityController::class, 'create'])->name('create');
+        Route::post('/', [ActivityController::class, 'store'])->name('store');
     });
 });
