@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Collection extends Model
+class Activity extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id',
         'name',
-        'color',
+        'icon',
     ];
 
     protected $hidden = [
         'user_id',
+        'collection_id',
     ];
 
 
@@ -27,7 +27,7 @@ class Collection extends Model
     }
 
 
-    public function activities(): HasMany {
-        return $this->hasMany(Activity::class);
+    public function collection(): BelongsTo {
+        return $this->belongsTo(Collection::class);
     }
 }
