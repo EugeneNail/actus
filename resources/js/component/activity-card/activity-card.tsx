@@ -10,21 +10,12 @@ type Props ={
 }
 
 export default function ActivityCard({activity, collectionId}: Props) {
-
-    function formatName(): string {
-        const name = activity.name
-        if (name.length > 16) {
-            return name.substring(0, 20).trim()
-        }
-        return name
-    }
-
     return (
-        <div className="activity-card" onClick={() => router.get(`./${collectionId}/activities/${activity.id}`)}>
+        <div className="activity-card" onClick={() => router.get(`/collections/${collectionId}/activities/${activity.id}`)}>
             <div className="activity-card__icon-container">
                 <Icon8 id={activity.icon} className="activity-card__icon"/>
             </div>
-            <p className="activity-card__name">{formatName()}</p>
+            <p className="activity-card__name">{activity.name}</p>
         </div>
     )
 }

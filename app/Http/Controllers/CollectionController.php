@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCollectionRequest;
 use App\Http\Requests\UpdateCollectionRequest;
+use App\Models\Activity;
 use App\Models\Collection;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -25,7 +27,7 @@ class CollectionController extends Controller
     public function index(): Response
     {
         return Inertia::render('Collection/Index', [
-            'collections' => Auth::user()->collections
+            'collections' => Auth::user()->collections()->with('activities')->get()
         ]);
     }
 
