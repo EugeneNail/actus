@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProfileController;
@@ -33,5 +34,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/{collection}', [CollectionController::class, 'update'])->name('update');
         Route::get('/{collection}/delete', [CollectionController::class, 'delete'])->name('delete');
         Route::delete('/{collection}', [CollectionController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('collections/{collection}/activities')->name('activites')->group(function () {
+        Route::get('/new', [ActivityController::class, 'create']);
+        Route::post('/', [ActivityController::class, 'store']);
     });
 });

@@ -21,7 +21,7 @@ export default function CollectionCard({collection}: Props) {
                 {collection.activities && collection.activities.map(activity => (
                     <ActivityCard key={activity.id} activity={activity} collectionId={collection.id}/>
                 ))}
-                {(collection.activities?.length < 20 || collection.activities == null) && <div className="collection-card-button" onClick={() => {}}>
+                {(collection.activities?.length < 20 || collection.activities == null) && <div className="collection-card-button" onClick={() => router.get(`/collections/${collection.id}/activities/new`)}>
                     <div className={classNames("collection-card-button__icon-container", selectColor(collection.color))} >
                         <Icon className={classNames("collection-card-button__icon", selectColor(collection.color))} name="add" bold/>
                     </div>
