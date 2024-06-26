@@ -38,4 +38,9 @@ class User extends Authenticatable
     public function activities(): HasMany {
         return $this->hasMany(Activity::class);
     }
+
+
+    public function entries(): HasMany {
+        return $this->hasMany(Entry::class);
+    }
 }
