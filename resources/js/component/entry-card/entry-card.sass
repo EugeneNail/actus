@@ -1,6 +1,6 @@
 @import ../../../css/variables
 
-.record-card
+.entry-card
   background: $background
   border-radius: 10px
   transition: 0.3s
@@ -25,7 +25,7 @@
 
   &__mood
     font-size: 60px
-    font-variation-settings: 'FILL' 0, 'wght' 200
+    font-variation-settings: 'FILL' 1, 'wght' 200
 
     &.radiating
       color: $green
@@ -34,7 +34,7 @@
       color: $yellow
 
     &.neutral
-      color: white
+      color: $blue
 
     &.bad
       color: $orange
@@ -44,7 +44,7 @@
 
   &__weather
     font-size: 60px
-    font-variation-settings: 'FILL' 0, 'wght' 200
+    font-variation-settings: 'FILL' 1, 'wght' 200
 
     &.heat
       color: $orange
@@ -109,7 +109,7 @@
     width: 100%
     object-fit: cover
 
-.record-card-collection
+.entry-card-collection
   margin-top: 7px
   border-bottom: 1px dashed $delimiter
 
@@ -148,7 +148,7 @@
     margin-bottom: 7px
 
 
-.record-card-activity
+.entry-card-activity
   display: flex
   align-items: center
   gap: 2px

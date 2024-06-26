@@ -1,13 +1,13 @@
-import ShortCollection from "./short-collection";
 import {Mood} from "./mood";
 import {Weather} from "./weather";
+import Collection from "./collection";
 
-export default class ShortRecord {
+export default class Entry {
     id: number = 0
     date: string = ""
     mood: Mood = Mood.Neutral
     weather: Weather = Weather.Sunny
-    notes: string = ""
-    collections: ShortCollection[] = []
+    diary: string = ""
+    collections: Collection[] = []
     photos: string[] = []
 }

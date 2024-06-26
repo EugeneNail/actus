@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\EntryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -43,5 +44,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/{activity}', [ActivityController::class, 'update'])->name('update');
         Route::get('/{activity}/delete', [ActivityController::class, 'delete'])->name('delete');
         Route::delete('/{activity}', [ActivityController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('entries')->name('entries.')->group(function () {
+        Route::get('/', [EntryController::class, 'index'])->name('index');
     });
 });

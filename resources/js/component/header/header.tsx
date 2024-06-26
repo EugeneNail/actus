@@ -10,10 +10,10 @@ export default function Header() {
     return (
         <header className="header">
             <HeaderLink label="Отчеты" color={Color.Green} icon="bar_chart" to="/statistics"/>
-            <HeaderLink label="Записи" color={Color.Blue} icon="post" to="/records"/>
+            <HeaderLink label="Записи" color={Color.Blue} icon="post" to="/entries"/>
             <div className="header__placeholder">
                 <div className="header__button-container">
-                    <Button className="header__button" color={Color.Accent} round even onClick={() => router.get("/records/new")}>
+                    <Button className="header__button" color={Color.Accent} round even onClick={() => router.get("/entries/new")}>
                         <Icon className="header__button-icon" name="add" bold/>
                     </Button>
                 </div>

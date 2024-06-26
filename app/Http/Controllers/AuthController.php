@@ -38,7 +38,7 @@ class AuthController extends Controller
         if (Auth::attempt($request->validated())) {
             $request->session()->regenerate();
 
-            return redirect()->intended("/records");
+            return redirect()->intended("/entries");
         }
 
         return back()->withInput(['email'])->withErrors([
