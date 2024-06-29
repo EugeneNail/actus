@@ -27,7 +27,7 @@ function Index({entries}: Props) {
 
 
     function getRandomMessage(): string {
-        return messages[Math.floor(Math.random() * (messages.length + 1))];
+        return messages[Math.floor(Math.random() * messages.length)];
     }
 
 
