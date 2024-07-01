@@ -19,12 +19,12 @@ class IndexEntry
 
 
     /** @param $collections array<IndexEntryCollection>*/
-    public function __construct(int $id, int $mood, int $weather, string $date, string $diary, array $collections) {
+    public function __construct(int $id, int $mood, int $weather, string $date, ?string $diary, array $collections) {
         $this->id = $id;
         $this->mood = $mood;
         $this->weather = $weather;
         $this->date = $date;
-        $this->diary = $diary;
+        $this->diary = $diary ?? '';
         $this->collections = $collections;
     }
 }

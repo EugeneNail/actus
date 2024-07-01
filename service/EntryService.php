@@ -4,10 +4,12 @@ namespace service;
 
 use App\Models\Activity;
 use App\Models\Collection;
+use App\Models\Entry;
 use App\Models\Support\IndexEntry;
 use App\Models\Support\IndexEntryCollection;
 use App\Models\Support\IndexEntryActivity;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EntryService implements EntryServiceInterface
 {
@@ -65,5 +67,34 @@ class EntryService implements EntryServiceInterface
         }
 
         return array_values($collectionsMap);
+    }
+
+
+    public function create(array $data, int $userId): Entry
+    {
+        $entry = new Entry($data);
+        $entry->user()
+            ->associate($userId)
+            ->save();
+
+        return $entry;
+    }
+
+
+    public function saveActivities(Entry $entry, array $activityIds): void
+    {
+        DB::table("activity_entry")
+            ->where('entry_id', $entry->id)
+            ->whereNotIn('activity_id', $activityIds)
+            ->delete();
+        $entry->activities()->sync($activityIds);
+    }
+
+
+    public function existsForDate(string $date, int $userId): bool {
+        return Entry::query()
+            ->where('user_id', $userId)
+            ->where('date', $date)
+            ->count() > 0;
     }
 }
