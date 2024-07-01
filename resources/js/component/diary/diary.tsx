@@ -1,4 +1,4 @@
-import "./notes.sass"
+import "./diary.sass"
 import React, {useRef} from "react";
 import classNames from "classnames";
 
@@ -10,7 +10,7 @@ type Props = {
     onChange: (event: any) => void
 }
 
-export default function Notes({className, name, max, value, onChange}: Props) {
+export default function Diary({className, name, max, value, onChange}: Props) {
     const ref = useRef<HTMLTextAreaElement>(document.createElement('textarea'))
 
     function resizeToContent() {
@@ -18,9 +18,9 @@ export default function Notes({className, name, max, value, onChange}: Props) {
     }
 
     return (
-        <div className={classNames("notes", className)}>
-            <label className="notes__label" htmlFor={name}>Как прошел день?</label>
-            <textarea className="notes__textarea"
+        <div className={classNames("diary", className)}>
+            <label className="diary__label" htmlFor={name}>Как прошел день?</label>
+            <textarea className="diary__textarea"
                       ref={ref}
                       placeholder="Расскажите, что интересного случилось"
                       value={value}
@@ -31,7 +31,7 @@ export default function Notes({className, name, max, value, onChange}: Props) {
                       autoCorrect="on"
                       onInput={resizeToContent}
                       maxLength={max}/>
-            <p className="notes__limit">{value.length} / {max}</p>
+            <p className="diary__limit">{value.length} / {max}</p>
         </div>
     )
 }
