@@ -127,9 +127,12 @@ export function DatePicker({className, active, name, value, error, onChange}: Pr
 
     return (
         <div className={className}>
-            <div className={classNames("date-picker__label", {active: active})} onClick={toggleCalendar}>
-                <Icon className="date-picker__icon" name="event"/>
-                <p className="date-picker__date">{getDate()}</p>
+            <div className="date-picker__preview" onClick={toggleCalendar}>
+                <div className={classNames("date-picker__label", {active: active})} >
+                    <Icon className="date-picker__icon" name="event"/>
+                    <p className="date-picker__date">{getDate()}</p>
+                </div>
+                <p className="date-picker__error">{error}</p>
             </div>
             <input type="text" id={name} name={name} className="date-picker__input" onChange={onChange}/>
             {isVisible && <div className="date-picker__cover" onClick={toggleCalendar}></div>}
