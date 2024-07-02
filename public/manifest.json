@@ -1,0 +1,7 @@
+{
+    "name": "Actus",
+    "description": "Log your life",
+    "start_url": "/entries",
+    "lang": "en-US",
+    "display": "standalone"
+}
