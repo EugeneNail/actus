@@ -50,5 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [EntryController::class, 'index'])->name('index');
         Route::get("/new", [EntryController::class, 'create'])->name('create');
         Route::post('/', [EntryController::class, 'store'])->name('store');
+        Route::get('/{entry}', [EntryController::class, 'edit'])->name('edit');
+        Route::put('/{entry}', [EntryController::class, 'update'])->name('update');
     });
 });

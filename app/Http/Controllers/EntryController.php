@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Entry\StoreRequest;
+use App\Http\Requests\Entry\UpdateRequest;
 use App\Models\Entry;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -55,6 +56,35 @@ class EntryController extends Controller
         }
 
         $entry = $this->entryService->create($request->validated(), $user->id);
+        $this->entryService->saveActivities($entry, $request->activities);
+
+        return redirect(route('entries.index'));
+    }
+
+
+    public function edit(Entry $entry): Response {
+        return Inertia::render("Entry/Save", [
+            'entry' => [
+                'id' => $entry->id,
+                'mood' => $entry->mood,
+                'weather' => $entry->weather,
+                'diary' => $entry->diary,
+                'activities' => $entry->activities->map(fn ($activity) => $activity->id),
+            ],
+            'collections' => Auth::user()->collections()->with("activities")->get(),
+        ]);
+    }
+
+
+    public function update(UpdateRequest $request, Entry $entry): RedirectResponse {
+        $areActivitiesValid =
+            $this->activityService->allExist($request->activities)
+            && $this->activityService->ownsEach($request->activities, $request->user()->id);
+        if (!$areActivitiesValid) {
+            abort(404);
+        }
+
+        $entry = $this->entryService->update($entry, $request->validated());
         $this->entryService->saveActivities($entry, $request->activities);
 
         return redirect(route('entries.index'));
