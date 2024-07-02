@@ -5,7 +5,7 @@ import FormButtons from "../../component/form/form-button-container";
 import FormBackButton from "../../component/form/form-back-button";
 import FormSubmitButton from "../../component/form/form-submit-button";
 import {Color} from "../../model/color";
-import {router} from "@inertiajs/react";
+import {Head, router} from "@inertiajs/react";
 import withLayout from "../../Layout/default-layout";
 
 type Props = {
@@ -20,6 +20,7 @@ function Delete({id, name, color, activityCount}: Props) {
     console.log(color)
     return (
         <div className="delete-collection-page page">
+            <Head title={name}/>
             <Form title={`Удалить коллекцию "${name}"?`}>
                 <p className="justified">Удаление коллекции удалит все ее активности ({activityCount}).</p>
                 <br/>

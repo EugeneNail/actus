@@ -10,7 +10,7 @@ import IconSelect from "../../component/icon-select/icon-select";
 import Collection from "../../model/collection";
 import {useFormState} from "../../hooks/use-form-state";
 import Activity from "../../model/activity";
-import {router} from "@inertiajs/react";
+import {Head, router} from "@inertiajs/react";
 import withLayout from "../../Layout/default-layout";
 
 interface Payload {
@@ -56,13 +56,14 @@ function Save({collection, activity}: Props) {
 
     return (
         <div className="save-activity-page page">
+            <Head title={willStore ? "Новая активность" : data.name}/>
             <Form title={getTitle()} subtitle={getSubtitle()}>
                 <Field name="name" label="Название" icon="webhook" color={collection.color} value={data.name} max={20} error={errors.name} onChange={setField}/>
                 <IconSelect className="save-activity-page__icon-select" name="icon" color={collection.color} value={data.icon} onChange={setField}/>
                 <FormButtons>
                     <FormBackButton color={collection.color} />
                     <FormSubmitButton label="Сохранить" color={collection.color} onClick={save}/>
-                    {!willStore && <FormDeleteButton onClick={() => router.get(`/collections${collection.id}/activities/${activity.id}/delete`)}/>}
+                    {!willStore && <FormDeleteButton onClick={() => router.get(`/collections/${collection.id}/activities/${activity.id}/delete`)}/>}
                 </FormButtons>
             </Form>
         </div>

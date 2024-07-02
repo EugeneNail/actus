@@ -1,10 +1,10 @@
 import "./Index.sass"
-import React from "react";
+import React, {useEffect} from "react";
 import EntryCard from "../../component/entry-card/entry-card";
 import Entry from "../../model/entry";
 import Icon from "../../component/icon/icon";
 import withLayout from "../../Layout/default-layout";
-import {router} from "@inertiajs/react";
+import {Head, router} from "@inertiajs/react";
 
 type Props = {
     entries: Entry[]
@@ -30,9 +30,9 @@ function Index({entries}: Props) {
         return messages[Math.floor(Math.random() * messages.length)];
     }
 
-
     return (
         <div className="entries-page page">
+            <Head title='Записи'/>
             <div className="entries-page__entries">
                 {entries && !entries.some(checkIfToday) &&
                     <div className="entries-page-button" onClick={() => router.get("/entries/new")}>

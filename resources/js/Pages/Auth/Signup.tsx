@@ -6,7 +6,7 @@ import FormSubmitButton from "../../component/form/form-submit-button";
 import React from "react";
 import {useFormState} from "../../hooks/use-form-state";
 import GuestLayout from "../../Layout/guest-layout";
-import {Link} from "@inertiajs/react";
+import {Head, Link} from "@inertiajs/react";
 
 interface Payload {
     name: string
@@ -24,6 +24,7 @@ export default function SignupPage() {
 
     return (
         <GuestLayout>
+            <Head title="Регистрация"/>
             <div className="page">
                 <Form title="Регистрация" subtitle={"это только начало"}>
                     <Field name="name" label="Как вас зовут?" icon="face" value={data?.name} max={20} error={errors.name} onChange={setField}/>

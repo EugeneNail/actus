@@ -8,7 +8,7 @@ import FormDeleteButton from "../../component/form/form-delete-button";
 import Palette from "../../component/palette/palette";
 import {Color} from "../../model/color";
 import {useFormState} from "../../hooks/use-form-state";
-import {router} from "@inertiajs/react";
+import {Head, router} from "@inertiajs/react";
 import withLayout from "../../Layout/default-layout";
 
 interface Payload {
@@ -39,6 +39,7 @@ function Save({id, name, color}: Payload) {
 
     return (
         <div className="save-collection-page page">
+            <Head title={willStore ? "Новая коллекция" : data.name}/>
             <Form title={willStore ? "Новая коллекция" : data.name} subtitle={willStore ? "" : "Коллекция"}>
                 <Field name="name" label="Название" icon="category" color={data.color} value={data.name} max={20} error={errors.name} onChange={setField}/>
                 <Palette name="color" value={data.color} onChange={setField}/>

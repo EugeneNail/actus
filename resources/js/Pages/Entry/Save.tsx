@@ -13,6 +13,7 @@ import {Mood} from "../../model/mood";
 import {Weather} from "../../model/weather";
 import {useFormState} from "../../hooks/use-form-state";
 import withLayout from "../../Layout/default-layout";
+import {Head} from "@inertiajs/react";
 
 
 interface Payload {
@@ -80,6 +81,7 @@ function Save({entry, collections}: Props) {
 
     return (
         <div className="save-entry-page page">
+            <Head title={willStore ? "Новая запись" : data.date?.split('T')[0]}/>
             <Form title={willStore ? "Новая запись" : "Запись"} noBackground>
                 <DatePicker active={willStore} name="date" value={data.date ?? new Date().toISOString()} error={errors.date} onChange={setField}/>
                 <MoodSelect name="mood" value={data.mood ?? Mood.Neutral} onChange={setField}/>

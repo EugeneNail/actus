@@ -3,7 +3,7 @@ import React from "react";
 import Collection from "../../model/collection";
 import CollectionCard from "../../component/collection-card/collection-card";
 import Icon from "../../component/icon/icon";
-import {router} from "@inertiajs/react";
+import {Head, router} from "@inertiajs/react";
 import withLayout from "../../Layout/default-layout";
 
 type Props = {
@@ -14,6 +14,7 @@ export default withLayout(Index)
 function Index({collections}: Props) {
     return (
         <div className="collections-page page">
+            <Head title='Коллекции'/>
             {collections && collections.map((collection) =>
                 <CollectionCard key={collection.id} collection={collection}/>
             )}
