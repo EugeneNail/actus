@@ -66,6 +66,7 @@ class EntryController extends Controller
         return Inertia::render("Entry/Save", [
             'entry' => [
                 'id' => $entry->id,
+                'date' => $entry->date,
                 'mood' => $entry->mood,
                 'weather' => $entry->weather,
                 'diary' => $entry->diary,
