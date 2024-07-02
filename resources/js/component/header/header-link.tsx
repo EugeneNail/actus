@@ -13,8 +13,15 @@ type Props = {
 }
 
 export default function HeaderLink({label, color, icon, to}: Props) {
+    function getClass(): string {
+        return classNames(
+            "header-link",
+            selectColor(color),
+            {active: window.location.pathname.includes(to)})
+    }
+
     return (
-        <Link className={classNames("header-link", selectColor(color))} href={to}>
+        <Link className={getClass()} href={to}>
             <Icon className="header-link__icon" name={icon}/>
             <p className="header-link__label">{label}</p>
         </Link>
