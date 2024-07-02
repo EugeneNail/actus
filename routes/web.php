@@ -28,6 +28,8 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.authenticate');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
     Route::prefix('collections')->name('collections.')->group(function () {
         Route::get('/', [CollectionController::class, 'index'])->name('index');
         Route::get('/new', [CollectionController::class, 'create'])->name('create');

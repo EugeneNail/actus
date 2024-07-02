@@ -46,4 +46,11 @@ class AuthController extends Controller
             'password' => 'Неправильные адрес почты или пароль.',
         ]);
     }
+
+
+    public function logout(): RedirectResponse {
+        Auth::logout();
+
+        return redirect()->intended(route('login'));
+    }
 }
