@@ -85,7 +85,7 @@ function Save({entry, collections}: Props) {
                 <MoodSelect name="mood" value={data.mood ?? Mood.Neutral} onChange={setField}/>
                 <WeatherSelect name="weather" value={data.weather ?? Weather.Sunny} onChange={setField}/>
                 <ActivityPicker collections={collections} value={data.activities ?? []} toggleActivity={addActivity}/>
-                <Diary name="notes" max={5000} value={data.diary ?? ""} onChange={setField}/>
+                <Diary name="diary" max={5000} value={data.diary ?? ""} onChange={setField}/>
                 <FormButtons>
                     <FormBackButton/>
                     <FormSubmitButton label="Сохранить" onClick={save}/>
