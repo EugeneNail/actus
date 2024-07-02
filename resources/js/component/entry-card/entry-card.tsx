@@ -56,11 +56,12 @@ export default function EntryCard({entry}: Props) {
                     <p className="entry-card__weather-name">{WeatherNames[entry.weather]}</p>
                 </div>
             </div>
-            <div className="entry-card__collections">
+            {entry.collections && entry.collections.length > 0 && <div className="entry-card__collections">
                 {entry.collections && entry.collections.map(collection =>
-                    collection.activities?.length > 0 && <EntryCardCollection key={Math.random()} collection={collection}/>
+                    collection.activities?.length > 0 &&
+                    <EntryCardCollection key={Math.random()} collection={collection}/>
                 )}
-            </div>
+            </div>}
             {entry.diary.length > 0 && <p className="entry-card__notes">{entry.diary}</p>}
             {entry.photos && <div className="entry-card__photos">
                 {entry.photos.map(photo =>
