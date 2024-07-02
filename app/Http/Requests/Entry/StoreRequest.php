@@ -16,7 +16,7 @@ class StoreRequest extends FormRequest
     {
         $today = date('Y-m-d');
         return [
-            'date' => ['required', 'date', "before_or_equal:$today"],
+            'date' => ['required', 'date', 'date_format:Y-m-d', "before_or_equal:$today"],
             'mood' => ['required', 'numeric', 'integer', 'between:1,5'],
             'weather' => ['required', 'numeric', 'integer', 'between:1,9'],
             'diary' => ['nullable', 'string', 'max:5000'],
