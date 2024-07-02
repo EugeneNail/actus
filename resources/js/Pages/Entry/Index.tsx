@@ -21,7 +21,7 @@ function Index({entries}: Props) {
     ]
 
     function checkIfToday(entry: Entry): boolean {
-        const today = new Date().toISOString().split("T")[0] + "T00:00:00Z"
+        const today = new Date().toISOString().split("T")[0] + " 00:00:00"
         return entry.date == today
     }
 
