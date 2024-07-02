@@ -12,13 +12,13 @@ trait HasValidationAssertions
 {
     public function assertValidationPasses(string $requestClass, string $field, string $name, mixed $value): void
     {
-        $this->assertTrue($this->passesValidation($requestClass, $field, $value), "Failed asserting that field '$field' passes at value '$value' in subtest '$name'");
+        $this->assertTrue($this->passesValidation($requestClass, $field, $value), "Failed asserting that field '$field' passes at value ". json_encode($value) . " in subtest '$name'");
     }
 
 
     public function assertValidationFails(string $requestClass, string $field, string $name, mixed $value): void
     {
-        $this->assertFalse($this->passesValidation($requestClass, $field, $value), "Failed asserting that field '$field' fails at value '$value' in subtest '$name'");
+        $this->assertFalse($this->passesValidation($requestClass, $field, $value), "Failed asserting that field '$field' fails at value ". json_encode($value) . " in subtest '$name'");
     }
 
 

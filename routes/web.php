@@ -48,5 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('entries')->name('entries.')->group(function () {
         Route::get('/', [EntryController::class, 'index'])->name('index');
+        Route::get("/new", [EntryController::class, 'create'])->name('create');
+        Route::post('/', [EntryController::class, 'store'])->name('store');
     });
 });

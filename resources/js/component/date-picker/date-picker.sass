@@ -3,6 +3,8 @@
 .date-picker
   margin-bottom: 80px
 
+  &__preview
+
   &__label
     display: flex
     gap: 10px
@@ -13,6 +15,11 @@
     &.active
       color: $accent-strong
       pointer-events: auto
+
+  &__error
+    text-align: center
+    margin-top: 10px
+    color: $red
 
   &__date
     font-size: 20px

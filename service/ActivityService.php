@@ -5,6 +5,7 @@ namespace service;
 use App\Models\Activity;
 use App\Models\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ActivityService implements ActivityServiceInterface
 {
@@ -55,4 +56,18 @@ class ActivityService implements ActivityServiceInterface
         return $collection->activities->count() >= $limit;
     }
 
+
+    public function ownsEach(array $activityIds, int $userId): bool {
+        return Activity::query()
+            ->whereIn('id', $activityIds)
+            ->get()
+            ->every(fn(Activity $activity) => $activity->user_id === $userId);
+    }
+
+
+    public function allExist(array $activityIds): bool {
+        return DB::table('activities')
+                ->whereIn('id', $activityIds)
+                ->count() == count($activityIds);
+    }
 }

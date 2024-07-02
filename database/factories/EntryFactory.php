@@ -11,7 +11,8 @@ class EntryFactory extends Factory
 {
     public function definition(): array
     {
-        $randomDate = rand(strtotime('Jan 1'), strtotime('Dec 31'));
+        $today = date('Y-m-d');
+        $randomDate = rand(strtotime('Jan 1'), strtotime($today));
 
         return [
             'mood' => rand(1, 5),

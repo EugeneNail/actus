@@ -3,6 +3,7 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import classNames from "classnames";
 import Icon from "../icon/icon";
 import Button, {ButtonStyle} from "../button/button";
+import {Color} from "../../model/color";
 
 type Props = {
     className?: string
@@ -55,10 +56,10 @@ export function DatePicker({className, active, name, value, error, onChange}: Pr
 
 
     function buildCalendar(year: number, month: number) {
-        const days: number[] = [...Array(new Date(year, month, 1).getDay() - 1)]
-
         let day = 1
         let date = new Date(year, month, day)
+        const weekOffset = (date.getDay() - 1 + 7) % 7
+        const days: number[] = [...Array(weekOffset)]
 
         while (date.getMonth() == month) {
             days.push(date.getDate())
@@ -126,9 +127,12 @@ export function DatePicker({className, active, name, value, error, onChange}: Pr
 
     return (
         <div className={className}>
-            <div className={classNames("date-picker__label", {active: active})} onClick={toggleCalendar}>
-                <Icon className="date-picker__icon" name="event"/>
-                <p className="date-picker__date">{getDate()}</p>
+            <div className="date-picker__preview" onClick={toggleCalendar}>
+                <div className={classNames("date-picker__label", {active: active})} >
+                    <Icon className="date-picker__icon" name="event"/>
+                    <p className="date-picker__date">{getDate()}</p>
+                </div>
+                <p className="date-picker__error">{error}</p>
             </div>
             <input type="text" id={name} name={name} className="date-picker__input" onChange={onChange}/>
             {isVisible && <div className="date-picker__cover" onClick={toggleCalendar}></div>}
@@ -137,10 +141,10 @@ export function DatePicker({className, active, name, value, error, onChange}: Pr
                     <p className="date-picker__calendar-label">
                         {monthNames[month]} {year}
                     </p>
-                    <Button className="date-picker__button" style={ButtonStyle.Secondary} even onClick={() => goTo(true)}>
+                    <Button className="date-picker__button" color={Color.Accent} style={ButtonStyle.Secondary} even onClick={() => goTo(true)}>
                         <Icon bold name="west"/>
                     </Button>
-                    <Button className="date-picker__button" style={ButtonStyle.Secondary} even onClick={() => goTo()}>
+                    <Button className="date-picker__button" color={Color.Accent} style={ButtonStyle.Secondary} even onClick={() => goTo()}>
                         <Icon bold name="east"/>
                     </Button>
                 </div>
