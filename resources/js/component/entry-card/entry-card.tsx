@@ -62,7 +62,7 @@ export default function EntryCard({entry}: Props) {
                     <EntryCardCollection key={Math.random()} collection={collection}/>
                 )}
             </div>}
-            {entry.diary.length > 0 && <p className="entry-card__notes">{entry.diary}</p>}
+            {entry.diary.length > 0 && <p className="entry-card__diary">{entry.diary}</p>}
             {entry.photos && <div className="entry-card__photos">
                 {entry.photos.map(photo =>
                     <div className="entry-card__photo-container" key={photo}>
