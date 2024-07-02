@@ -12,10 +12,11 @@ interface EntryServiceInterface
 
     public function create(array $data, int $userId): Entry;
 
+    public function update(Entry $entry, array $data): Entry;
+
     /** @param $activityIds array<int> */
     public function saveActivities(Entry $entry, array $activityIds): void;
 
     /** @param string $date in format YYYY-mm-dd */
     public function existsForDate(string $date, int $userId): bool;
-
 }

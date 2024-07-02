@@ -81,6 +81,15 @@ class EntryService implements EntryServiceInterface
     }
 
 
+    public function update(Entry $entry, array $data): Entry
+    {
+        $entry->fill($data);
+        $entry->save();
+
+        return $entry;
+    }
+
+
     public function saveActivities(Entry $entry, array $activityIds): void
     {
         DB::table("activity_entry")
