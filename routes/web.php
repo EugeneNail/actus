@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\EntryController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -53,4 +54,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{entry}', [EntryController::class, 'edit'])->name('edit');
         Route::put('/{entry}', [EntryController::class, 'update'])->name('update');
     });
+
+    Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
 });
