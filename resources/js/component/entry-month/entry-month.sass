@@ -1,0 +1,33 @@
+@import ../../../css/variables
+
+.entry-month
+  border-radius: 8px
+  background: $background
+  padding: 6px
+  text-align: center
+  flex-shrink: 0
+  width: 50px
+  margin-bottom: 20px
+  cursor: pointer
+  transition: 0.3s
+  border: 1px solid transparent
+
+  @media (pointer: fine)
+    &:hover
+      background: lighten($background, 3%)
+
+  &__entries
+    color: $font-strong
+    font-weight: bold
+    font-size: 10px
+
+  &__name
+    margin-top: 3px
+    font-size: 12px
+
+  &__year
+    font-size: 10px
+
+
+  &.selected
+    border: 1px solid $accent-strong

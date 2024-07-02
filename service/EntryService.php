@@ -27,6 +27,7 @@ class EntryService implements EntryServiceInterface
             ->with('activities')
             ->where('date', '>=', $startDate)
             ->where('date', '<', $endDate)
+            ->orderByDesc('date')
             ->get()
             ->map(fn($entry) => new IndexEntry(
                 $entry->id,
