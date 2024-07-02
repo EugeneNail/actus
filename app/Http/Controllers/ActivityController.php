@@ -84,6 +84,7 @@ class ActivityController extends Controller
             'activityName' => $activity->name,
             'activityId' => $activity->id,
             'collectionId' => $collection->id,
+            'color' => $collection->color,
         ]);
     }
 
