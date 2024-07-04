@@ -1,6 +1,6 @@
 <?php
 
-namespace service;
+namespace App\Services;
 
 use App\Models\Collection;
 

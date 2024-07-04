@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
+use App\Services\ActivityService;
+use App\Services\ActivityServiceInterface;
+use App\Services\CollectionService;
+use App\Services\CollectionServiceInterface;
+use App\Services\EntryService;
+use App\Services\EntryServiceInterface;
 use Illuminate\Support\ServiceProvider;
-use service\ActivityService;
-use service\ActivityServiceInterface;
-use service\CollectionService;
-use service\CollectionServiceInterface;
-use service\EntryService;
-use service\EntryServiceInterface;
 
 class AppServiceProvider extends ServiceProvider
 {

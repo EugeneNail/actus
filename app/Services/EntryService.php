@@ -1,13 +1,13 @@
 <?php
 
-namespace service;
+namespace App\Services;
 
 use App\Models\Activity;
 use App\Models\Collection;
 use App\Models\Entry;
 use App\Models\Support\IndexEntry;
-use App\Models\Support\IndexEntryCollection;
 use App\Models\Support\IndexEntryActivity;
+use App\Models\Support\IndexEntryCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 

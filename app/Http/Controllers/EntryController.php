@@ -6,14 +6,13 @@ use App\Http\Requests\Entry\IndexRequest;
 use App\Http\Requests\Entry\StoreRequest;
 use App\Http\Requests\Entry\UpdateRequest;
 use App\Models\Entry;
-use App\Models\User;
+use App\Services\ActivityServiceInterface;
+use App\Services\EntryServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
-use service\ActivityServiceInterface;
-use service\EntryServiceInterface;
 
 class EntryController extends Controller
 {

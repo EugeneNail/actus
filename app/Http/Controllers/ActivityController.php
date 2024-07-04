@@ -6,12 +6,11 @@ use App\Http\Requests\Activity\StoreRequest;
 use App\Http\Requests\Activity\UpdateRequest;
 use App\Models\Activity;
 use App\Models\Collection;
+use App\Services\ActivityServiceInterface;
+use App\Services\CollectionServiceInterface;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
-use service\ActivityServiceInterface;
-use service\CollectionServiceInterface;
 
 class ActivityController extends Controller
 {

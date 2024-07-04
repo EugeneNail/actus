@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Collection\StoreRequest;
 use App\Http\Requests\Collection\UpdateRequest;
 use App\Models\Collection;
+use App\Services\CollectionServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
-use service\CollectionServiceInterface;
 
 class CollectionController extends Controller
 {

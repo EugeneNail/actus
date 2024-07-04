@@ -1,6 +1,6 @@
 <?php
 
-namespace service\Export;
+namespace App\Services\Export;
 
 use App\Models\User;
 
