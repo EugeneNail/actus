@@ -8,6 +8,7 @@ use App\Http\Requests\Entry\UpdateRequest;
 use App\Models\Entry;
 use App\Services\ActivityServiceInterface;
 use App\Services\EntryServiceInterface;
+use App\Services\Photo\PhotoServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -20,10 +21,14 @@ class EntryController extends Controller
 
     private ActivityServiceInterface $activityService;
 
-    public function __construct(EntryServiceInterface $entryService, ActivityServiceInterface $activityService)
+    private PhotoServiceInterface $photoService;
+
+
+    public function __construct(EntryServiceInterface $entryService, ActivityServiceInterface $activityService, PhotoServiceInterface $photoService)
     {
         $this->entryService = $entryService;
         $this->activityService = $activityService;
+        $this->photoService = $photoService;
     }
 
 
@@ -73,14 +78,18 @@ class EntryController extends Controller
             return back()->withErrors(['date' => 'У вас уже есть запись на эту дату.']);
         }
 
-        $areActivitiesValid = $this->activityService->allExist($request->activities)
-            && $this->activityService->ownsEach($request->activities, $user->id);
-        if (!$areActivitiesValid) {
+        $areRelationsValid =
+            $this->activityService->allExist($request->activities)
+            && $this->activityService->ownsEach($request->activities, $user->id)
+            && $this->photoService->allExist($request->photos)
+            && $this->photoService->ownsEach($request->photos, $user->id);
+        if (!$areRelationsValid) {
             abort(404);
         }
 
         $entry = $this->entryService->create($request->validated(), $user->id);
         $this->entryService->saveActivities($entry, $request->activities);
+        $this->entryService->savePhotos($entry, $request->photos);
 
         return redirect(route('entries.index'));
     }
@@ -96,6 +105,7 @@ class EntryController extends Controller
                 'weather' => $entry->weather,
                 'diary' => $entry->diary,
                 'activities' => $entry->activities->map(fn($activity) => $activity->id),
+                'photos' => $entry->photos->map(fn ($photo) => $photo->name)
             ],
             'collections' => Auth::user()->collections()->with("activities")->get(),
         ]);
@@ -104,15 +114,20 @@ class EntryController extends Controller
 
     public function update(UpdateRequest $request, Entry $entry): RedirectResponse
     {
-        $areActivitiesValid =
+        $user = $request->user();
+
+        $areRelationsValid =
             $this->activityService->allExist($request->activities)
-            && $this->activityService->ownsEach($request->activities, $request->user()->id);
-        if (!$areActivitiesValid) {
+            && $this->activityService->ownsEach($request->activities, $user->id)
+            && $this->photoService->allExist($request->photos)
+            && $this->photoService->ownsEach($request->photos, $user->id);
+        if (!$areRelationsValid) {
             abort(404);
         }
 
         $entry = $this->entryService->update($entry, $request->validated());
         $this->entryService->saveActivities($entry, $request->activities);
+        $this->entryService->savePhotos($entry, $request->photos);
 
         return redirect(route('entries.index'));
     }

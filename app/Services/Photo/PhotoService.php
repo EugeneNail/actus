@@ -3,6 +3,7 @@
 namespace App\Services\Photo;
 
 use App\Models\Photo;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -37,7 +38,7 @@ class PhotoService implements PhotoServiceInterface
         }
 
         Photo::insert(
-            collect($names)->map(fn ($name) => [
+            collect($names)->map(fn($name) => [
                 'name' => $name,
                 'user_id' => $userId
             ])->toArray()
@@ -51,5 +52,17 @@ class PhotoService implements PhotoServiceInterface
     {
         Photo::where('name', $name)->delete();
         Storage::delete("photos/$name");
+    }
+
+
+    public function allExist(array $photoNames): bool
+    {
+        return Photo::whereIn('name', $photoNames)->count() == count($photoNames);
+    }
+
+
+    public function ownsEach(array $photoNames, int $userId): bool
+    {
+        return Photo::whereIn('name', $photoNames)->get()->every(fn($photo) => $photo->user_id == $userId);
     }
 }

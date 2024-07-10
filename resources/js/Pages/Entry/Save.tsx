@@ -14,6 +14,8 @@ import {Weather} from "../../model/weather";
 import {useFormState} from "../../hooks/use-form-state";
 import withLayout from "../../Layout/default-layout";
 import {Head} from "@inertiajs/react";
+import PhotoUploader from "../../component/photo-uploader/photo-uploader";
+import axios from "axios";
 
 
 interface Payload {
@@ -23,6 +25,7 @@ interface Payload {
     weather: Weather
     diary: string
     activities: number[]
+    photos: string[]
 }
 
 
@@ -44,6 +47,7 @@ function Save({entry, collections}: Props) {
             weather: Weather.Sunny,
             activities: [],
             diary: "",
+            photos: []
         })
 
         if (!willStore) {
@@ -54,6 +58,7 @@ function Save({entry, collections}: Props) {
                 weather: entry.weather,
                 diary: entry.diary,
                 activities: entry.activities,
+                photos: entry.photos,
             })
         }
     }, []);
@@ -74,6 +79,25 @@ function Save({entry, collections}: Props) {
     }
 
 
+    function addPhotos(urls: string[]) {
+        setData({
+            ...data,
+            photos: [...data.photos, ...urls]
+        })
+    }
+
+
+    async function deletePhoto(name: string) {
+        const {status} = await axios.delete(`/photos/${name}`)
+        if (status == 204) {
+            setData({
+                ...data,
+                photos: data.photos.filter(photoName => photoName != name)
+            })
+        }
+    }
+
+
     function save() {
         willStore ? post('/entries') : put(`/entries/${entry.id}`)
     }
@@ -88,6 +112,7 @@ function Save({entry, collections}: Props) {
                 <WeatherSelect name="weather" value={data.weather ?? Weather.Sunny} onChange={setField}/>
                 <ActivityPicker collections={collections} value={data.activities ?? []} toggleActivity={addActivity}/>
                 <Diary name="diary" max={5000} value={data.diary ?? ""} onChange={setField}/>
+                <PhotoUploader name="photos[]" values={data.photos} deletePhoto={deletePhoto} onPhotosUploaded={addPhotos}/>
                 <FormButtons>
                     <FormBackButton/>
                     <FormSubmitButton label="Сохранить" onClick={save}/>
