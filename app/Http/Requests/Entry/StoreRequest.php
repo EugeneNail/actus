@@ -22,7 +22,7 @@ class StoreRequest extends FormRequest
             'diary' => ['nullable', 'string', 'max:5000'],
             'activities' => ['nullable', 'array'],
             'activities.*' => ['integer'],
-            'photos' => ['nullable', 'array'],
+            'photos' => ['nullable', 'array', 'max:10'],
             'photos.*' => ['string'],
         ];
     }
