@@ -39,14 +39,23 @@ function Index({entries, months}: Props) {
     }, []);
 
 
-    function checkIfToday(entry: Entry): boolean {
+    function canShowButton(): boolean {
         const params = new URLSearchParams(window.location.search)
-        const today = new Date();
-        const isCurrentMonth = params.get('month') == (today.getMonth() + 1).toString()
-        const isCurrentYear = params.get('year') == today.getFullYear().toString()
+        const today = new Date()
+
+        const todayMonth = (today.getMonth() + 1).toString()
+        if ((params.get('month') ?? todayMonth) != todayMonth) {
+            return false
+        }
+
+        const todayYear = today.getFullYear().toString()
+        if ((params.get('year') ?? todayYear) != todayYear) {
+            return false
+        }
+
         const formatted = today.toISOString().split("T")[0] + " 00:00:00"
 
-        return !isCurrentYear || !isCurrentMonth || entry.date == formatted
+        return !entries.some(entry => entry.date == formatted);
     }
 
 
@@ -64,7 +73,7 @@ function Index({entries, months}: Props) {
                 ))}
             </div>
             <div className="entries-page__entries">
-                {entries && !entries.some(checkIfToday) &&
+                {entries && canShowButton() &&
                     <div className="entries-page-button" onClick={() => router.get("/entries/new")}>
                         <div className="entries-page-button__icon-container">
                             <Icon className="entries-page-button__icon" name="add"/>
