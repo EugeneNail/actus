@@ -63,13 +63,17 @@ export default function EntryCard({entry}: Props) {
                 )}
             </div>}
             {entry.diary.length > 0 && <p className="entry-card__diary">{entry.diary}</p>}
-            {entry.photos && <div className="entry-card__photos">
-                {entry.photos.map(photo =>
-                    <div className="entry-card__photo-container" key={photo}>
-                        <img className="entry-card__photo" src={`/api/photos/${photo}`} alt={photo} />
+            {entry.photos &&
+                <div className="entry-card__photos">
+                    <div className="entry-card__photos-grid">
+                        {entry.photos.map(photo =>
+                            <div className="entry-card__photo-container" key={photo}>
+                                <img className="entry-card__photo" src={`/photos/${photo}`} alt={photo} />
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>}
+                </div>
+            }
         </div>
     )
 }

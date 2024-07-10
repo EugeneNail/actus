@@ -26,7 +26,7 @@ class EntryService implements EntryServiceInterface
 
         return $user
             ->entries()
-            ->with('activities')
+            ->with(['activities', 'photos'])
             ->where('date', '>=', $startDate)
             ->where('date', '<', $endDate)
             ->orderByDesc('date')
@@ -37,6 +37,7 @@ class EntryService implements EntryServiceInterface
                 $entry->weather,
                 $entry->date,
                 $entry->diary,
+                $entry->photos->map(fn($photo) => $photo->name)->toArray(),
                 $this->groupActivitiesByCollection($entry->activities, $collectionsById),
             ))
             ->toArray();
