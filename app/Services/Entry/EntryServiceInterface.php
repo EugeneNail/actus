@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Entry;
 
 use App\Models\Entry;
 use App\Models\Support\IndexEntry;

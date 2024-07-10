@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Activity;
 
 use App\Models\Activity;
 use App\Models\Collection;

@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
-use App\Services\ActivityService;
-use App\Services\ActivityServiceInterface;
-use App\Services\CollectionService;
-use App\Services\CollectionServiceInterface;
-use App\Services\EntryService;
-use App\Services\EntryServiceInterface;
-use App\Services\Photo\PhotoServiceInterface;
+use App\Services\Activity\ActivityService;
+use App\Services\Activity\ActivityServiceInterface;
+use App\Services\Collection\CollectionService;
+use App\Services\Collection\CollectionServiceInterface;
+use App\Services\Entry\EntryService;
+use App\Services\Entry\EntryServiceInterface;
 use App\Services\Photo\PhotoService;
+use App\Services\Photo\PhotoServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

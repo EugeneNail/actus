@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Entry;
 
 use App\Models\Activity;
 use App\Models\Collection;
 use App\Models\Entry;
-use App\Models\Photo;
 use App\Models\Support\IndexEntry;
 use App\Models\Support\IndexEntryActivity;
 use App\Models\Support\IndexEntryCollection;
