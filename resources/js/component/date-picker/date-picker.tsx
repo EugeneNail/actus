@@ -10,12 +10,13 @@ type Props = {
     active: boolean
     name: string
     value: string
+    disabled?: boolean
     error: string
     onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 
-export function DatePicker({className, active, name, value, error, onChange}: Props) {
+export function DatePicker({className, active, name, value, disabled, error, onChange}: Props) {
     const [isVisible, setVisible] = useState(false)
     const [year, setYear] = useState(new Date(value).getFullYear())
     const [month, setMonth] = useState(new Date(value).getMonth())
@@ -81,6 +82,10 @@ export function DatePicker({className, active, name, value, error, onChange}: Pr
 
 
     function toggleCalendar() {
+        if (disabled) {
+            return
+        }
+
         if (isVisible) {
             setVisible(false)
             document.body.style.overflow = "auto"

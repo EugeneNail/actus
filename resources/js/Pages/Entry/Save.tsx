@@ -107,7 +107,7 @@ function Save({entry, collections}: Props) {
         <div className="save-entry-page page">
             <Head title={willStore ? "Новая запись" : data.date?.split('T')[0]}/>
             <Form title={willStore ? "Новая запись" : "Запись"} noBackground>
-                <DatePicker active={willStore} name="date" value={data.date ?? new Date().toISOString()} error={errors.date} onChange={setField}/>
+                <DatePicker active={willStore} name="date" value={data.date ?? new Date().toISOString()} disabled={!willStore} error={errors.date} onChange={setField}/>
                 <MoodSelect name="mood" value={data.mood ?? Mood.Neutral} onChange={setField}/>
                 <WeatherSelect name="weather" value={data.weather ?? Weather.Sunny} onChange={setField}/>
                 <ActivityPicker collections={collections} value={data.activities ?? []} toggleActivity={addActivity}/>
