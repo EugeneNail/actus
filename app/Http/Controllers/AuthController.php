@@ -22,7 +22,7 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
         User::create($validated);
-        Auth::attempt($validated);
+        Auth::attempt($validated, true);
         $request->session()->regenerate();
 
         return redirect()->intended('/collections');
@@ -35,7 +35,7 @@ class AuthController extends Controller
 
 
     public function authenticate(LoginRequest $request): RedirectResponse {
-        if (Auth::attempt($request->validated())) {
+        if (Auth::attempt($request->validated(), true)) {
             $request->session()->regenerate();
 
             return redirect()->intended("/entries");
