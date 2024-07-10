@@ -7,13 +7,17 @@ use App\Models\Activity;
 use App\Models\Collection;
 use App\Models\Entry;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia;
 use JsonException;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\Feature\AuthorizedTestCase;
+use Tests\Traits\HasPhotos;
 
 class UpdateTest extends AuthorizedTestCase
 {
+    use HasPhotos;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -25,6 +29,8 @@ class UpdateTest extends AuthorizedTestCase
             ->create();
         $entry = Entry::factory()->for($user)->create();
         $entry->activities()->attach([1, 2, 3, 4, 5, 6]);
+
+        $this->createPhotos($user, $entry);
     }
 
 
@@ -40,14 +46,14 @@ class UpdateTest extends AuthorizedTestCase
                 ->where('entry.mood', $entry->mood)
                 ->where('entry.weather', $entry->weather)
                 ->where('entry.activities', $entry->activities->map(fn($activity) => $activity->id))
+                ->where('entry.photos', $this->photos)
             );
 
+        $this->deletePhotos();
     }
 
 
-    /**
-     * @throws JsonException
-     */
+    /** @throws JsonException */
     public function test_updates_successfully(): void
     {
         $this
@@ -56,6 +62,7 @@ class UpdateTest extends AuthorizedTestCase
                 'mood' => 1,
                 'diary' => 'Что-то случилось',
                 'activities' => [1, 2, 3, 4],
+                'photos' => [$this->photos[0]],
             ])
             ->assertRedirect(route('entries.index'))
             ->assertSessionHasNoErrors();
@@ -68,6 +75,15 @@ class UpdateTest extends AuthorizedTestCase
                 'diary' => 'Что-то случилось',
             ])
             ->assertDatabaseCount('activity_entry', 4);
+
+        for ($i = 1; $i < 5; $i++) {
+            $this->assertDatabaseMissing('photos', [
+                'name' => $this->photos[$i],
+            ]);
+            Storage::assertMissing("photos/{$this->photos[$i]}");
+        }
+
+        $this->deletePhotos();
     }
 
 
@@ -82,6 +98,7 @@ class UpdateTest extends AuthorizedTestCase
                 'weather' => 10,
                 'diary' => str_repeat('Что-то случилось', 500),
                 'activities' => [1, 2, 3, 4],
+                'photos' => $this->photos,
             ], ['Referer' => $route])
             ->assertRedirect($route)
             ->assertSessionHasErrors(['mood', 'weather', 'diary']);
@@ -99,6 +116,8 @@ class UpdateTest extends AuthorizedTestCase
                 'diary' => $entry->diary,
             ])
             ->assertDatabaseCount('activity_entry', 6);
+
+        $this->deletePhotos();
     }
 
 
@@ -112,6 +131,7 @@ class UpdateTest extends AuthorizedTestCase
                 'weather' => 1,
                 'diary' => '',
                 'activities' => [1, 2, 3, 4, 5, 6, 7],
+                'photos' => $this->photos,
             ])
             ->assertStatus(Response::HTTP_NOT_FOUND);
 
@@ -128,6 +148,8 @@ class UpdateTest extends AuthorizedTestCase
                 'diary' => $entry->diary,
             ])
             ->assertDatabaseCount('activity_entry', 6);
+
+        $this->deletePhotos();
     }
 
 
@@ -144,6 +166,7 @@ class UpdateTest extends AuthorizedTestCase
                 'weather' => 1,
                 'diary' => '',
                 'activities' => [1, 2, 3, 4, 5, 6, 7],
+                'photos' => $this->photos,
             ])
             ->assertStatus(Response::HTTP_NOT_FOUND);
 
@@ -160,6 +183,8 @@ class UpdateTest extends AuthorizedTestCase
                 'diary' => $entry->diary,
             ])
             ->assertDatabaseCount('activity_entry', 6);
+
+        $this->deletePhotos();
     }
 
 
@@ -197,5 +222,7 @@ class UpdateTest extends AuthorizedTestCase
         $this->assertValidationFails($request, 'weather', 'Nonexistent', '10');
         $this->assertValidationFails($request, 'weather', 'Letters', 'Windy');
         $this->assertValidationFails($request, 'diary', 'Too long', str_repeat("Very long", 600));
+
+        $this->deletePhotos();
     }
 }

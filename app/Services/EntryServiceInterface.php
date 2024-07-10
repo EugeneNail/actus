@@ -17,6 +17,9 @@ interface EntryServiceInterface
     /** @param $activityIds array<int> */
     public function saveActivities(Entry $entry, array $activityIds): void;
 
+    /** @param $photoNames array<string> */
+    public function savePhotos(Entry $entry, array $photoNames): void;
+
     /** @param string $date in format YYYY-mm-dd */
     public function existsForDate(string $date, int $userId): bool;
 }

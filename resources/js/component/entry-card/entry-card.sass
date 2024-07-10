@@ -91,13 +91,16 @@
     color: darken($font-strong, 10%)
 
   &__photos
-    max-width: 100%
+    border-top: 1px solid $delimiter
+
+  &__photos-grid
     margin: 20px 15px 15px
     display: flex
     flex-wrap: wrap
     gap: 3px
     border-radius: 10px
     overflow: hidden
+    max-width: 100%
 
   &__photo-container
     flex: 1 1 30%

@@ -6,6 +6,7 @@ use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\EntryController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +57,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/', [EntryController::class, 'store'])->name('store');
         Route::get('/{entry}', [EntryController::class, 'edit'])->name('edit');
         Route::put('/{entry}', [EntryController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('photos')->name('photos.')->group(function () {
+        Route::post('/', [PhotoController::class, 'store'])->name('store');
+        Route::get('/{name}', [PhotoController::class, 'show'])->name('show');
+        Route::delete('/{name}', [PhotoController::class, 'destroy'])->name('destroy');
     });
 
     Route::get('/export', ExportController::class);

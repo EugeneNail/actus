@@ -5,11 +5,13 @@ namespace App\Services;
 use App\Models\Activity;
 use App\Models\Collection;
 use App\Models\Entry;
+use App\Models\Photo;
 use App\Models\Support\IndexEntry;
 use App\Models\Support\IndexEntryActivity;
 use App\Models\Support\IndexEntryCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class EntryService implements EntryServiceInterface
 {
@@ -24,7 +26,7 @@ class EntryService implements EntryServiceInterface
 
         return $user
             ->entries()
-            ->with('activities')
+            ->with(['activities', 'photos'])
             ->where('date', '>=', $startDate)
             ->where('date', '<', $endDate)
             ->orderByDesc('date')
@@ -35,6 +37,7 @@ class EntryService implements EntryServiceInterface
                 $entry->weather,
                 $entry->date,
                 $entry->diary,
+                $entry->photos->map(fn($photo) => $photo->name)->toArray(),
                 $this->groupActivitiesByCollection($entry->activities, $collectionsById),
             ))
             ->toArray();
@@ -101,10 +104,28 @@ class EntryService implements EntryServiceInterface
     }
 
 
-    public function existsForDate(string $date, int $userId): bool {
+    public function existsForDate(string $date, int $userId): bool
+    {
         return Entry::query()
-            ->where('user_id', $userId)
-            ->where('date', $date)
-            ->count() > 0;
+                ->where('user_id', $userId)
+                ->where('date', $date)
+                ->count() > 0;
+    }
+
+
+    public function savePhotos(Entry $entry, array $photoNames): void
+    {
+        $unusedPhotos = $entry->photos()->whereNotIn('name', $photoNames)->pluck('name');
+        $entry->photos()->whereIn('name', $unusedPhotos)->delete();
+
+        foreach ($unusedPhotos as $photo) {
+            Storage::delete("photos/$photo");
+        }
+
+        $data = collect($photoNames)->map(fn($photo) => [
+            'name' => $photo,
+            'entry_id' => $entry->id,
+        ])->toArray();
+        DB::table('photos')->upsert($data, 'name', ['entry_id']);
     }
 }
