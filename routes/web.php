@@ -29,6 +29,10 @@ Route::post('/signup', [AuthController::class, "store"])->name('auth.store');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.authenticate');
 
+Route::get('/', function () {
+    return redirect()->intended(route('entries.index'));
+});
+
 Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
