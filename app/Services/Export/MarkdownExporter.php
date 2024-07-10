@@ -16,14 +16,16 @@ class MarkdownExporter implements ExporterInterface
     public function export(User $user): array
     {
         $file = Str::uuid();
-        $publicName = sprintf("Дневники %s.md", date('Y-m-d'));
         Storage::put($file, '');
 
         foreach($user->entries->sortByDesc('date') as $entry) {
             $this->write($entry, $file);
         }
 
-        return [$file, $publicName];
+        return [
+            storage_path("app/$file"),
+            sprintf("Дневники %s.md", date('Y-m-d'))
+        ];
     }
 
 

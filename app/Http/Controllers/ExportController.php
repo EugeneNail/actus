@@ -2,29 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ExportRequest;
-use App\Services\Export\ExporterInterface;
 use App\Services\Export\MarkdownExporter;
-use service\Export\TextExporter;
+use App\Services\Export\PhotoExporter;
+use Illuminate\Http\Request;
 
 class ExportController extends Controller
 {
-    /** @var $exporters array<string, ExporterInterface> */
-    private array $exporters;
+    private MarkdownExporter $markdownExporter;
+
+    private PhotoExporter $photoExporter;
 
 
-    public function __construct(MarkdownExporter $markdownExporter)
+    public function __construct(MarkdownExporter $markdownExporter, PhotoExporter $photoExporter)
     {
-        $this->exporters = [
-            'diary' => $markdownExporter,
-        ];
+        $this->markdownExporter = $markdownExporter;
+        $this->photoExporter = $photoExporter;
     }
 
 
-    public function __invoke(ExportRequest $request)
+    public function diaries(Request $request)
     {
-        [$path, $name] = $this->exporters[$request->target]->export($request->user());
-        $path = storage_path("app/$path");
+        [$path, $name] = $this->markdownExporter->export($request->user());
+
+        return response()
+            ->download($path, $name)
+            ->deleteFileAfterSend();
+    }
+
+
+    public function photos(Request $request)
+    {
+        [$path, $name] = $this->photoExporter->export($request->user());
 
         return response()
             ->download($path, $name)

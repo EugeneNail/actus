@@ -69,7 +69,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/{name}', [PhotoController::class, 'destroy'])->name('destroy');
     });
 
-    Route::get('/export', ExportController::class);
+    Route::prefix('export')->name('export.')->group(function() {
+        Route::get('/diaries', [ExportController::class, 'diaries']);
+        Route::get('/photos', [ExportController::class, 'photos']);
+    });
 
     Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
 });

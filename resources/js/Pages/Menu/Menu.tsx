@@ -17,7 +17,8 @@ function Menu() {
                     <MenuOption icon="category" label="Коллекции" color={Color.Orange} onClick={() => router.get("/collections")}/>
                 </div>
                 <div className="menu-page__group">
-                    <MenuOption icon="article" label="Скачать дневники" color={Color.Blue} onClick={() => window.open("/export?target=diary")}/>
+                    <MenuOption icon="article" label="Скачать дневники" color={Color.Blue} onClick={() => window.open("/export/diaries")}/>
+                    <MenuOption icon="image" label="Скачать фотографии" color={Color.Purple} onClick={() => window.open("/export/photos")}/>
                 </div>
                 <div className="menu-page__group">
                     <MenuOption icon="logout" label="Выйти" color={Color.Accent} onClick={() => router.post('/logout')}/>
