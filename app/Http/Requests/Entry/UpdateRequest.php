@@ -20,6 +20,8 @@ class UpdateRequest extends FormRequest
             'diary' => ['nullable', 'string', 'max:5000'],
             'activities' => ['nullable', 'array'],
             'activities.*' => ['integer'],
+            'photos' => ['nullable', 'array'],
+            'photos.*' => ['string'],
         ];
     }
 }

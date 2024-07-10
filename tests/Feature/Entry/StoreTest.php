@@ -6,14 +6,19 @@ use App\Http\Requests\Entry\StoreRequest;
 use App\Models\Activity;
 use App\Models\Collection;
 use App\Models\Entry;
+use App\Models\Photo;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use JsonException;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\Feature\AuthorizedTestCase;
+use Tests\Traits\HasPhotos;
 
 
 class StoreTest extends AuthorizedTestCase
 {
+    use HasPhotos;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -23,12 +28,11 @@ class StoreTest extends AuthorizedTestCase
             ->has(Activity::factory()->for($user, 'user')->count(3))
             ->count(2)
             ->create();
+        $this->createPhotos($user);
     }
 
 
-    /**
-     * @throws JsonException
-     */
+    /** @throws JsonException */
     public function test_store_successfully(): void
     {
         $this
@@ -38,6 +42,7 @@ class StoreTest extends AuthorizedTestCase
                 'mood' => 2,
                 'diary' => 'Сегодня произошло что-то хорошее',
                 'activities' => [1, 2, 3, 4, 5, 6],
+                'photos' => $this->photos,
             ])
             ->assertRedirect(route('entries.index'))
             ->assertSessionHasNoErrors();
@@ -58,6 +63,17 @@ class StoreTest extends AuthorizedTestCase
                 'activity_id' => $activityId,
             ]);
         }
+
+        foreach($this->photos as $photo) {
+            $this->assertDatabaseHas('photos', [
+                'name' => $photo,
+                'entry_id' => 1,
+            ]);
+
+            Storage::assertExists("photos/$photo");
+        }
+
+        $this->deletePhotos();
     }
 
 
@@ -72,6 +88,7 @@ class StoreTest extends AuthorizedTestCase
                 'mood' => 9,
                 'diary' => str_repeat("characters", 501),
                 'activities' => [1, 2, 3, 4, 5, 6],
+                'photos' => $this->photos,
             ], ['Referer' => $route])
             ->assertRedirect($route)
             ->assertSessionHasErrors(['date', 'weather', 'mood', 'diary']);
@@ -79,6 +96,15 @@ class StoreTest extends AuthorizedTestCase
         $this
             ->assertDatabaseCount('entries', 0)
             ->assertDatabaseCount('activity_entry', 0);
+
+        foreach($this->photos as $photo) {
+            $this->assertDatabaseMissing('photos', [
+                'name' => $photo,
+                'entry_id' => 1,
+            ]);
+        }
+
+        $this->deletePhotos();
     }
 
 
@@ -94,6 +120,7 @@ class StoreTest extends AuthorizedTestCase
                 'mood' => 1,
                 'diary' => '',
                 'activities' => [1, 2, 3, 4, 5, 6],
+                'photos' => $this->photos,
             ], ['Referer' => $route])
             ->assertRedirect($route)
             ->assertSessionHasErrors(['date']);
@@ -101,6 +128,8 @@ class StoreTest extends AuthorizedTestCase
         $this
             ->assertDatabaseCount('entries', 1)
             ->assertDatabaseCount('activity_entry', 0);
+
+        $this->deletePhotos();
     }
 
 
@@ -113,12 +142,15 @@ class StoreTest extends AuthorizedTestCase
                 'mood' => 1,
                 'diary' => '',
                 'activities' => [1, 2, 3, 4, 5, 6, 7],
+                'photos' => [],
             ])
             ->assertStatus(Response::HTTP_NOT_FOUND);
 
         $this
             ->assertDatabaseCount('entries', 0)
             ->assertDatabaseCount('activity_entry', 0);
+
+        $this->deletePhotos();
     }
 
 
@@ -135,12 +167,15 @@ class StoreTest extends AuthorizedTestCase
                 'mood' => 1,
                 'diary' => '',
                 'activities' => [1, 2, 3, 4, 5, 6, 7],
+                'photos' => $this->photos,
             ])
             ->assertStatus(Response::HTTP_NOT_FOUND);
 
         $this
             ->assertDatabaseCount('entries', 0)
             ->assertDatabaseCount('activity_entry', 0);
+
+        $this->deletePhotos();
     }
 
 
@@ -185,5 +220,7 @@ class StoreTest extends AuthorizedTestCase
         $this->assertValidationFails($request, 'weather', 'Nonexistent', '10');
         $this->assertValidationFails($request, 'weather', 'Letters', 'Windy');
         $this->assertValidationFails($request, 'diary', 'Too long', str_repeat("Very long", 600));
+
+        $this->deletePhotos();
     }
 }
