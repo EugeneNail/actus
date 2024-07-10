@@ -48,7 +48,7 @@ class EntryController extends Controller
                     'year' => $carbon->year,
                 ];
             })
-            ->sortBy(['year', 'month'])
+            ->sortByDesc(['year', 'month'])
             ->values();
 
         $month = $request->month ?? date('m');
