@@ -51,7 +51,7 @@ class MarkdownExporter implements ExporterInterface
         );
 
         Storage::append($file, sprintf(
-            "%s\n\n%s\n\n%s\n",
+            "%s\n%s\n\n%s\n\n\n\n\n\n",
             $header,
             $subheader,
             $entry->diary,
