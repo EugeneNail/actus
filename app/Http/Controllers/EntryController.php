@@ -6,6 +6,7 @@ use App\Http\Requests\Entry\IndexRequest;
 use App\Http\Requests\Entry\StoreRequest;
 use App\Http\Requests\Entry\UpdateRequest;
 use App\Models\Entry;
+use App\Models\Support\IndexMonth;
 use App\Services\Activity\ActivityServiceInterface;
 use App\Services\Entry\EntryServiceInterface;
 use App\Services\Photo\PhotoServiceInterface;
@@ -34,29 +35,9 @@ class EntryController extends Controller
 
     public function index(IndexRequest $request): Response
     {
-        $months = Auth::user()
-            ->entries
-            ->map(fn($entry) => ['date' => $entry->date->format("Y-m")])
-            ->groupBy('date')
-            ->map(function ($group, $key) {
-                $carbon = Carbon::createFromFormat('Y-m', $key);
-
-                return [
-                    'entries' => count($group),
-                    'days' => $carbon->daysInMonth,
-                    'month' => $carbon->month,
-                    'year' => $carbon->year,
-                ];
-            })
-            ->sortByDesc(['year', 'month'])
-            ->values();
-
-        $month = $request->month ?? date('m');
-        $year = $request->year ?? date('Y');
-
         return Inertia::render('Entry/Index', [
-            'entries' => $this->entryService->collectForIndex($month, $year),
-            'months' => $months,
+            'entries' => $this->entryService->collectForIndex($request->month, $request->year),
+            'months' => $this->entryService->collectMonthData($request->user()),
         ]);
     }
 

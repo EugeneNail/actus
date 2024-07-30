@@ -4,11 +4,16 @@ namespace App\Services\Entry;
 
 use App\Models\Entry;
 use App\Models\Support\IndexEntry;
+use App\Models\Support\IndexMonth;
+use App\Models\User;
 
 interface EntryServiceInterface
 {
-    /**@return array<IndexEntry>*/
+    /** @return array<IndexEntry> */
     public function collectForIndex(int $month, int $year): array;
+
+    /** @return  array<IndexMonth>*/
+    public function collectMonthData(User $user): iterable;
 
     public function create(array $data, int $userId): Entry;
 

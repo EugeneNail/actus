@@ -8,14 +8,18 @@ use App\Models\Entry;
 use App\Models\Support\IndexEntry;
 use App\Models\Support\IndexEntryActivity;
 use App\Models\Support\IndexEntryCollection;
+use App\Models\Support\IndexMonth;
+use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class EntryService implements EntryServiceInterface
 {
-    public function collectForIndex(int $month, int $year = null): array
+    public function collectForIndex(?int $month, ?int $year): array
     {
+        $month = $month ?? date('m');
         $year = $year ?? date('Y');
         $startDate = date("$year-$month-01");
         $month++;
@@ -70,6 +74,16 @@ class EntryService implements EntryServiceInterface
         }
 
         return array_values($collectionsMap);
+    }
+
+
+    public function collectMonthData(User $user): iterable {
+        return $user->entries
+            ->map(fn($entry) => ['date' => $entry->date->format("Y-m")])
+            ->groupBy('date')
+            ->map(fn ($group, $key) =>  new IndexMonth($group, Carbon::createFromFormat('Y-m', $key)))
+            ->sortByDesc(['year', 'month'])
+            ->values();
     }
 
 
