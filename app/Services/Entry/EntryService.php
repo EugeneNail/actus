@@ -81,7 +81,7 @@ class EntryService implements EntryServiceInterface
         return $user->entries
             ->map(fn($entry) => ['date' => $entry->date->format("Y-m")])
             ->groupBy('date')
-            ->map(fn ($group, $key) =>  new IndexMonth($group, Carbon::createFromFormat('Y-m', $key)))
+            ->map(fn ($group, $key) =>  new IndexMonth($group, new Carbon($key)))
             ->sortByDesc(['year', 'month'])
             ->values();
     }
