@@ -63,7 +63,7 @@ export default function EntryCard({entry}: Props) {
                 )}
             </div>}
             {entry.diary.length > 0 && <p className="entry-card__diary">{entry.diary}</p>}
-            {entry.photos &&
+            {entry.photos && entry.photos.length > 0 &&
                 <div className="entry-card__photos">
                     <div className="entry-card__photos-grid">
                         {entry.photos.map(photo =>
