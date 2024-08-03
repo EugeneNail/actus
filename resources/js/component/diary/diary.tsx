@@ -19,7 +19,7 @@ export default function Diary({className, name, max, value, onChange}: Props) {
 
     return (
         <div className={classNames("diary", className)}>
-            <label className="diary__label" htmlFor={name}>Как прошел день?</label>
+            <label className="diary__label" htmlFor={name}>Сегодняшний дневник</label>
             <textarea className="diary__textarea"
                       ref={ref}
                       placeholder="Расскажите, что интересного случилось"

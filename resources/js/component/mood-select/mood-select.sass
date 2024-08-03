@@ -1,46 +1,49 @@
 @import ../../../css/variables
 
 .mood-select
-  margin-bottom: 80px
+  background: $background
+  padding: 10px
+  border-radius: 10px
 
   &__input
     display: none
 
   &__label
+    font-weight: bold
+    margin-bottom: 5px
     text-align: center
-    font-size: 24px
+    font-size: 12px
     color: $font-strong
-    margin-bottom: 30px
 
   &__moods
     display: flex
+    gap: 15px
     flex-wrap: wrap
     justify-content: center
 
   &__mood
+    color: #555
     cursor: pointer
-    font-size: 70px
-    font-variation-settings: 'FILL' 0, 'wght' 200
+    font-size: 55px
+    font-variation-settings: 'FILL' 1, 'wght' 200
     transition: .3s
 
     @media (pointer: fine)
       &:hover
-        font-variation-settings: 'wght' 300
-
-    &:nth-child(1)
-      color: $green
-
-    &:nth-child(2)
-      color: $yellow
-
-    &:nth-child(3)
-      color: $blue
-
-    &:nth-child(4)
-      color: $orange
-
-    &:nth-child(5)
-      color: $red
+        font-variation-settings: 'FILL' 1, 'wght' 300
 
     &.selected
-      font-variation-settings: 'FILL' 1
+      &:nth-child(1)
+        color: $green
+
+      &:nth-child(2)
+        color: $yellow
+
+      &:nth-child(3)
+        color: $blue
+
+      &:nth-child(4)
+        color: $orange
+
+      &:nth-child(5)
+        color: $red

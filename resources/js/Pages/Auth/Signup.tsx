@@ -7,6 +7,7 @@ import React from "react";
 import {useFormState} from "../../hooks/use-form-state";
 import GuestLayout from "../../Layout/guest-layout";
 import {Head, Link} from "@inertiajs/react";
+import FormContent from "../../component/form/form-content";
 
 interface Payload {
     name: string
@@ -25,17 +26,19 @@ export default function SignupPage() {
     return (
         <GuestLayout>
             <Head title="Регистрация"/>
-            <div className="page">
-                <Form title="Регистрация" subtitle={"это только начало"}>
-                    <Field name="name" label="Как вас зовут?" icon="face" value={data?.name} max={20} error={errors.name} onChange={setField}/>
-                    <Field name="email" label="Электронная почта" icon="mail" value={data?.email} email max={100} error={errors.email} onChange={setField}/>
-                    <Field name="password" label="Пароль" icon="lock" value={data?.password} max={100} error={errors.password} onChange={setField} password/>
-                    <Field name="passwordConfirmation" label="Повторите пароль" icon="lock" value={data?.passwordConfirmation} max={100} error={errors.passwordConfirmation} onChange={setField} password/>
-                    <FormButtons>
-                        <FormSubmitButton label="Зарегистрироваться" onClick={signup}/>
-                    </FormButtons>
+            <div className="guest-page">
+                <Form>
+                    <FormContent>
+                        <img src="/img/logo/android-chrome-512x512.png" alt="" className="guest-page__logo"/>
+                        <h1 className="guest-page__header">Actum</h1>
+                        <Field name="name" label="Как вас зовут?" value={data?.name} max={20} error={errors.name} onChange={setField}/>
+                        <Field name="email" label="Электронная почта" value={data?.email} email max={100} error={errors.email} onChange={setField}/>
+                        <Field name="password" label="Пароль" value={data?.password} max={100} error={errors.password} onChange={setField} password/>
+                        <Field name="passwordConfirmation" label="Повторите пароль" value={data?.passwordConfirmation} max={100} error={errors.passwordConfirmation} onChange={setField} password/>
+                        <Link href="/login" className="guest-page-link">У меня уже есть аккаунт</Link>
+                    </FormContent>
+                    <FormSubmitButton label="Зарегистрироваться" onClick={signup}/>
                 </Form>
-                <Link href="/login" className="guest-page-link">У меня уже есть аккаунт</Link>
             </div>
         </GuestLayout>
     )

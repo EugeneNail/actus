@@ -35,7 +35,7 @@ export default function PhotoUploader({name, values, deletePhoto, onPhotosUpload
 
     return (
         <div className="photo-uploader">
-            <p className="photo-uploader__label">Фотографии</p>
+            <p className="photo-uploader__label">Сегодняшнее фото</p>
             <input disabled={isUploading} className="photo-uploader__input" name={name} id={name} type="file" multiple accept="image/*" onChange={loadBase64Images}/>
             <div className="photo-uploader__photos">
                 {values && values.map((name) => (
@@ -48,7 +48,8 @@ export default function PhotoUploader({name, values, deletePhoto, onPhotosUpload
                 ))}
                 {values?.length < limit && !isUploading &&
                     <label htmlFor={name} className="photo-uploader__button">
-                        <Icon className="photo-uploader__icon" name="add_photo_alternate"/>
+                        <Icon className="photo-uploader__icon" name="add_a_photo"/>
+                        <p className="photo-uploader__message">Выберите не больше 10 фото</p>
                     </label>
                 }
             </div>

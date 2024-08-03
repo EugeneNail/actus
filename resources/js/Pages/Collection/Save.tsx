@@ -1,15 +1,16 @@
 import React, {useEffect} from "react";
 import Form from "../../component/form/form";
 import Field from "../../component/field/field";
-import FormButtons from "../../component/form/form-button-container";
 import FormBackButton from "../../component/form/form-back-button";
 import FormSubmitButton from "../../component/form/form-submit-button";
-import FormDeleteButton from "../../component/form/form-delete-button";
 import Palette from "../../component/palette/palette";
 import {Color} from "../../model/color";
 import {useFormState} from "../../hooks/use-form-state";
 import {Head, router} from "@inertiajs/react";
-import withLayout from "../../Layout/default-layout";
+import FormHeader from "../../component/form/form-header";
+import FormTitle from "../../component/form/form-title";
+import FormOptions from "../../component/form/form-options";
+import FormContent from "../../component/form/form-content";
 
 interface Payload {
     id: number
@@ -17,8 +18,7 @@ interface Payload {
     color: Color
 }
 
-export default withLayout(Save);
-function Save({id, name, color}: Payload) {
+export default function Save({id, name, color}: Payload) {
     const willStore = window.location.pathname.includes("/new")
     const {data, setData, setField, errors, post, put} = useFormState<Payload>()
 
@@ -38,16 +38,21 @@ function Save({id, name, color}: Payload) {
 
 
     return (
-        <div className="save-collection-page page">
+        <div className="save-collection-page">
             <Head title={willStore ? "Новая коллекция" : data.name}/>
-            <Form title={willStore ? "Новая коллекция" : data.name} subtitle={willStore ? "" : "Коллекция"}>
-                <Field name="name" label="Название" icon="category" color={data.color} value={data.name} max={20} error={errors.name} onChange={setField}/>
-                <Palette name="color" value={data.color} onChange={setField}/>
-                <FormButtons>
-                    <FormBackButton color={data.color}/>
-                    <FormSubmitButton color={data.color} label="Сохранить" onClick={save}/>
-                    {!willStore && <FormDeleteButton onClick={() => router.get(`/collections/${id}/delete`)}/>}
-                </FormButtons>
+            <Form>
+                <FormHeader>
+                    <FormBackButton/>
+                    <FormTitle>
+                        {willStore ? "Новая коллекция" : data.name}
+                    </FormTitle>
+                    <FormOptions icon="delete" onClick={() => router.get(`/collections/${id}/delete`)}/>
+                </FormHeader>
+                <FormContent>
+                    <Field name="name" label="Название" value={data.name} max={20} error={errors.name} onChange={setField}/>
+                    <Palette name="color" value={data.color} onChange={setField}/>
+                </FormContent>
+                <FormSubmitButton color={data.color} label="Сохранить" onClick={save}/>
             </Form>
         </div>
     )

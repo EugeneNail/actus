@@ -6,27 +6,31 @@ import FormSubmitButton from "../../component/form/form-submit-button";
 import {Color} from "../../model/color";
 import {Head, router} from "@inertiajs/react";
 import withLayout from "../../Layout/default-layout";
+import FormContent from "../../component/form/form-content";
+import FormHeader from "../../component/form/form-header";
+import FormTitle from "../../component/form/form-title";
 
 type Props = {
     activityName: string
     activityId: number
     collectionId: number
-    color: Color
 }
 
-export default withLayout(Delete);
-function Delete({activityName, activityId, collectionId, color}: Props) {
+export default function Delete({activityName, activityId, collectionId}: Props) {
     return (
         <div className="delete-activity-page page">
             <Head title={activityName}/>
-            <Form title={`Удалить активность "${activityName}"?`}>
-                <p className="justified">Удаление активности также удалит ее из всех ваших записей.</p>
-                <br/>
-                <p className="justified">Это действие необратимо. Вы действительно хотите удалить активность?</p>
-                <FormButtons>
-                    <FormBackButton color={color}/>
-                    <FormSubmitButton label="Удалить" color={Color.Red} onClick={() => router.delete(`/collections/${collectionId}/activities/${activityId}`)}/>
-                </FormButtons>
+            <Form>
+                <FormHeader>
+                    <FormBackButton/>
+                    <FormTitle>{activityName}</FormTitle>
+                </FormHeader>
+                <FormContent>
+                    <p className="justified">Удаление активности "{activityName}" также удалит ее из всех ваших записей.</p>
+                    <p className="justified">Это действие необратимо.</p>
+                    <p className="justified">Вы действительно хотите удалить активность?</p>
+                </FormContent>
+                <FormSubmitButton label="Удалить" color={Color.Red} onClick={() => router.delete(`/collections/${collectionId}/activities/${activityId}`)}/>
             </Form>
         </div>
     )

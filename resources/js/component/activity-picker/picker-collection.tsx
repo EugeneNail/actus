@@ -18,7 +18,7 @@ export default function PickerCollection({collection, value, toggleActivity}: Pr
         <div className={classNames("picker-collection", {invisible: !isVisible})}>
             <div className="picker-collection__header" onClick={() => setVisible(!isVisible)}>
                 <p className="picker-collection__name">{collection.name}</p>
-                <Icon className="picker-collection__chevron" name={isVisible ? "keyboard_arrow_up" : "keyboard_arrow_down"}/>
+                <Icon className="picker-collection__chevron" name={isVisible ? "keyboard_arrow_down" : "keyboard_arrow_up"}/>
             </div>
             <ul className="picker-collection__activities">
                 {collection.activities && collection.activities.map(activity => (

@@ -12,8 +12,7 @@ type Props = {
     entry: Entry
 }
 
-const months = ["Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"]
-const weekdays = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
+const weekdays = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
 
 export default function EntryCard({entry}: Props) {
     const moodClassName = classNames(
@@ -42,26 +41,25 @@ export default function EntryCard({entry}: Props) {
 
     function formatDate(): string {
         const date = new Date(entry.date)
-        return `${weekdays[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]}`
+        return `${date.getDate().toString().padStart(2, "0")} ${weekdays[date.getDay()]}`
     }
 
 
     return (
         <div className="entry-card" onClick={() => router.get(`/entries/${entry.id}`)}>
-            <div className="entry-card__header">
-                <Icon className={moodClassName} name={MoodIcons[entry.mood]}/>
-                <Icon className={weatherClassName} name={WeatherIcons[entry.weather]}/>
-                <div className="entry-card__label">
+            <div className="entry-card__main-container">
+                <div className="entry-card__header">
+                    <Icon className={moodClassName} name={MoodIcons[entry.mood]}/>
+                    <Icon className={weatherClassName} name={WeatherIcons[entry.weather]}/>
                     <p className="entry-card__date">{formatDate()}</p>
-                    <p className="entry-card__weather-name">{WeatherNames[entry.weather]}</p>
                 </div>
+                {entry.collections && entry.collections.length > 0 && <div className="entry-card__collections">
+                    {entry.collections && entry.collections.map(collection =>
+                        collection.activities?.length > 0 &&
+                        <EntryCardCollection key={Math.random()} collection={collection}/>
+                    )}
+                </div>}
             </div>
-            {entry.collections && entry.collections.length > 0 && <div className="entry-card__collections">
-                {entry.collections && entry.collections.map(collection =>
-                    collection.activities?.length > 0 &&
-                    <EntryCardCollection key={Math.random()} collection={collection}/>
-                )}
-            </div>}
             {entry.diary.length > 0 && <p className="entry-card__diary">{entry.diary}</p>}
             {entry.photos && entry.photos.length > 0 &&
                 <div className="entry-card__photos">

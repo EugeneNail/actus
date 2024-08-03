@@ -15,8 +15,8 @@ type Props = {
 
 export default function PickerActivity({activity, color, toggled, toggle}: Props) {
     return (
-        <div className={classNames("picker-activity", {toggled: toggled}, selectColor(color))} onClick={() => toggle(activity.id)}>
-            <div className="picker-activity__icon-container">
+        <div className="picker-activity" onClick={() => toggle(activity.id)}>
+            <div className={classNames("picker-activity__icon-container", {toggled: toggled}, selectColor(color))}>
                 <Icon8 id={activity.icon} className="picker-activity__icon"/>
             </div>
             <p className="picker-activity__name">{activity.name}</p>

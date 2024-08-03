@@ -9,17 +9,17 @@ import "./header.sass"
 export default function Header() {
     return (
         <header className="header">
-            <HeaderLink label="Отчеты" color={Color.Green} icon="bar_chart" to="/statistics"/>
-            <HeaderLink label="Записи" color={Color.Blue} icon="post" to="/entries"/>
+            <HeaderLink icon="calendar_month" to="/entries"/>
+            <HeaderLink icon="bar_chart" to="/statistics"/>
             <div className="header__placeholder">
                 <div className="header__button-container">
                     <Button className="header__button" color={Color.Accent} round even onClick={() => router.get("/entries/new")}>
-                        <Icon className="header__button-icon" name="add" bold/>
+                        <Icon className="header__button-icon" name="calendar_add_on" bold/>
                     </Button>
                 </div>
             </div>
-            <HeaderLink label="Коллекции" color={Color.Orange} icon="category" to="/collections"/>
-            <HeaderLink label="Меню" color={Color.Accent} icon="more_horiz" to="/menu"/>
+            <HeaderLink icon="category" to="/collections"/>
+            <HeaderLink icon="menu" to="/menu"/>
         </header>
     )
 }
