@@ -1,12 +1,12 @@
 import "./Index.sass"
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import EntryCard from "../../component/entry-card/entry-card";
 import Entry from "../../model/entry";
 import Icon from "../../component/icon/icon";
 import withLayout from "../../Layout/default-layout";
 import {Head, router} from "@inertiajs/react";
 import Month from "../../model/month";
-import EntryMonth from "../../component/entry-month/entry-month";
+import MonthCarousel from "../../component/month-carousel/month-carousel";
 
 type Props = {
     entries: Entry[],
@@ -23,20 +23,6 @@ function Index({entries, months}: Props) {
         "Что ни день, то новая история. 👏",
         "Сделайте перерыв и добавьте запись на сегодня. ✍"
     ]
-
-
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.search)
-        const today = new Date();
-        const currentMonth = params.get('month') ?? today.getMonth() + 1
-        const currentYear = params.get('year') ?? today.getFullYear()
-
-        document.getElementById(`${currentMonth}-${currentYear}`)
-            ?.scrollIntoView({
-                block: "nearest",
-                inline: "center"
-            })
-    }, []);
 
 
     function canShowButton(): boolean {
@@ -67,11 +53,7 @@ function Index({entries, months}: Props) {
     return (
         <div className="entries-page page">
             <Head title='Записи'/>
-            <div className="entries-page__months" id="entries-page__months">
-                {months && months.map(month => (
-                    <EntryMonth month={month} key={`${month.month}-${month.year}`}/>
-                ))}
-            </div>
+            <MonthCarousel months={months}/>
             <div className="entries-page__entries">
                 {entries && canShowButton() &&
                     <div className="entries-page-button" onClick={() => router.get("/entries/new")}>
