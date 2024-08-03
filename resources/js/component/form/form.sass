@@ -1,36 +1,50 @@
 @import ../../../css/variables
 
 .form
-  width: min(calc(100% - 40px), 500px)
-  padding: 40px
-  place-self: center
-  background: $background
-  margin: 20px
+  padding-top: 60px
+  padding-bottom: 76px
   border-radius: 20px
+  min-height: 100vh
 
-  &.no-background
-    background: none
-    padding: 0
-    margin-bottom: 50px
+  &-header
+    height: 40px
+    width: min(100%, 500px)
+    padding: 0 15px
+    background: $background-strong
+    position: fixed
+    top: 0
+    display: grid
+    grid-template-columns: 20px 1fr 20px
+    grid-template-areas: "back title options"
+    align-items: center
+    justify-items: center
 
-  &__title
-    font-size: 40px
-    color: $font-strong
 
-  &.no-background &__title
-    display: none
+  &-back-button
+    grid-area: back
+    color: $font-medium !important
+    font-size: 18px
 
-  &__subtitle
-    margin-top: 10px
-    font-size: 24px
 
-  &__content-container
-    margin-top: 80px
 
-  &__button-container
-    margin-top: 80px
-    display: flex
-    gap: 15px
+  &-title
+    grid-area: title
 
-  &__submit-button
-    width: 100%
+
+  &-options
+    grid-area: options
+
+    &__icon
+      color: $font-medium
+      font-size: 20px
+
+  &-submit-button
+    width: min(100%, 500px)
+    padding: 10px 15px
+    position: fixed
+    bottom: 0
+    background: $background
+    left: inherit
+
+    &__button
+      width: 100%

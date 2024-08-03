@@ -3,14 +3,14 @@
 .button
   user-select: none
   display: flex
-  border-radius: 12px
-  height: 64px
+  border-radius: 8px
+  height: 46px
   align-items: center
   justify-content: center
   gap: 10px
-  padding: 24px 32px
   cursor: pointer
   transition: .3s
+  font-size: 16px
 
   &.even
     padding: 0
@@ -87,7 +87,7 @@
 
     &.accent
       background: $accent-strong
-      text-shadow: 0 0 3px #00000088
+      color: #111
 
       @media (pointer: fine)
         &:hover
@@ -159,7 +159,7 @@
         background: darken($purple-weak, 4%)
 
     &.accent
-      color: $accent-strong
+      color: black
       background: $accent
 
       &:hover

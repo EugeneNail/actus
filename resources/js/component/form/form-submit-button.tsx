@@ -11,8 +11,10 @@ type Props = {
 
 export default function FormSubmitButton({label, color = Color.Accent, onClick}: Props) {
     return (
-        <Button className="form__submit-button" submit style={ButtonStyle.Primary} color={color} onClick={onClick}>
-            {label}
-        </Button>
+        <div className="form-submit-button wrapped">
+            <Button className="form-submit-button__button" submit style={ButtonStyle.Primary} color={color} onClick={onClick}>
+                {label}
+            </Button>
+        </div>
     )
 }
