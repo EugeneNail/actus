@@ -6,24 +6,18 @@ import {Link} from "@inertiajs/react";
 import selectColor from "../../service/select-color";
 
 type Props = {
-    label: string
-    color: Color,
     icon: string,
     to: string
 }
 
-export default function HeaderLink({label, color, icon, to}: Props) {
+export default function HeaderLink({icon, to}: Props) {
     function getClass(): string {
-        return classNames(
-            "header-link",
-            selectColor(color),
-            {active: window.location.pathname.includes(to)})
+        return
     }
 
     return (
         <Link className={getClass()} href={to}>
-            <Icon className="header-link__icon" name={icon}/>
-            <p className="header-link__label">{label}</p>
+            <Icon className={classNames("header-link__icon", "header-link", {active: window.location.pathname.includes(to)})} name={icon}/>
         </Link>
     )
 }

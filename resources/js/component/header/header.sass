@@ -9,8 +9,7 @@
   transform: translateX(-50%)
   width: 100%
   max-width: 500px
-  background: $background
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.4)
+  background: $background-weak
   display: flex
   justify-content: space-between
   align-items: center
@@ -32,7 +31,7 @@
     display: grid
     place-items: center
     border-radius: 50px
-    background: $background
+    background: $background-strong
     position: relative
     top: -15px
     padding: 0
@@ -51,6 +50,7 @@
 
 
 .header-link
+  color: $header-inactive-icon
   width: 55px
   display: flex
   flex-direction: column
@@ -59,44 +59,12 @@
   border-radius: 100px
   transition: 0.3s
 
-  &:not(.active):hover
-    margin: 0
-    padding: 5px
-
-    &.green
-      color: $green
-
-    &.red
-      color: $red
-
-    &.orange
-      color: $orange
-
-    &.blue
-      color: $blue
-
-    &.accent
-      color: $accent
-
   &.active
-    &.green
-      color: $green
-
-    &.red
-      color: $red
-
-    &.orange
-      color: $orange
-
-    &.blue
-      color: $blue
-
-    &.accent
-      color: $accent-strong
+    color: $accent-strong
 
   &__icon
     font-size: 33px
-    font-variation-settings: 'FILL' 1, 'wght' 200
+    font-variation-settings: 'FILL' 1, 'wght' 300
 
   &__label
     text-align: center
