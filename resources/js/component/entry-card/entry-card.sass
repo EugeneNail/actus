@@ -1,29 +1,38 @@
 @import ../../../css/variables
 
 .entry-card
+  padding: 15px 0
   background: $background
   border-radius: 10px
   transition: 0.3s
   cursor: pointer
   overflow: hidden
 
-  @media (pointer: fine)
-    &:hover
-      background: lighten($background, 2%)
+  &__main-container
+    display: grid
+    grid-template-columns: auto 1fr
 
   &__header
     display: flex
+    flex-direction: column
     align-items: center
     gap: 10px
-    padding: 10px
+    padding: 5px 10px
+    border-right: 3px solid $background-weak
 
   &__date
-    font-size: 16px
-    text-transform: uppercase
-    color: $font-strong
+    margin-top: 10px
+    text-align: center
+    border-radius: 4px
+    padding: 2px 0
+    width: 100%
+    color: black
+    background: #888
+    font-size: 12px
+    font-weight: 500
 
   &__mood
-    font-size: 60px
+    font-size: 55px
     font-variation-settings: 'FILL' 1, 'wght' 200
 
     &.radiating
@@ -42,7 +51,7 @@
       color: $red
 
   &__weather
-    font-size: 60px
+    font-size: 55px
     font-variation-settings: 'FILL' 1, 'wght' 200
 
     &.heat
@@ -77,21 +86,16 @@
     font-size: 14px
 
   &__collections
-    border-top: 1px solid $delimiter
-    padding: 15px
+    padding: 0 10px
 
   &__diary
     text-align: justify
     position: relative
-    border-top: 1px solid $delimiter
     padding: 25px 15px
     white-space: pre-line
     font-size: 12px
     overflow: hidden
     color: darken($font-strong, 10%)
-
-  &__photos
-    border-top: 1px solid $delimiter
 
   &__photos-grid
     margin: 20px 15px 15px
@@ -112,15 +116,12 @@
     object-fit: cover
 
 .entry-card-collection
-  margin-top: 7px
-  border-bottom: 1px dashed $delimiter
-
   &:last-child
     border-bottom: none
 
   &__name
     display: inline-block
-    font-size: 13px
+    font-size: 10px
     font-weight: bold
 
     &.red
@@ -141,7 +142,6 @@
     &.purple
       color: $purple
 
-
   &__activities
     margin-top: 2px
     gap: 0 10px
@@ -160,5 +160,5 @@
     height: 25px
 
   &__name
-    font-size: 12px
+    font-size: 10px
     color: darken($font-strong, 10%)
