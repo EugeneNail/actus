@@ -1,20 +1,15 @@
 @import ../../../css/variables
 
 .date-picker
-  margin-bottom: 80px
-
-  &__preview
 
   &__label
+    user-select: none
     display: flex
-    gap: 10px
     justify-content: center
-    pointer-events: none
     color: $font-strong
 
-    &.active
-      color: $accent-strong
-      pointer-events: auto
+  &__dropdown
+    font-size: 30px
 
   &__error
     text-align: center
@@ -22,13 +17,10 @@
     color: $red
 
   &__date
+    margin-top: 5px
     cursor: pointer
-    font-size: 20px
-    margin-top: 1px
+    font-size: 14px
     color: inherit
-
-  &__label.active &__date
-    text-decoration: underline
 
   &__input
     display: none

@@ -75,7 +75,7 @@ export function DatePicker({className, active, name, value, disabled, error, onC
 
     function setDate(year: number, month: number, day: number) {
         const input = document.getElementById(name) as HTMLInputElement
-        input.defaultValue = new Date(year, month, day+ 1).toISOString().split("T")[0]
+        input.defaultValue = new Date(year, month, day + 1).toISOString().split("T")[0]
         input.dispatchEvent(new Event('input', {bubbles: true}))
         toggleCalendar()
     }
@@ -132,12 +132,9 @@ export function DatePicker({className, active, name, value, disabled, error, onC
 
     return (
         <div className={className}>
-            <div className="date-picker__preview" onClick={toggleCalendar}>
-                <div className={classNames("date-picker__label", {active: active})} >
-                    <Icon className="date-picker__icon" name="event"/>
-                    <p className="date-picker__date">{getDate()}</p>
-                </div>
-                <p className="date-picker__error">{error}</p>
+            <div className="date-picker__label">
+                <p className="date-picker__date" onClick={toggleCalendar}>{getDate()}</p>
+                {active && <Icon className="date-picker__dropdown" name="arrow_drop_down"/>}
             </div>
             <input type="text" id={name} name={name} className="date-picker__input" onChange={onChange}/>
             {isVisible && <div className="date-picker__cover" onClick={toggleCalendar}></div>}
@@ -164,12 +161,12 @@ export function DatePicker({className, active, name, value, disabled, error, onC
                     <div className="date-picker__day weekday">Вс</div>
                     {days && days.map(day => (
                         <div key={Math.random()}
-                            className={classNames(
-                            "date-picker__day",
-                            {filler: day == undefined},
-                            {selected: checkSelection(year, month, day)},
-                            {unavailable: checkUnavailability(year, month, day)}
-                        )}
+                             className={classNames(
+                                 "date-picker__day",
+                                 {filler: day == undefined},
+                                 {selected: checkSelection(year, month, day)},
+                                 {unavailable: checkUnavailability(year, month, day)}
+                             )}
                              onClick={() => setDate(year, month, day)}>
                             {day ?? 0}
                         </div>
