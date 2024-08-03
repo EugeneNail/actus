@@ -10,6 +10,10 @@ use App\Services\Entry\EntryService;
 use App\Services\Entry\EntryServiceInterface;
 use App\Services\Photo\PhotoService;
 use App\Services\Photo\PhotoServiceInterface;
+use App\Services\Statistics\StatisticsCollector;
+use App\Services\Statistics\StatisticsCollectorInterface;
+use App\Services\Statistics\StatisticsService;
+use App\Services\Statistics\StatisticsServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ActivityServiceInterface::class, ActivityService::class);
         $this->app->bind(EntryServiceInterface::class, EntryService::class);
         $this->app->bind(PhotoServiceInterface::class, PhotoService::class);
+        $this->app->bind(StatisticsCollectorInterface::class, StatisticsCollector::class);
+        $this->app->bind(StatisticsServiceInterface::class, StatisticsService::class);
     }
 
     /**

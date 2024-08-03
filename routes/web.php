@@ -8,6 +8,7 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StatisticsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -73,6 +74,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/diaries', [ExportController::class, 'diaries']);
         Route::get('/photos', [ExportController::class, 'photos']);
     });
+
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
 
     Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
 });
