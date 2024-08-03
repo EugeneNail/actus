@@ -1,14 +1,17 @@
 @import ../../../css/variables
 
 .form
-  padding-top: 60px
-  padding-bottom: 76px
+  padding-top: 50px
+  padding-bottom: 66px
   border-radius: 20px
   min-height: 100vh
 
   &-header
+    z-index: 1
     height: 40px
     width: min(100%, 500px)
+    left: 50%
+    transform: translateX(-50%)
     padding: 0 15px
     background: $background-strong
     position: fixed
@@ -25,11 +28,8 @@
     color: $font-medium !important
     font-size: 18px
 
-
-
   &-title
     grid-area: title
-
 
   &-options
     grid-area: options
@@ -38,13 +38,21 @@
       color: $font-medium
       font-size: 20px
 
+  &-content
+    display: flex
+    flex-direction: column
+    gap: 15px
+    margin-bottom: 30px
+
   &-submit-button
+    margin: 0 auto
     width: min(100%, 500px)
     padding: 10px 15px
     position: fixed
+    left: 50%
+    transform: translateX(-50%)
     bottom: 0
     background: $background
-    left: inherit
 
     &__button
       width: 100%

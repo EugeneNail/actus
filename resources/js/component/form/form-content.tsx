@@ -7,7 +7,7 @@ type Props = {
 
 export default function FormContent({children}: Props) {
     return (
-        <div className="form__content wrapped">
+        <div className="form-content wrapped">
             {children}
         </div>
     );

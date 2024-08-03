@@ -1,5 +1,4 @@
 import Form from "../../component/form/form";
-import FormButtons from "../../component/form/form-button-container";
 import FormBackButton from "../../component/form/form-back-button";
 import FormSubmitButton from "../../component/form/form-submit-button";
 import React, {useEffect} from "react";
@@ -12,10 +11,14 @@ import WeatherSelect from "../../component/weather-select/weather-select";
 import {Mood} from "../../model/mood";
 import {Weather} from "../../model/weather";
 import {useFormState} from "../../hooks/use-form-state";
-import withLayout from "../../Layout/default-layout";
-import {Head} from "@inertiajs/react";
+import {Head, router} from "@inertiajs/react";
 import PhotoUploader from "../../component/photo-uploader/photo-uploader";
 import axios from "axios";
+import FormContent from "../../component/form/form-content";
+import FormHeader from "../../component/form/form-header";
+import FormTitle from "../../component/form/form-title";
+import FormOptions from "../../component/form/form-options";
+import Icon from "../../component/icon/icon";
 
 
 interface Payload {
@@ -35,7 +38,7 @@ type Props = {
 }
 
 
-function Save({entry, collections}: Props) {
+export default function Save({entry, collections}: Props) {
     const willStore = window.location.pathname.includes("/new")
     const {data, setData, setField, errors, post, put} = useFormState<Payload>()
 
@@ -104,22 +107,25 @@ function Save({entry, collections}: Props) {
 
 
     return (
-        <div className="save-entry-page page">
+        <div className="save-entry-page">
             <Head title={willStore ? "Новая запись" : data.date?.split('T')[0]}/>
-            <Form title={willStore ? "Новая запись" : "Запись"} noBackground>
-                <DatePicker active={willStore} name="date" value={data.date ?? new Date().toISOString()} disabled={!willStore} error={errors.date} onChange={setField}/>
-                <MoodSelect name="mood" value={data.mood ?? Mood.Neutral} onChange={setField}/>
-                <WeatherSelect name="weather" value={data.weather ?? Weather.Sunny} onChange={setField}/>
-                <ActivityPicker collections={collections} value={data.activities ?? []} toggleActivity={addActivity}/>
-                <Diary name="diary" max={5000} value={data.diary ?? ""} onChange={setField}/>
-                <PhotoUploader name="photos[]" values={data.photos} deletePhoto={deletePhoto} onPhotosUploaded={addPhotos}/>
-                <FormButtons>
+            <Form>
+                <FormHeader>
                     <FormBackButton/>
-                    <FormSubmitButton label="Сохранить" onClick={save}/>
-                </FormButtons>
+                    <FormTitle>
+                        <DatePicker active={willStore} name="date" value={data.date ?? new Date().toISOString()} disabled={!willStore} error={errors.date} onChange={setField}/>
+                    </FormTitle>
+                    <FormOptions icon="settings" onClick={() => router.get("/entries/new")}/>
+                </FormHeader>
+                <FormContent>
+                    <MoodSelect name="mood" value={data.mood ?? Mood.Neutral} onChange={setField}/>
+                    <WeatherSelect name="weather" value={data.weather ?? Weather.Sunny} onChange={setField}/>
+                    <ActivityPicker collections={collections} value={data.activities ?? []} toggleActivity={addActivity}/>
+                    <Diary name="diary" max={5000} value={data.diary ?? ""} onChange={setField}/>
+                    <PhotoUploader name="photos[]" values={data.photos} deletePhoto={deletePhoto} onPhotosUploaded={addPhotos}/>
+                </FormContent>
+                <FormSubmitButton label="Сохранить" onClick={save}/>
             </Form>
         </div>
     )
 }
-
-export default withLayout(Save);

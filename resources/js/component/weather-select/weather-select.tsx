@@ -36,7 +36,6 @@ export default function WeatherSelect({name, value, onChange}: Props) {
     return (
         <div className="weather-select">
             <input name={name} id={name} type="text" className="weather-select__input" onChange={onChange}/>
-            <p className="weather-select__label">Как погода?</p>
             <div className="weather-select__weathers">
                 <Icon className={getWeatherClassName(Weather.Heat)} name={WeatherIcons[Weather.Heat]} onClick={() => setWeather(Weather.Heat)} />
                 <Icon className={getWeatherClassName(Weather.Sunny)} name={WeatherIcons[Weather.Sunny]} onClick={() => setWeather(Weather.Sunny)} />

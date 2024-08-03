@@ -143,12 +143,8 @@ export function DatePicker({className, active, name, value, disabled, error, onC
                     <p className="date-picker__calendar-label">
                         {monthNames[month]} {year}
                     </p>
-                    <Button className="date-picker__button" color={Color.Accent} style={ButtonStyle.Secondary} even onClick={() => goTo(true)}>
-                        <Icon bold name="west"/>
-                    </Button>
-                    <Button className="date-picker__button" color={Color.Accent} style={ButtonStyle.Secondary} even onClick={() => goTo()}>
-                        <Icon bold name="east"/>
-                    </Button>
+                        <Icon bold name="arrow_back_ios" onClick={() => goTo(true)}/>
+                        <Icon bold name="arrow_forward_ios" onClick={() => goTo()}/>
                 </div>
 
                 <div className="date-picker__days">
