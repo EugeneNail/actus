@@ -27,7 +27,8 @@ export default function Delete({activityName, activityId, collectionId}: Props) 
                 </FormHeader>
                 <FormContent>
                     <p className="justified">Удаление активности "{activityName}" также удалит ее из всех ваших записей.</p>
-                    <p className="justified">Это действие необратимо. Вы действительно хотите удалить активность?</p>
+                    <p className="justified">Это действие необратимо.</p>
+                    <p className="justified">Вы действительно хотите удалить активность?</p>
                 </FormContent>
                 <FormSubmitButton label="Удалить" color={Color.Red} onClick={() => router.delete(`/collections/${collectionId}/activities/${activityId}`)}/>
             </Form>

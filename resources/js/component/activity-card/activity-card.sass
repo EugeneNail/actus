@@ -1,9 +1,8 @@
 @import ../../../css/variables
 
 .activity-card
-  width: 80px
+  width: 70px
   cursor: pointer
-  border-radius: 10px
   display: flex
   flex-direction: column
   align-items: center
@@ -13,15 +12,18 @@
     background: lighten($background, 3%)
 
   &__icon-container
+    width: 45px
+    height: 45px
+    border-radius: 100px
+    background: $inactive-activity
+    padding: 2px
     display: grid
     place-items: center
     aspect-ratio: 1 / 1
-    border-radius: 10px
     transition: 0.3s
 
   &__icon
-    width: 50px
-    height: 50px
+    width: 100%
 
   &__name
     text-align: center

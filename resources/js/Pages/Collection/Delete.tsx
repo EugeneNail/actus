@@ -7,28 +7,33 @@ import FormSubmitButton from "../../component/form/form-submit-button";
 import {Color} from "../../model/color";
 import {Head, router} from "@inertiajs/react";
 import withLayout from "../../Layout/default-layout";
+import FormContent from "../../component/form/form-content";
+import FormHeader from "../../component/form/form-header";
+import FormTitle from "../../component/form/form-title";
 
 type Props = {
     id: number,
     name: string,
-    color: Color
     activityCount: number
 }
 
-export default withLayout(Delete);
-function Delete({id, name, color, activityCount}: Props) {
-    console.log(color)
+export default function Delete({id, name, activityCount}: Props) {
     return (
         <div className="delete-collection-page page">
             <Head title={name}/>
-            <Form title={`Удалить коллекцию "${name}"?`}>
-                <p className="justified">Удаление коллекции удалит все ее активности ({activityCount}).</p>
-                <br/>
-                <p className="justified">Активности также будут удалены из всех ваших записей. Это действие необратимо. Вы действительно хотите удалить коллекцию?</p>
-                <FormButtons>
-                    <FormBackButton color={color}/>
-                    <FormSubmitButton label="Удалить" color={Color.Red} onClick={() => router.delete(`/collections/${id}`)}/>
-                </FormButtons>
+            <Form>
+                <FormHeader>
+                    <FormBackButton/>
+                    <FormTitle>
+                        {name}
+                    </FormTitle>
+                </FormHeader>
+                <FormContent>
+                    <p className="justified">Удаление коллекции удалит все ее активности ({activityCount}).</p>
+                    <p className="justified">Активности также будут удалены из всех ваших записей. Это действие необратимо.</p>
+                    <p className="justified">Вы действительно хотите удалить коллекцию?</p>
+                </FormContent>
+                <FormSubmitButton label="Удалить" color={Color.Red} onClick={() => router.delete(`/collections/${id}`)}/>
             </Form>
         </div>
     )
