@@ -1,0 +1,66 @@
+@import ../../../css/variables
+
+.table-activity
+  display: flex
+  gap: 10px
+
+  &__icon
+    width: 30px
+    height: 30px
+
+  &__occurrences
+    position: relative
+    display: flex
+    width: 100%
+
+  &__name
+    top: 50%
+    color: #FFFFFF22
+    position: absolute
+    left: 10px
+    transform: translateY(-50%)
+
+
+  &__occurrence
+    border-radius: 3px
+    border: 1px solid $background
+    aspect-ratio: 1 / 1
+    width: 100%
+
+    &.red
+      background: $red-weak
+
+    &.yellow
+      background: $yellow-weak
+
+    &.orange
+      background: $orange-weak
+
+    &.green
+      background: $green-weak
+
+    &.blue
+      background: $blue-weak
+
+    &.purple
+      background: $purple-weak
+
+    &.active
+
+      &.red
+        background: $red
+
+      &.yellow
+        background: $yellow
+
+      &.orange
+        background: $orange
+
+      &.green
+        background: $green
+
+      &.blue
+        background: $blue
+
+      &.purple
+        background: $purple
