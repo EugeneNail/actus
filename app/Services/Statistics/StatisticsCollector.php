@@ -39,6 +39,6 @@ class StatisticsCollector implements StatisticsCollectorInterface
             $tableCollections[$activity->collectionId]->activities[] = $activity;
         }
 
-        return $tableCollections;
+        return $tableCollections->values();
     }
 }
