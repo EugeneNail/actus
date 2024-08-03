@@ -12,50 +12,18 @@ input:-webkit-autofill
   &:first-child
     margin-top: 0
 
-  &__icon-container
-    transition: 0.3s
-    height: 80%
-    border-radius: 8px
-    padding: 0 6px
-    display: flex
-    align-items: center
-
-  &.red &__icon-container
-    background: $red-weak
-    color: $red
-
-  &.orange &__icon-container
-    background: $orange-weak
-    color: $orange
-
-  &.yellow &__icon-container
-    background: $yellow-weak
-    color: $yellow
-
-  &.green &__icon-container
-    background: $green-weak
-    color: $green
-
-  &.blue &__icon-container
-    background: $blue-weak
-    color: $blue
-
-  &.purple &__icon-container
-    background: $purple-weak
-    color: $purple
-
-  &.accent &__icon-container
-    background: $accent-weak
-    color: $accent-strong
-
-
   &__content
+    background: $background-weak
     width: 100%
-    border-radius: 8px 8px 0 0
-    grid-template-columns: auto 1fr auto
+    border-radius: 8px 8px
+    border: 1px solid lighten($background-weak, 10%)
+    grid-template-columns: 1fr auto
     display: grid
     place-items: center
     gap: 18px
+
+  &:has(&__input:focus) &__content
+    border: 1px solid $accent
 
   &__input-container
     position: relative
@@ -63,9 +31,8 @@ input:-webkit-autofill
     width: 100%
 
   &__input
-    border-bottom: 3px darken($delimiter, 11%) solid
     font-size: 20px
-    padding: 13px 0
+    padding: 15px 15px
     height: 100%
     width: 100%
     background: none
@@ -78,28 +45,6 @@ input:-webkit-autofill
     &:focus::placeholder
       color: transparent
 
-  &.red &__input:focus
-    border-bottom: 3px $red solid
-
-  &.orange &__input:focus
-    border-bottom: 3px $orange solid
-
-  &.yellow &__input:focus
-    border-bottom: 3px $yellow solid
-
-  &.green &__input:focus
-    border-bottom: 3px $green solid
-
-  &.blue &__input:focus
-    border-bottom: 3px $blue solid
-
-  &.purple &__input:focus
-    border-bottom: 3px $purple solid
-
-  &.accent &__input:focus
-    border-bottom: 3px $accent-strong solid
-
-
   &__visibility
     font-variation-settings: 'FILL' 0, 'wght' 300
     cursor: pointer
@@ -107,6 +52,7 @@ input:-webkit-autofill
     width: 30px
 
   &__error
+    margin-left: 10px
     height: 17px
     color: $red
     font-size: 12px
@@ -119,3 +65,5 @@ input:-webkit-autofill
 
   .invalid &__input:focus
     border-bottom: 3px $red solid !important
+
+

@@ -23,7 +23,7 @@ export default function IconSelectList({label, selectedIconId, group, color, set
         <div className={classNames("icon-select-list", {invisible: !isVisible})}>
             <div className="icon-select-list__header" onClick={() => setVisible(!isVisible)}>
                 <p className="icon-select-list__name">{label}</p>
-                <Icon className="icon-select-list__chevron" name={isVisible ? "keyboard_arrow_up" : "keyboard_arrow_down"}/>
+                <Icon className="icon-select-list__chevron" name={isVisible ? "keyboard_arrow_down" : "keyboard_arrow_up"}/>
             </div>
             <ul className="icon-select-list__list">
                 {ids && ids.map(id => (

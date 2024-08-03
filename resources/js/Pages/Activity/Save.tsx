@@ -1,6 +1,6 @@
 import "./Save.sass"
 import Form from "../../component/form/form";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import Field from "../../component/field/field";
 import FormButtons from "../../component/form/form-button-container";
 import FormBackButton from "../../component/form/form-back-button";
@@ -12,6 +12,11 @@ import {useFormState} from "../../hooks/use-form-state";
 import Activity from "../../model/activity";
 import {Head, router} from "@inertiajs/react";
 import withLayout from "../../Layout/default-layout";
+import FormHeader from "../../component/form/form-header";
+import FormTitle from "../../component/form/form-title";
+import FormContent from "../../component/form/form-content";
+import FormOptions from "../../component/form/form-options";
+import Icon8 from "../../component/icon8/icon8";
 
 interface Payload {
     name: string
@@ -23,11 +28,9 @@ type Props = {
     activity: Activity
 }
 
-export default withLayout(Save);
-function Save({collection, activity}: Props) {
+export default function Save({collection, activity}: Props) {
     const willStore = window.location.pathname.includes("/new")
     const {data, setData, setField, errors, post, put} = useFormState<Payload>()
-
 
     useEffect(() => {
         setData({
@@ -44,27 +47,23 @@ function Save({collection, activity}: Props) {
     }
 
 
-    function getTitle(): string {
-        return willStore ? "Новая активность" : data?.name
-    }
-
-
-    function getSubtitle(): string {
-        return `${willStore ? "" : "Активность"} коллекции "${collection.name}"`
-    }
-
-
     return (
-        <div className="save-activity-page page">
+        <div className="save-activity-page">
             <Head title={willStore ? "Новая активность" : data.name}/>
-            <Form title={getTitle()} subtitle={getSubtitle()}>
-                <Field name="name" label="Название" icon="webhook" color={collection.color} value={data.name} max={20} error={errors.name} onChange={setField}/>
-                <IconSelect className="save-activity-page__icon-select" name="icon" color={collection.color} value={data.icon} onChange={setField}/>
-                <FormButtons>
-                    <FormBackButton color={collection.color} />
-                    <FormSubmitButton label="Сохранить" color={collection.color} onClick={save}/>
-                    {!willStore && <FormDeleteButton onClick={() => router.get(`/collections/${collection.id}/activities/${activity.id}/delete`)}/>}
-                </FormButtons>
+            <Form>
+                <FormHeader>
+                    <FormBackButton/>
+                    <FormTitle>{willStore ? "Новая активность" : data?.name}</FormTitle>
+                    {!willStore && <FormOptions icon="delete" onClick={() => router.get(`/collections/${collection.id}/activities/${activity.id}/delete`)}/>}
+                </FormHeader>
+                <FormContent>
+                    <div className="save-activity-page__name-container">
+                        <Icon8 className="save-activity-page__icon" id={data.icon}/>
+                        <Field name="name" label="Название" value={data.name} max={20} error={errors.name} onChange={setField}/>
+                    </div>
+                    <IconSelect className="save-activity-page__icon-select" name="icon" color={collection.color} value={data.icon} onChange={setField}/>
+                </FormContent>
+                <FormSubmitButton label="Сохранить" color={collection.color} onClick={save}/>
             </Form>
         </div>
     )

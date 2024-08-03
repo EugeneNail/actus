@@ -2,12 +2,10 @@ import Icon from "../icon/icon";
 import classNames from "classnames";
 import "./field.sass"
 import React, {ChangeEvent, useEffect, useState} from "react";
-import {Color} from "../../model/color";
 import selectColor from "../../service/select-color";
 
 type FieldProps = {
     value: string
-    icon?: string
     name: string
     label: string
     max?: number
@@ -15,11 +13,10 @@ type FieldProps = {
     error?: string
     email?: boolean
     password?: boolean
-    color?: Color
     onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function Field({value, icon = "", name, label, max = 100, className, error = "", email, password, color = Color.Accent, onChange}: FieldProps) {
+export default function Field({value, name, label, max = 100, className, error = "", email, password, onChange}: FieldProps) {
     const [isVisible, setVisible] = useState(true)
 
     useEffect(() => {
@@ -30,11 +27,8 @@ export default function Field({value, icon = "", name, label, max = 100, classNa
 
 
     return (
-        <div className={classNames("field", className, selectColor(color))}>
-            <div className={classNames("field__content")}>
-                <div className="field__icon-container">
-                    <Icon name={icon}/>
-                </div>
+        <div className={classNames("field", className)}>
+            <div className={"field__content"}>
                 <input autoComplete="off"
                        value={value}
                        placeholder={label}
