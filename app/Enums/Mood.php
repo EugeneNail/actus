@@ -7,7 +7,7 @@ enum Mood: int
     case AWFUL = 1;
     case BAD = 2;
     case NEUTRAL = 3;
-    case GOOD = 4;
+    case HAPPY = 4;
     case RADIATING = 5;
 
 
@@ -16,7 +16,7 @@ enum Mood: int
             self::AWFUL => 'Ужасное',
             self::BAD => 'Плохое',
             self::NEUTRAL => 'Никакое',
-            self::GOOD => 'Хорошее',
+            self::HAPPY => 'Хорошее',
             self::RADIATING => 'Отличное',
         };
     }
