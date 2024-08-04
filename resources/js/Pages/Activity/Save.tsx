@@ -2,16 +2,13 @@ import "./Save.sass"
 import Form from "../../component/form/form";
 import React, {useEffect} from "react";
 import Field from "../../component/field/field";
-import FormButtons from "../../component/form/form-button-container";
 import FormBackButton from "../../component/form/form-back-button";
 import FormSubmitButton from "../../component/form/form-submit-button";
-import FormDeleteButton from "../../component/form/form-delete-button";
 import IconSelect from "../../component/icon-select/icon-select";
 import Collection from "../../model/collection";
 import {useFormState} from "../../hooks/use-form-state";
 import Activity from "../../model/activity";
 import {Head, router} from "@inertiajs/react";
-import withLayout from "../../Layout/default-layout";
 import FormHeader from "../../component/form/form-header";
 import FormTitle from "../../component/form/form-title";
 import FormContent from "../../component/form/form-content";
@@ -57,9 +54,9 @@ export default function Save({collection, activity}: Props) {
                     {!willStore && <FormOptions icon="delete" onClick={() => router.get(`/collections/${collection.id}/activities/${activity.id}/delete`)}/>}
                 </FormHeader>
                 <FormContent>
-                    <div className="save-activity-page__name-container">
+                    <div className="save-activity-page__name-container wrapped">
                         <Icon8 className="save-activity-page__icon" id={data.icon}/>
-                        <Field name="name" label="Название" value={data.name} max={20} error={errors.name} onChange={setField}/>
+                        <Field className="save-activity-page__field" name="name" label="Название" value={data.name} max={20} error={errors.name} onChange={setField}/>
                     </div>
                     <IconSelect className="save-activity-page__icon-select" name="icon" color={collection.color} value={data.icon} onChange={setField}/>
                 </FormContent>

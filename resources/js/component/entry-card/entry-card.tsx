@@ -49,9 +49,9 @@ export default function EntryCard({entry}: Props) {
         <div className="entry-card" onClick={() => router.get(`/entries/${entry.id}`)}>
             <div className="entry-card__main-container">
                 <div className="entry-card__header">
+                    <p className="entry-card__date">{formatDate()}</p>
                     <Icon className={moodClassName} name={MoodIcons[entry.mood]}/>
                     <Icon className={weatherClassName} name={WeatherIcons[entry.weather]}/>
-                    <p className="entry-card__date">{formatDate()}</p>
                 </div>
                 {entry.collections && entry.collections.length > 0 && <div className="entry-card__collections">
                     {entry.collections && entry.collections.map(collection =>
