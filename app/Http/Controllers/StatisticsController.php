@@ -26,8 +26,10 @@ class StatisticsController extends Controller
 
     public function index(Request $request): Response {
         $user = $request->user();
-        $nodes = $this->service->getNodes($user, 15);
-        $tableStatistics = $this->collector->forTable($nodes, $user->collections->toArray());
+        $daysAgo = 30;
+        $nodeActivities = $this->service->getActivityNodes($user, $daysAgo);
+
+        $tableStatistics = $this->collector->forTable($nodeActivities, $user->collections->toArray(), $daysAgo);
 
         return Inertia::render('Statistics/Index', [
             'table' => $tableStatistics,

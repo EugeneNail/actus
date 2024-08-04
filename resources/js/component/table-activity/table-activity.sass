@@ -2,48 +2,57 @@
 
 .table-activity
   display: flex
+  margin-top: 1px
   gap: 10px
 
   &__icon
-    width: 30px
-    height: 30px
+    width: 25px
+    height: 25px
 
   &__occurrences
     position: relative
     display: flex
     width: 100%
+    border-radius: 100px
+    overflow: hidden
 
   &__name
-    top: 50%
-    color: #FFFFFF22
+    pointer-events: none
+    place-items: center
+    text-align: center
+    color: $font-strong
     position: absolute
-    left: 10px
-    transform: translateY(-50%)
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    background: transparentize($background, .8)
+    display: none
 
+    &.visible
+      display: grid
 
   &__occurrence
-    border-radius: 3px
-    border: 1px solid $background
     aspect-ratio: 1 / 1
     width: 100%
 
     &.red
-      background: $red-weak
+      background: transparentize($red, 0.4)
 
     &.yellow
-      background: $yellow-weak
+      background: darken($yellow, 20%)
 
     &.orange
-      background: $orange-weak
+      background: darken($orange, 20%)
 
     &.green
-      background: $green-weak
+      background: darken($green, 20%)
 
     &.blue
-      background: $blue-weak
+      background: darken($blue, 20%)
 
     &.purple
-      background: $purple-weak
+      background: darken($purple, 10%)
 
     &.active
 
@@ -64,3 +73,7 @@
 
       &.purple
         background: $purple
+
+  &__occurrences &__occurrence:nth-child(11),
+  &__occurrences &__occurrence:nth-child(21)
+    margin-left: 1px

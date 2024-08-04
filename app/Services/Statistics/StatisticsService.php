@@ -10,14 +10,13 @@ use InvalidArgumentException;
 
 class StatisticsService implements StatisticsServiceInterface
 {
-    /** @return array<NodeActivity>  */
-    public function getNodes(User $user, int $daysAgo): array {
-        $today = new Carbon();
-
+    /** @return array<NodeActivity> */
+    public function getActivityNodes(User $user, int $daysAgo): array
+    {
         return $user
-            ->entries
-            ->where('date', '<=', $today)
-            ->where('date', '>', $today->subDays($daysAgo))
+            ->entries()
+            ->where('date', '>', (new Carbon())->subDays($daysAgo))
+            ->get()
             ->map($this->entryToNodeActivities(...))
             ->flatten()
             ->toArray();
@@ -25,7 +24,8 @@ class StatisticsService implements StatisticsServiceInterface
 
 
     /** @return array<NodeActivity> */
-    private function entryToNodeActivities(Entry $entry): array {
+    private function entryToNodeActivities(Entry $entry): array
+    {
         $nodes = [];
         foreach ($entry->activities as $activity) {
             $nodes[] = new NodeActivity(

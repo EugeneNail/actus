@@ -13,5 +13,5 @@ interface StatisticsCollectorInterface
      * @param array<Collection> $collections
      * @return array<TableCollection>
      * */
-    public function forTable(array $nodes, array $collections): iterable;
+    public function forTable(array $nodes, array $collections, int $daysAgo): iterable;
 }

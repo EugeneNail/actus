@@ -8,5 +8,5 @@ use App\Models\User;
 interface StatisticsServiceInterface
 {
     /** @return array<NodeActivity>  */
-    public function getNodes(User $user, int $daysAgo): array;
+    public function getActivityNodes(User $user, int $daysAgo): array;
 }

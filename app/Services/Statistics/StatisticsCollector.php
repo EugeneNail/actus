@@ -14,7 +14,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
      * @param array<Collection> $collections
      * @return array<TableCollection>
      * */
-    public function forTable(array $nodes, array $collections): iterable
+    public function forTable(array $nodes, array $collections, int $daysAgo): iterable
     {
         $tableActivities = collect($nodes)
             ->groupBy('name')
@@ -23,6 +23,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
                 $group[0]->icon,
                 collect($group)->map(fn($activity) => $activity->date->format('Y-m-d'))->toArray(),
                 $group[0]->collectionId,
+                $daysAgo
             ))
             ->flatten();
 
