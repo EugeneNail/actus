@@ -2,10 +2,15 @@
 
 namespace App\Services\Statistics;
 
+use App\Enums\Mood;
 use App\Models\Collection;
+use App\Models\Support\MoodBand;
+use App\Models\Support\MoodStatistics;
 use App\Models\Support\NodeActivity;
+use App\Models\Support\NodeEntry;
 use App\Models\Support\TableActivity;
 use App\Models\Support\TableCollection;
+use Countable;
 
 class StatisticsCollector implements StatisticsCollectorInterface
 {
@@ -41,5 +46,28 @@ class StatisticsCollector implements StatisticsCollectorInterface
         }
 
         return $tableCollections->values();
+    }
+
+
+    /** @param array<NodeEntry> $nodes */
+    public function forMoodBand(array $nodes, int $daysAgo): MoodBand
+    {
+        $total = count($nodes);
+        $groups = collect($nodes)->groupBy('mood');
+
+        return new MoodBand(
+            radiating: $this->toPercents(Mood::RADIATING, $groups, $total),
+            happy: $this->toPercents(Mood::HAPPY, $groups, $total),
+            neutral: $this->toPercents(Mood::NEUTRAL, $groups, $total),
+            bad: $this->toPercents(Mood::BAD, $groups, $total),
+            awful: $this->toPercents(Mood::AWFUL, $groups, $total),
+        );
+    }
+
+
+    private function toPercents(Mood $mood, iterable $groups, int $total): float
+    {
+        $group = $groups[$mood->value] ?? [];
+        return count($group) / $total * 100;
     }
 }

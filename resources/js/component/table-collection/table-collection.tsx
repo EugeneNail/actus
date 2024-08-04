@@ -12,7 +12,7 @@ export default function TableCollection({collection}: Props) {
     return (
         <div className="table-collection">
             <div className="table-collection__name">
-                30-дневная шкала:  {collection.name}
+                Шкала:  {collection.name}
             </div>
             <div className="table-collection__activities">
                 {collection.activities && collection.activities.length > 0 && collection.activities.map(activity =>

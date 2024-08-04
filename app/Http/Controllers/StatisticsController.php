@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Entry;
-use App\Models\Support\NodeActivity;
 use App\Services\Statistics\StatisticsCollectorInterface;
 use App\Services\Statistics\StatisticsServiceInterface;
 use Illuminate\Http\Request;
@@ -28,11 +26,14 @@ class StatisticsController extends Controller
         $user = $request->user();
         $daysAgo = 30;
         $nodeActivities = $this->service->getActivityNodes($user, $daysAgo);
+        $nodeEntries = $this->service->getEntryNodes($user, $daysAgo);
 
-        $tableStatistics = $this->collector->forTable($nodeActivities, $user->collections->toArray(), $daysAgo);
 
         return Inertia::render('Statistics/Index', [
-            'table' => $tableStatistics,
+            'table' => $this->collector->forTable($nodeActivities, $user->collections->toArray(), $daysAgo),
+            'mood' => [
+                'band' => $this->collector->forMoodBand($nodeEntries, $daysAgo),
+            ],
         ]);
     }
 }
