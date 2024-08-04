@@ -1,0 +1,102 @@
+@import ../../../css/variables
+
+.mood-band
+  background: $background-weak
+  border-radius: 15px
+  padding: 20px
+
+  &__label
+    font-size: 14px
+    font-weight: bold
+    color: $font-strong
+
+  &__moods
+    margin-top: 20px
+    display: flex
+    justify-content: space-around
+
+  &__band
+    margin-top: 15px
+    display: flex
+    overflow: hidden
+    border-radius: 100px
+
+  &__band-item
+    height: 25px
+
+    &.radiating
+      background: $green
+
+    &.happy
+      background: $yellow
+
+    &.neutral
+      background: $blue
+
+    &.bad
+      background: $orange
+
+    &.awful
+      background: $red
+
+.band-mood
+  display: flex
+  justify-content: end
+  flex-direction: column
+  align-items: center
+  gap: 5px
+  width: 50px
+
+  &__icon
+    font-size: 40px
+
+    &.radiating
+      color: $green
+
+    &.happy
+      color: $yellow
+
+    &.neutral
+      color: $blue
+
+    &.bad
+      color: $orange
+
+    &.awful
+      color: $red
+
+    &.greatest
+      font-size: 50px
+
+  &__value-container
+    border-radius: 100px
+    padding: 1px 8px
+    background: #545454
+    color: $font-medium
+
+    &.greatest
+      font-weight: bold
+
+      &.radiating
+        color: $green
+        background: transparentize($green-weak, 0.25)
+
+      &.happy
+        color: $yellow
+        background: transparentize($yellow-weak, 0.25)
+
+      &.neutral
+        color: $blue
+        background: transparentize($blue-weak, 0.25)
+
+      &.bad
+        color: $orange
+        background: transparentize($orange-weak, 0.25)
+
+      &.awful
+        color: $red
+        background: transparentize($red-weak, 0.25)
+
+  &__value
+    font-size: 10px
+    color: inherit

@@ -51,10 +51,10 @@ function Index({entries, months}: Props) {
 
 
     return (
-        <div className="entries-page page">
+        <div className="entries-page">
             <Head title='Записи'/>
             <MonthCarousel months={months}/>
-            <div className="entries-page__entries">
+            <div className="entries-page__entries wrapped">
                 {entries && canShowButton() &&
                     <div className="entries-page-button" onClick={() => router.get("/entries/new")}>
                         <div className="entries-page-button__icon-container">
