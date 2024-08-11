@@ -23,7 +23,7 @@ class PhotoExporter implements ExporterInterface
 
         return [
             $path,
-            sprintf("Фотографии %s.md", date('Y-m-d'))
+            sprintf("Фотографии %s.zip", date('Y-m-d'))
         ];
     }
 }
