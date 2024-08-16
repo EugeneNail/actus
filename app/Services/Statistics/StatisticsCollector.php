@@ -67,6 +67,10 @@ class StatisticsCollector implements StatisticsCollectorInterface
 
     private function toPercents(Mood $mood, iterable $groups, int $total): float
     {
+        if ($total == 0) {
+            return 0;
+        }
+        
         $group = $groups[$mood->value] ?? [];
         return count($group) / $total * 100;
     }
