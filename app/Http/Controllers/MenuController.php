@@ -8,7 +8,17 @@ use Inertia\Response;
 
 class MenuController extends Controller
 {
-    public function index(): Response {
-        return Inertia::render('Menu/Menu');
+    public function index(Request $request): Response {
+        $user = $request->user();
+        return Inertia::render('Menu/Menu', [
+            'user' => [
+                'name' => $user->name,
+                'id' => $user->id
+            ],
+            'counters' => [
+                'records' => $user->entries->count(),
+                'photos' => $user->photos->count()
+            ]
+        ]);
     }
 }

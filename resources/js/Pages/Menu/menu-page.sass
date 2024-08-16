@@ -1,16 +1,92 @@
 @import ../../../css/variables
 
 .menu-page
+  padding-bottom: 30px
 
-  &__menu
-    width: min(100%, 500px)
-    height: 500px
+.menu
 
-  &__group
+  & .label
+    font-weight: bold
+    font-size: 14px
+    margin-bottom: 10px
     margin-top: 30px
-    overflow: hidden
-    background: $background
-    border-radius: 10px
+    color: $font-strong
 
-    @media screen and (max-width: 500px)
-      border-radius: 0
+  & .profile
+    background: $background-weak
+    width: 100%
+    border-radius: 10px
+    padding: 15px
+    display: grid
+    grid-template-rows: 1fr 1fr
+    grid-template-columns: auto 1fr
+    align-items: center
+    gap: 0 15px
+
+    &__icon
+      color: $accent-strong !important
+      font-size: 40px
+      grid-row: 1 / 3
+
+    &__name
+      font-size: 14px
+      font-weight: bold
+      color: $font-strong
+
+    &__id
+      font-size: 12px
+
+  & .records
+    display: grid
+    grid-template-columns: 1fr 1fr
+    gap: 10px
+
+  & .record
+    cursor: pointer
+    background: $background-weak
+    border-radius: 10px
+    padding: 15px
+
+    &__label
+      font-size: 12px
+
+
+    &__value
+      color: $font-strong
+      font-weight: bold
+      font-size: 14px
+      margin-top: 5px
+
+    &__icon
+      width: fit-content
+      margin-left: auto
+      font-size: 40px
+      color: $accent-strong !important
+
+  & .exports
+    display: grid
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))
+    gap: 10px
+
+  & .export
+    background: $background-weak
+    border-radius: 10px
+    padding: 15px
+    display: flex
+    gap: 10px
+    align-items: center
+
+    &__icon
+      color: $accent-strong
+      font-size: 40px
+
+    &__filename
+      font-size: 12px
+
+  & .links
+    display: flex
+    flex-direction: column
+    gap: 10px
+
+  & .logout-link
+    margin-top: 100px
