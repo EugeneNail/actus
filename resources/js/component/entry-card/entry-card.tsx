@@ -6,7 +6,7 @@ import classNames from "classnames";
 import EntryCardCollection from "./entry-card-collection";
 import {Weather, WeatherIcons, WeatherNames} from "../../model/weather";
 import React from "react";
-import {router} from "@inertiajs/react";
+import {Link, router} from "@inertiajs/react";
 
 type Props = {
     entry: Entry
@@ -46,7 +46,7 @@ export default function EntryCard({entry}: Props) {
 
 
     return (
-        <div className="entry-card" onClick={() => router.get(`/entries/${entry.id}`)}>
+        <Link className="entry-card" href={`/entries/${entry.id}`}>
             <div className="entry-card__main-container">
                 <div className="entry-card__header">
                     <p className="entry-card__date">{formatDate()}</p>
@@ -72,6 +72,6 @@ export default function EntryCard({entry}: Props) {
                     </div>
                 </div>
             }
-        </div>
+        </Link>
     )
 }

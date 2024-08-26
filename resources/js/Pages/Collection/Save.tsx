@@ -46,7 +46,7 @@ export default function Save({id, name, color}: Payload) {
                     <FormTitle>
                         {willStore ? "Новая коллекция" : data.name}
                     </FormTitle>
-                    <FormOptions icon="delete" onClick={() => router.get(`/collections/${id}/delete`)}/>
+                    <FormOptions icon="delete" href={`/collections/${id}/delete`}/>
                 </FormHeader>
                 <FormContent>
                     <Field name="name" label="Название" value={data.name} max={20} error={errors.name} onChange={setField}/>

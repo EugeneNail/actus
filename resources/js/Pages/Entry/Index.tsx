@@ -4,7 +4,7 @@ import EntryCard from "../../component/entry-card/entry-card";
 import Entry from "../../model/entry";
 import Icon from "../../component/icon/icon";
 import withLayout from "../../Layout/default-layout";
-import {Head, router} from "@inertiajs/react";
+import {Head, Link, router} from "@inertiajs/react";
 import Month from "../../model/month";
 import MonthCarousel from "../../component/month-carousel/month-carousel";
 
@@ -56,12 +56,12 @@ function Index({entries, months}: Props) {
             {months && months.length > 0 && <MonthCarousel months={months}/> }
             <div className="entries-page__entries wrapped">
                 {entries && canShowButton() &&
-                    <div className="entries-page-button" onClick={() => router.get("/entries/new")}>
+                    <Link className="entries-page-button" href={"/entries/new"}>
                         <div className="entries-page-button__icon-container">
                             <Icon className="entries-page-button__icon" name="add"/>
                         </div>
                         <p className="entries-page-button__label">{getRandomMessage()}</p>
-                    </div>}
+                    </Link>}
                 {entries && entries.map(entry => (
                     <EntryCard key={entry.id} entry={entry}/>
                 ))}

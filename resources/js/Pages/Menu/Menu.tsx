@@ -1,6 +1,6 @@
 import "./menu-page.sass"
 import React from "react";
-import {Head, router} from "@inertiajs/react";
+import {Head, Link, router} from "@inertiajs/react";
 import withLayout from "../../Layout/default-layout";
 import Icon from "../../component/icon/icon";
 import MenuLink from "../../component/menu-option/menu-link";
@@ -29,11 +29,11 @@ function Menu({user, counters}: Props) {
                 </div>
                 <h2 className="label">Мои записи</h2>
                 <div className="records">
-                    <div className="record" onClick={() => router.get("/entries")}>
+                    <Link className="record" href={"/entries"}>
                         <p className="record__label">Записано дней</p>
                         <p className="record__value">{counters?.records ?? 0}</p>
                         <Icon className="record__icon" name="calendar_month"/>
-                    </div>
+                    </Link>
                     <div className="record">
                         <p className="record__label">Загружено фотографий</p>
                         <p className="record__value">{counters?.photos ?? 0}</p>

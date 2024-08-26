@@ -3,7 +3,7 @@ import React from "react";
 import Collection from "../../model/collection";
 import CollectionCard from "../../component/collection-card/collection-card";
 import Icon from "../../component/icon/icon";
-import {Head, router} from "@inertiajs/react";
+import {Head, Link, router} from "@inertiajs/react";
 import withLayout from "../../Layout/default-layout";
 
 type Props = {
@@ -19,12 +19,12 @@ function Index({collections}: Props) {
                 <CollectionCard key={collection.id} collection={collection}/>
             )}
             {(collections == null || collections.length < 20) &&
-                <div className="collections-page-button" onClick={() => router.get("/collections/new")}>
+                <Link className="collections-page-button" href={"/collections/new"}>
                     <div className="collections-page-button__title-container">
                         <Icon name="add" className="collections-page-button__icon" bold/>
                         <p className="collections-page-button__label">Добавить коллекцию</p>
                     </div>
-                </div>}
+                </Link>}
         </div>
     )
 }

@@ -51,7 +51,7 @@ export default function Save({collection, activity}: Props) {
                 <FormHeader>
                     <FormBackButton/>
                     <FormTitle>{willStore ? "Новая активность" : data?.name}</FormTitle>
-                    {!willStore && <FormOptions icon="delete" onClick={() => router.get(`/collections/${collection.id}/activities/${activity.id}/delete`)}/>}
+                    {!willStore && <FormOptions icon="delete" href={`/collections/${collection.id}/activities/${activity.id}/delete`}/>}
                 </FormHeader>
                 <FormContent>
                     <div className="save-activity-page__name-container wrapped">

@@ -115,7 +115,7 @@ export default function Save({entry, collections}: Props) {
                     <FormTitle>
                         <DatePicker active={willStore} name="date" value={data.date ?? new Date().toISOString()} disabled={!willStore} error={errors.date} onChange={setField}/>
                     </FormTitle>
-                    <FormOptions icon="settings" onClick={() => router.get("/collections")}/>
+                    <FormOptions icon="settings" href={"/collections"}/>
                 </FormHeader>
                 <FormContent>
                     <MoodSelect name="mood" value={data.mood ?? Mood.Neutral} onChange={setField}/>
