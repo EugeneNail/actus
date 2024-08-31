@@ -21,9 +21,15 @@ class EntryService implements EntryServiceInterface
     {
         $month = $month ?? date('m');
         $year = $year ?? date('Y');
-        $startDate = date("$year-$month-01");
-        $month++;
-        $endDate = date("$year-$month-01");
+        $startDate = "$year-$month-01";
+        $endDate = sprintf(
+            '%s-%s-%s',
+            $year,
+            $month,
+            date('t', strtotime($startDate))
+        );
+
+
         $user = Auth::user();
         $collectionsById = $user->collections->keyBy('id');
 
@@ -31,7 +37,7 @@ class EntryService implements EntryServiceInterface
             ->entries()
             ->with(['activities', 'photos'])
             ->where('date', '>=', $startDate)
-            ->where('date', '<', $endDate)
+            ->where('date', '<=', $endDate)
             ->orderByDesc('date')
             ->get()
             ->map(fn($entry) => new IndexEntry(
