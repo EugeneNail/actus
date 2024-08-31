@@ -28,7 +28,9 @@ export default function Diary({className, name, max, value, onChange}: Props) {
                       id={name}
                       onChange={onChange}
                       autoComplete="off"
-                      autoCorrect="on"
+                      autoCorrect="off"
+                      autoCapitalize="off"
+                      spellCheck="false"
                       onInput={resizeToContent}
                       maxLength={max}/>
             <p className="diary__limit">{value.length} / {max}</p>
