@@ -78,7 +78,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
     public function forMoodChart(array $nodes): iterable
     {
         return collect($nodes)
-            ->sortBy(['month', 'day'])
+            ->sortByDesc(['month', 'day'])
             ->map(fn ($node) => $node->mood)
             ->values()
             ->toArray();
