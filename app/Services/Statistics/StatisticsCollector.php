@@ -5,20 +5,18 @@ namespace App\Services\Statistics;
 use App\Enums\Mood;
 use App\Models\Collection;
 use App\Models\Support\MoodBand;
-use App\Models\Support\MoodStatistics;
 use App\Models\Support\NodeActivity;
 use App\Models\Support\NodeEntry;
 use App\Models\Support\TableActivity;
 use App\Models\Support\TableCollection;
-use Countable;
 
 class StatisticsCollector implements StatisticsCollectorInterface
 {
     /**
      * @param array<NodeActivity> $nodes
      * @param array<Collection> $collections
-     * @return array<TableCollection>
-     * */
+     * @return iterable<TableCollection>
+     */
     public function forTable(array $nodes, array $collections, int $daysAgo): iterable
     {
         $tableActivities = collect($nodes)
@@ -50,7 +48,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
 
 
     /** @param array<NodeEntry> $nodes */
-    public function forMoodBand(array $nodes, int $daysAgo): MoodBand
+    public function forMoodBand(array $nodes): MoodBand
     {
         $total = count($nodes);
         $groups = collect($nodes)->groupBy('mood');
@@ -70,8 +68,19 @@ class StatisticsCollector implements StatisticsCollectorInterface
         if ($total == 0) {
             return 0;
         }
-        
+
         $group = $groups[$mood->value] ?? [];
         return count($group) / $total * 100;
+    }
+
+
+    /** @return iterable<int> */
+    public function forMoodChart(array $nodes): iterable
+    {
+        return collect($nodes)
+            ->sortBy(['month', 'day'])
+            ->map(fn ($node) => $node->mood)
+            ->values()
+            ->toArray();
     }
 }

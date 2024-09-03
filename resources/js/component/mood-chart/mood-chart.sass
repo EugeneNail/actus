@@ -1,0 +1,45 @@
+@import ../../../css/variables
+
+.mood-chart
+  background: $background-weak
+  border-radius: 15px
+  padding: 20px
+
+  &__label
+    font-size: 14px
+    font-weight: bold
+    color: $font-strong
+
+  &__wrapper
+    gap: 10px
+    display: grid
+    grid-template-columns: auto 1fr
+
+  &__moods
+    display: grid
+    grid-template-rows: repeat(5, 1fr)
+    place-items: center
+    margin-top: 20px
+
+  &__chart
+    width: 100%
+    margin-top: 20px
+    display: grid
+    align-items: end
+    grid-template-columns: repeat(auto-fill, 3.3%)
+
+  &__mood
+    &.radiating
+      color: $green !important
+
+    &.happy
+      color: $yellow !important
+
+    &.neutral
+      color: $blue !important
+
+    &.bad
+      color: $orange
+
+    &.awful
+      color: $red

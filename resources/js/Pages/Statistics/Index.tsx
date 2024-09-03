@@ -5,11 +5,13 @@ import TableCollection from "../../model/table-collection";
 import TableStatistics from "../../component/table-statistics/table-statistics";
 import MoodBand from "../../component/mood-band/mood-band";
 import MoodBandData from "../../model/mood-band-data";
+import MoodChart from "../../component/mood-chart/mood-chart";
 
 type Props = {
     table: TableCollection[]
     mood: {
-        band: MoodBandData
+        band: MoodBandData,
+        chart: number[]
     }
 }
 
@@ -19,6 +21,7 @@ function Index({table, mood}: Props) {
         <div className="statistics-page">
             <div className="statistics-page__statistics wrapped">
                 <MoodBand values={mood.band}/>
+                <MoodChart values={mood.chart}/>
                 <TableStatistics data={table}/>
             </div>
         </div>

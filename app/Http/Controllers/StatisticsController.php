@@ -28,11 +28,11 @@ class StatisticsController extends Controller
         $nodeActivities = $this->service->getActivityNodes($user, $daysAgo);
         $nodeEntries = $this->service->getEntryNodes($user, $daysAgo);
 
-
         return Inertia::render('Statistics/Index', [
             'table' => $this->collector->forTable($nodeActivities, $user->collections->toArray(), $daysAgo),
             'mood' => [
-                'band' => $this->collector->forMoodBand($nodeEntries, $daysAgo),
+                'band' => $this->collector->forMoodBand($nodeEntries),
+                'chart' => $this->collector->forMoodChart($nodeEntries)
             ],
         ]);
     }
