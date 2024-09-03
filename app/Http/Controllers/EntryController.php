@@ -33,8 +33,15 @@ class EntryController extends Controller
     }
 
 
-    public function index(IndexRequest $request): Response
+    public function index(IndexRequest $request): Response | RedirectResponse
     {
+        if ($request->missing('month') || $request->missing('year')) {
+            return redirect()->route('entries.index', [
+                'month' => (int)date('m'),
+                'year' => date('Y')
+            ]);
+        }
+
         return Inertia::render('Entry/Index', [
             'entries' => $this->entryService->collectForIndex($request->month, $request->year),
             'months' => $this->entryService->collectMonthData($request->user()),
