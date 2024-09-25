@@ -18,7 +18,7 @@ class MarkdownExporter implements ExporterInterface
         $file = Str::uuid();
         Storage::put($file, '');
 
-        foreach($user->entries->sortByDesc('date') as $entry) {
+        foreach($user->entries->sortBy('date') as $entry) {
             $this->write($entry, $file);
         }
 
