@@ -12,6 +12,10 @@ class Photo extends Model
 
     public $timestamps = false;
 
+    protected $primaryKey = 'name';
+
+    protected $keyType = 'string';
+
     protected $fillable = [
         'name',
         'user_id'
