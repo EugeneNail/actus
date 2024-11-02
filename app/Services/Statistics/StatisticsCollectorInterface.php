@@ -3,6 +3,7 @@
 namespace App\Services\Statistics;
 
 use App\Models\Collection;
+use App\Models\Support\FrequentActivity;
 use App\Models\Support\MoodBand;
 use App\Models\Support\MoodChartNode;
 use App\Models\Support\NodeActivity;
@@ -22,6 +23,15 @@ interface StatisticsCollectorInterface
     /** @param array<NodeEntry> $nodes */
     public function forMoodBand(array $nodes): MoodBand;
 
-    /** @return iterable<int>*/
+    /**
+     * @param array<NodeEntry> $nodes
+     * @return iterable<int>
+     */
     public function forMoodChart(array $nodes): iterable;
+
+    /**
+     * @param array<NodeActivity> $nodes
+     * @return iterable<FrequentActivity>
+     */
+    public function forFrequency(array $nodes, int $limit): iterable;
 }

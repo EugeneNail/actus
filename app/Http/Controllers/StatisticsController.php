@@ -10,6 +10,10 @@ use Inertia\Response;
 
 class StatisticsController extends Controller
 {
+    const OFFSET_MONTH = 30;
+
+    const OFFSET_YEAR = 365;
+
     private StatisticsCollectorInterface $collector;
 
     private StatisticsServiceInterface $service;
@@ -24,16 +28,18 @@ class StatisticsController extends Controller
 
     public function index(Request $request): Response {
         $user = $request->user();
-        $daysAgo = 30;
-        $nodeActivities = $this->service->getActivityNodes($user, $daysAgo);
-        $nodeEntries = $this->service->getEntryNodes($user, $daysAgo);
+        $monthNodeActivities = $this->service->getActivityNodes($user, self::OFFSET_MONTH);
+        $monthNodeEntries = $this->service->getEntryNodes($user, self::OFFSET_MONTH);
+
+        $yearNodeActivities = $this->service->getActivityNodes($user, self::OFFSET_YEAR);
 
         return Inertia::render('Statistics/Index', [
-            'table' => $this->collector->forTable($nodeActivities, $user->collections->toArray(), $daysAgo),
+            'table' => $this->collector->forTable($monthNodeActivities, $user->collections->toArray(), self::OFFSET_MONTH),
             'mood' => [
-                'band' => $this->collector->forMoodBand($nodeEntries),
-                'chart' => $this->collector->forMoodChart($nodeEntries)
+                'band' => $this->collector->forMoodBand($monthNodeEntries),
+                'chart' => $this->collector->forMoodChart($monthNodeEntries)
             ],
+            'frequency' => $this->collector->forFrequency($yearNodeActivities, 5)
         ]);
     }
 }

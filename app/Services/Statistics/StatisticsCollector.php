@@ -4,6 +4,7 @@ namespace App\Services\Statistics;
 
 use App\Enums\Mood;
 use App\Models\Collection;
+use App\Models\Support\FrequentActivity;
 use App\Models\Support\MoodBand;
 use App\Models\Support\NodeActivity;
 use App\Models\Support\NodeEntry;
@@ -74,7 +75,10 @@ class StatisticsCollector implements StatisticsCollectorInterface
     }
 
 
-    /** @return iterable<int> */
+    /**
+     * @param array<NodeEntry> $nodes
+     * @return iterable<int>
+     */
     public function forMoodChart(array $nodes): iterable
     {
         return collect($nodes)
@@ -82,5 +86,38 @@ class StatisticsCollector implements StatisticsCollectorInterface
             ->map(fn ($node) => $node->mood)
             ->values()
             ->toArray();
+    }
+
+
+    /**
+     * @param array<NodeActivity> $nodes
+     * @return iterable<FrequentActivity>
+     */
+    public function forFrequency(array $nodes, int $limit): iterable
+    {
+        $countedNodes = [];
+
+        foreach ($nodes as $node) {
+            $index = $node->name . $node->collectionId;
+
+            if (!isset($countedNodes[$index])) {
+                $countedNodes[$index] = [
+                    'node' => $node,
+                    'count' => 0
+                ];
+            }
+
+            $countedNodes[$index]['count']++;
+        }
+
+        return collect($countedNodes)
+            ->sortByDesc(fn ($countedNode) => $countedNode['count'])
+            ->take($limit)
+            ->map(fn ($countedNode) => [
+                'name' => $countedNode['node']->name,
+                'icon' => $countedNode['node']->icon,
+                'count' => $countedNode['count']
+            ])
+            ->values();
     }
 }
