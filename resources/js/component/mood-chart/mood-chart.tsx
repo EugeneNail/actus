@@ -38,7 +38,7 @@ export default function MoodChart({values}: Props) {
             ctx.beginPath()
             ctx.moveTo(0, stepY * i)
             ctx.lineTo(canvas.width, stepY * i)
-            ctx.strokeStyle = '#666'
+            ctx.strokeStyle = '#bbb'
             ctx.lineWidth = 1
             ctx.stroke()
         }

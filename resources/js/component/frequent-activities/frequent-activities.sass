@@ -1,14 +1,15 @@
 @import ../../../css/variables
 
 .frequent-activities
-  background: $background-weak
+  border: 1px solid $border-1
+  background: $background-3
   border-radius: 15px
   padding: 20px
 
   &__label
     font-size: 14px
     font-weight: bold
-    color: $font-strong
+    color: $font-1
 
   &__activities
     margin-top: 20px
@@ -25,15 +26,20 @@
   align-items: center
   padding: 10px
   border-radius: 5px
-  border: 1px solid $background
+  border: 1px solid $border-1
 
   &__index
     align-self: start
-    color: $font-strong
+    color: $font-1
     font-size: 12px
 
   &__icon-container
-    width: 35px
+    padding: 5px
+    width: 45px
+    border-radius: 100px
+    aspect-ratio: 1 / 1
+    background: $background-2
+    border: 1px solid $border-1
 
   &__icon
 
@@ -42,7 +48,7 @@
     text-align: center
     word-break: break-all
     font-size: 10px
-    color: $font-strong
+    color: $font-2
 
   &__count
     margin-top: 5px

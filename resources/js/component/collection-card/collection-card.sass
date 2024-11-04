@@ -2,7 +2,8 @@
 
 .collection-card
   border-radius: 20px
-  background: $background
+  background: $background-3
+  border: 1px solid $border-1
   padding-bottom: 20px
 
   &__title-container
@@ -11,13 +12,12 @@
     display: flex
     align-items: center
     justify-content: center
-    background: $background
     border-radius: 10px 10px 0 0
     transition: 0.3s
-    border-bottom: 1px $delimiter dashed
+    border-bottom: 1px $border-1 dashed
 
     &:hover
-      background: lighten($background, 2%)
+      background: darken($background-3, 2%)
 
   &__title
     pointer-events: none
@@ -25,22 +25,22 @@
     font-weight: bold
 
     &.red
-      color: $red
+      color: $red-1
 
     &.yellow
-      color: $yellow
+      color: $yellow-1
 
     &.orange
-      color: $orange
+      color: $orange-1
 
     &.green
-      color: $green
+      color: $green-1
 
     &.blue
-      color: $blue
+      color: $blue-1
 
     &.purple
-      color: $purple
+      color: $purple-1
 
   &__activities
     margin-top: 10px
@@ -59,7 +59,7 @@
     cursor: pointer
 
     &:hover
-      border: 3px solid $background
+      border: 3px solid $background-3
 
     &__icon-container
       height: 45px
@@ -69,59 +69,59 @@
       border-radius: 100px
 
     &__icon-container.red
-      outline: 2px dashed $red-weak
+      outline: 2px dashed $red-2
 
     &:hover &__icon-container.red
-      outline: 2px dashed $red
+      outline: 2px dashed $red-1
 
     &__icon-container.yellow
-      outline: 2px dashed $yellow-weak
+      outline: 2px dashed $yellow-2
 
     &:hover &__icon-container.yellow
-      outline: 2px dashed $yellow
+      outline: 2px dashed $yellow-1
 
     &__icon-container.orange
-      outline: 2px dashed $orange-weak
+      outline: 2px dashed $orange-2
 
     &:hover &__icon-container.orange
-      outline: 2px dashed $orange
+      outline: 2px dashed $orange-1
 
     &__icon-container.green
-      outline: 2px dashed $green-weak
+      outline: 2px dashed $green-2
 
     &:hover &__icon-container.green
-      outline: 2px dashed $green
+      outline: 2px dashed $green-1
 
     &__icon-container.blue
-      outline: 2px dashed $blue-weak
+      outline: 2px dashed $blue-2
 
     &:hover &__icon-container.blue
-      outline: 2px dashed $blue
+      outline: 2px dashed $blue-1
 
     &__icon-container.purple
-      outline: 2px dashed $purple-weak
+      outline: 2px dashed $purple-2
 
     &:hover &__icon-container.purple
-      outline: 2px dashed $purple
+      outline: 2px dashed $purple-1
 
     &__icon
       &.red
-        color: $red
+        color: $red-1
 
       &.orange
-        color: $orange
+        color: $orange-1
 
       &.yellow
-        color: $yellow
+        color: $yellow-1
 
       &.green
-        color: $green
+        color: $green-1
 
       &.blue
-        color: $blue
+        color: $blue-1
 
       &.purple
-        color: $purple
+        color: $purple-1
 
     &__label
       margin-top: 2px

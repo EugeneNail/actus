@@ -1,14 +1,14 @@
 @import ../../../css/variables
 
 .mood-band
-  background: $background-weak
+  background: $background-3
   border-radius: 15px
   padding: 20px
 
   &__label
     font-size: 14px
     font-weight: bold
-    color: $font-strong
+    color: $font-1
 
   &__moods
     margin-top: 20px
@@ -25,19 +25,19 @@
     height: 25px
 
     &.radiating
-      background: $green
+      background: $green-1
 
     &.happy
-      background: $yellow
+      background: $yellow-1
 
     &.neutral
-      background: $blue
+      background: $blue-1
 
     &.bad
-      background: $orange
+      background: $orange-1
 
     &.awful
-      background: $red
+      background: $red-1
 
 .band-mood
   display: flex
@@ -51,19 +51,19 @@
     font-size: 40px
 
     &.radiating
-      color: $green
+      color: $green-1
 
     &.happy
-      color: $yellow
+      color: $yellow-1
 
     &.neutral
-      color: $blue
+      color: $blue-1
 
     &.bad
-      color: $orange
+      color: $orange-1
 
     &.awful
-      color: $red
+      color: $red-1
 
     &.greatest
       font-size: 50px
@@ -71,31 +71,29 @@
   &__value-container
     border-radius: 100px
     padding: 1px 8px
-    background: #545454
-    color: $font-medium
 
     &.greatest
       font-weight: bold
 
       &.radiating
-        color: $green
-        background: transparentize($green-weak, 0.25)
+        color: $green-1
+        background: transparentize($green-2, 0.25)
 
       &.happy
-        color: $yellow
-        background: transparentize($yellow-weak, 0.25)
+        color: $yellow-1
+        background: transparentize($yellow-2, 0.25)
 
       &.neutral
-        color: $blue
-        background: transparentize($blue-weak, 0.25)
+        color: $blue-1
+        background: transparentize($blue-2, 0.25)
 
       &.bad
-        color: $orange
-        background: transparentize($orange-weak, 0.25)
+        color: $orange-1
+        background: transparentize($orange-2, 0.25)
 
       &.awful
-        color: $red
-        background: transparentize($red-weak, 0.25)
+        color: $red-1
+        background: transparentize($red-2, 0.25)
 
   &__value
     font-size: 10px

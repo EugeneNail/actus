@@ -2,11 +2,12 @@
 
 .entry-card
   padding: 15px 0
-  background: $background
+  background: $background-3
   border-radius: 10px
   transition: 0.3s
   cursor: pointer
   overflow: hidden
+  border: 1px solid $border-1
 
   &__main-container
     display: grid
@@ -18,15 +19,15 @@
     align-items: center
     gap: 10px
     padding: 5px 10px
-    border-right: 3px solid $background-weak
+    border-right: 2px solid $border-1
 
   &__date
     text-align: center
     border-radius: 4px
     padding: 2px 0
     width: 100%
-    color: black
-    background: #888
+    color: $font-1
+    background: $background-5
     font-size: 12px
     font-weight: 500
 
@@ -35,41 +36,41 @@
     font-variation-settings: 'FILL' 1, 'wght' 200
 
     &.radiating
-      color: $green
+      color: $green-1
 
     &.happy
-      color: $yellow
+      color: $yellow-1
 
     &.neutral
-      color: $blue
+      color: $blue-1
 
     &.bad
-      color: $orange
+      color: $orange-1
 
     &.awful
-      color: $red
+      color: $red-1
 
   &__weather
     font-size: 55px
     font-variation-settings: 'FILL' 1, 'wght' 200
 
     &.heat
-      color: $orange
+      color: $orange-1
 
     &.sunny
-      color: $yellow
+      color: $yellow-1
 
     &.cloudy
       color: #8d8d8d
 
     &.windy
-      color: $blue
+      color: $blue-1
 
     &.rainy
-      color: $blue
+      color: $blue-1
 
     &.thunder
-      color: $purple
+      color: $purple-1
 
     &.foggy
       color: #D3D3D3
@@ -78,7 +79,7 @@
       color: #FFFAFA
 
     &.cold
-      color: $blue
+      color: $blue-1
 
   &__weather-name
     margin-top: 5px
@@ -94,7 +95,7 @@
     white-space: pre-line
     font-size: 12px
     overflow: hidden
-    color: darken($font-strong, 10%)
+    color: $font-2
 
   &__photos-grid
     margin: 20px 15px 15px
@@ -124,22 +125,22 @@
     font-weight: bold
 
     &.red
-      color: $red
+      color: $red-1
 
     &.orange
-      color: $orange
+      color: $orange-1
 
     &.yellow
-      color: $yellow
+      color: $yellow-1
 
     &.green
-      color: $green
+      color: $green-1
 
     &.blue
-      color: $blue
+      color: $blue-1
 
     &.purple
-      color: $purple
+      color: $purple-1
 
   &__activities
     margin-top: 2px
@@ -160,4 +161,4 @@
 
   &__name
     font-size: 10px
-    color: darken($font-strong, 10%)
+    color: $font-2

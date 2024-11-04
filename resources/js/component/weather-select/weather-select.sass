@@ -1,7 +1,7 @@
 @import ../../../css/variables
 
 .weather-select
-  background: $background
+  background: $background-3
   border-radius: 10px
   padding: 10px
 
@@ -15,7 +15,7 @@
     gap: 15px
 
   &__weather
-    color: #555
+    color: $font-3
     cursor: pointer
     font-size: 55px
     font-variation-settings: 'FILL' 1, 'wght' 200
@@ -27,22 +27,22 @@
 
     &.selected
       &.heat
-        color: $orange
+        color: $orange-1
 
       &.sunny
-        color: $yellow
+        color: $yellow-1
 
       &.cloudy
         color: #8d8d8d
 
       &.windy
-        color: $blue
+        color: $blue-1
 
       &.rainy
-        color: $blue
+        color: $blue-1
 
       &.thunder
-        color: $purple
+        color: $purple-1
 
       &.foggy
         color: #D3D3D3
@@ -51,4 +51,4 @@
         color: #FFFAFA
 
       &.cold
-        color: $blue
+        color: $blue-1

@@ -1,7 +1,8 @@
 @import ../../../css/variables
 
 .mood-select
-  background: $background
+  background: $background-3
+  border: 1px solid $border-1
   padding: 10px
   border-radius: 10px
 
@@ -13,7 +14,7 @@
     margin-bottom: 5px
     text-align: center
     font-size: 12px
-    color: $font-strong
+    color: $font-1
 
   &__moods
     display: flex
@@ -22,7 +23,7 @@
     justify-content: center
 
   &__mood
-    color: #555
+    color: $font-3
     cursor: pointer
     font-size: 55px
     font-variation-settings: 'FILL' 1, 'wght' 200
@@ -34,16 +35,16 @@
 
     &.selected
       &:nth-child(1)
-        color: $green
+        color: $green-1
 
       &:nth-child(2)
-        color: $yellow
+        color: $yellow-1
 
       &:nth-child(3)
-        color: $blue
+        color: $blue-1
 
       &:nth-child(4)
-        color: $orange
+        color: $orange-1
 
       &:nth-child(5)
-        color: $red
+        color: $red-1

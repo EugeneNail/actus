@@ -1,9 +1,8 @@
 @import ../../../css/variables
 
 input:-webkit-autofill
-  -webkit-text-fill-color: $font-strong
-  -webkit-box-shadow: 0 0 0 30px $background inset !important
-
+  -webkit-text-fill-color: $font-1
+  -webkit-box-shadow: 0 0 0 30px $background-3 inset !important
 
 .field
   margin-top: 13px
@@ -13,17 +12,17 @@ input:-webkit-autofill
     margin-top: 0
 
   &__content
-    background: $background-weak
+    background: $background-3
     width: 100%
     border-radius: 8px 8px
-    border: 1px solid lighten($background-weak, 10%)
+    border: 1px solid $border-1
     grid-template-columns: 1fr auto
     display: grid
     place-items: center
     gap: 18px
 
   &:has(&__input:focus) &__content
-    border: 1px solid $accent
+    border: 1px solid $accent-2
 
   &__input-container
     position: relative
@@ -36,11 +35,11 @@ input:-webkit-autofill
     height: 100%
     width: 100%
     background: none
-    color: $font-strong
+    color: $font-1
 
     &::placeholder
       transition: 0.3s
-      color: $font-medium
+      color: $font-2
 
     &:focus::placeholder
       color: transparent
@@ -54,16 +53,16 @@ input:-webkit-autofill
   &__error
     margin-left: 10px
     height: 17px
-    color: $red
+    color: $red-1
     font-size: 12px
     margin-top: 4px
 
 .field
   .invalid &__icon-container
-    background: $red-weak !important
-    color: $red !important
+    background: $red-2 !important
+    color: $red-1 !important
 
   .invalid &__input:focus
-    border-bottom: 3px $red solid !important
+    border-bottom: 3px $red-1 solid !important
 
 

@@ -15,7 +15,7 @@
     cursor: pointer
     align-items: center
     border-radius: 10px
-    background: $accent-strong
+    background: $accent-1
     display: grid
     grid-template-columns: auto 1fr
     padding: 10px 15px
@@ -24,23 +24,23 @@
 
     @media (pointer: fine)
       &:hover
-        background: darken($accent-strong, 5%)
+        background: darken($accent-1, 5%)
 
     &__icon-container
       display: grid
       place-items: center
       width: 40px
       height: 40px
-      border: 2px solid black
+      border: 2px solid $font-4
       border-radius: 50px
 
     &__icon
       font-variation-settings: 'wght' 400 !important
-      color: black !important
+      color: $font-4 !important
       margin-left: 1px
 
     &__label
-      color: black
+      color: $font-4
       font-weight: 600
       font-size: 14px
       text-shadow: 0 0 1px gray

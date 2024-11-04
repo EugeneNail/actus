@@ -6,7 +6,7 @@
     user-select: none
     display: flex
     justify-content: center
-    color: $font-strong
+    color: $font-1
 
   &__dropdown
     font-size: 30px
@@ -14,7 +14,7 @@
   &__error
     text-align: center
     margin-top: 10px
-    color: $red
+    color: $red-1
 
   &__date
     margin-top: 5px
@@ -30,7 +30,7 @@
     z-index: 0
     width: 100%
     height: 100vh
-    background: #000000aa
+    background: #00000055
     top: 0
     left: 0
 
@@ -40,9 +40,9 @@
     transform: translateX(-50%)
     position: absolute
     top: 100%
-
+    border: 1px solid $border-1
     z-index: 2
-    background: $background
+    background: $background-3
     padding: 10px
     border-radius: 10px
 
@@ -57,7 +57,7 @@
   &__calendar-label
     font-size: 20px
     font-weight: bold
-    color: $font-strong
+    color: $font-1
     margin-left: 30px
     margin-right: auto
     text-align: center
@@ -75,25 +75,26 @@
     place-items: center
     border-radius: 5px
     cursor: pointer
-    color: $font-strong
+    color: $font-1
 
     &.weekday
       font-weight: bold
-      color: $font-medium
+      color: $font-2
       pointer-events: none
 
     @media (pointer: fine)
       &:hover
-        background: $accent-weak
+        background: $accent-1
+        color: $font-4
 
     &.filler
       pointer-events: none
       color: transparent
 
     &.selected
-      background: $accent
-      color: $font-strong
+      background: $accent-1
+      color: $font-4
 
     &.unavailable
       pointer-events: none
-      color: darken($font-medium, 15%)
+      color: lighten($font-2, 15%)

@@ -9,7 +9,8 @@
   transform: translateX(-50%)
   width: 100%
   max-width: 500px
-  background: $background-weak
+  border: 1px solid $border-1
+  background: $background-3
   display: flex
   justify-content: space-between
   align-items: center
@@ -31,7 +32,7 @@
     display: grid
     place-items: center
     border-radius: 50px
-    background: $background-weak
+    background: $background-3
     position: relative
     top: -15px
     padding: 0
@@ -46,11 +47,11 @@
 
   &__button-icon
     text-shadow: none
-    color: black
+    color: $font-4
 
 
 .header-link
-  color: $header-inactive-icon
+  color: $font-2
   width: 55px
   display: flex
   flex-direction: column
@@ -60,7 +61,7 @@
   transition: 0.3s
 
   &.active
-    color: $accent-strong
+    color: $accent-1
 
   &__icon
     font-size: 33px

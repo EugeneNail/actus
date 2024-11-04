@@ -1,14 +1,15 @@
 @import ../../../css/variables
 
 .photo-uploader
-  background: $background
+  background: $background-3
+  border: 1px solid $border-1
   border-radius: 10px
   padding: 10px
 
   &__label
     font-weight: bold
     font-size: 12px
-    color: $font-strong
+    color: $font-1
 
   &__input
     display: none
@@ -31,11 +32,11 @@
   &__delete-button
     border-radius: 15px
     aspect-ratio: 1 / 1
-    background: $font-medium
+    background: $font-3
     position: absolute
     right: 8px
     top: 8px
-    color: black
+    color: $font-1
     width: 10px
     height: 10px
     display: grid
@@ -44,7 +45,7 @@
 
     @media (pointer: fine)
       &:hover
-        background: lighten($red, 5%)
+        background: lighten($red-1, 5%)
 
   &__delete-button-icon
     font-size: 10px
@@ -57,8 +58,8 @@
 
   &__button
     padding: 10px
-    border: 1px solid lighten($background-weak, 10%)
-    background: $background-weak
+    border: 1px solid $border-1
+    background: $background-2
     border-radius: 10px
     aspect-ratio: 1 / 1
     display: grid
@@ -68,10 +69,10 @@
 
     @media (pointer: fine)
       &:hover
-        border: 1px dashed $accent-strong
+        border: 1px dashed $accent-1
 
   &__icon
-    color: $font-medium
+    color: $font-2
     font-size: 50px
 
   &__message
