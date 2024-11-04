@@ -28,8 +28,8 @@ function Index({table, mood, frequency}: Props) {
             <div className="statistics-page__statistics wrapped">
                 <MoodBand values={mood.band}/>
                 <MoodChart values={mood.chart}/>
-                {frequency.year.length > 0 && <FrequentActivities type="month" activities={frequency.year}/>}
-                {frequency.month.length > 0 && <FrequentActivities type="year" activities={frequency.month}/>}
+                {frequency.month.length > 0 && <FrequentActivities type="month" activities={frequency.month}/>}
+                {frequency.year.length > 0 && <FrequentActivities type="year" activities={frequency.year}/>}
                 <TableStatistics data={table}/>
             </div>
         </div>
