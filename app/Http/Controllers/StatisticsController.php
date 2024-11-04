@@ -28,6 +28,7 @@ class StatisticsController extends Controller
 
     public function index(Request $request): Response {
         $user = $request->user();
+
         $monthNodeActivities = $this->service->getActivityNodes($user, self::OFFSET_MONTH);
         $monthNodeEntries = $this->service->getEntryNodes($user, self::OFFSET_MONTH);
 
@@ -39,7 +40,10 @@ class StatisticsController extends Controller
                 'band' => $this->collector->forMoodBand($monthNodeEntries),
                 'chart' => $this->collector->forMoodChart($monthNodeEntries)
             ],
-            'frequency' => $this->collector->forFrequency($yearNodeActivities, 5)
+            'frequency' => [
+                'month' => $this->collector->forFrequency($monthNodeActivities, 9),
+                'year' => $this->collector->forFrequency($yearNodeActivities, 9)
+            ]
         ]);
     }
 }

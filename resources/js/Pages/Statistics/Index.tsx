@@ -15,19 +15,21 @@ type Props = {
         band: MoodBandData,
         chart: number[]
     },
-    frequency: FrequentActivity[]
+    frequency: {
+        month: FrequentActivity[],
+        year: FrequentActivity[]
+    }
 }
 
 export default withLayout(Index)
 function Index({table, mood, frequency}: Props) {
-
-    console.log(frequency)
     return (
         <div className="statistics-page">
             <div className="statistics-page__statistics wrapped">
                 <MoodBand values={mood.band}/>
                 <MoodChart values={mood.chart}/>
-                {frequency && frequency.length > 0 && <FrequentActivities activities={frequency}/>}
+                {frequency.year.length > 0 && <FrequentActivities type="month" activities={frequency.year}/>}
+                {frequency.month.length > 0 && <FrequentActivities type="year" activities={frequency.month}/>}
                 <TableStatistics data={table}/>
             </div>
         </div>
