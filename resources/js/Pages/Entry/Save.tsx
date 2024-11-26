@@ -121,7 +121,7 @@ export default function Save({entry, collections}: Props) {
                     <MoodSelect name="mood" value={data.mood ?? Mood.Neutral} onChange={setField}/>
                     <WeatherSelect name="weather" value={data.weather ?? Weather.Sunny} onChange={setField}/>
                     <ActivityPicker collections={collections} value={data.activities ?? []} toggleActivity={addActivity}/>
-                    <Diary name="diary" max={5000} value={data.diary ?? ""} onChange={setField}/>
+                    <Diary name="diary" max={10000} value={data.diary ?? ""} onChange={setField}/>
                     <PhotoUploader name="photos[]" values={data.photos} deletePhoto={deletePhoto} onPhotosUploaded={addPhotos}/>
                 </FormContent>
                 <FormSubmitButton label="Сохранить" onClick={save}/>
