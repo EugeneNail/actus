@@ -12,7 +12,7 @@ type Props = {
 
 export default function PhotoUploader({name, values, deletePhoto, onPhotosUploaded}: Props) {
     const [isUploading, setUploading] = useState(false)
-    const limit = 10
+    const limit = 15
 
     async function loadBase64Images(event: ChangeEvent<HTMLInputElement>) {
         const files = event.target.files ?? [] as File[]
