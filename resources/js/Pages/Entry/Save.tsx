@@ -19,6 +19,7 @@ import FormHeader from "../../component/form/form-header";
 import FormTitle from "../../component/form/form-title";
 import FormOptions from "../../component/form/form-options";
 import Icon from "../../component/icon/icon";
+import WorktimeSelector from "../../component/worktime-selector/worktime-selector";
 
 
 interface Payload {
@@ -26,6 +27,7 @@ interface Payload {
     mood: Mood
     date: string
     weather: Weather
+    worktime: number
     diary: string
     activities: number[]
     photos: string[]
@@ -48,6 +50,7 @@ export default function Save({entry, collections}: Props) {
             date: new Date().toISOString().split('T')[0],
             mood: Mood.Neutral,
             weather: Weather.Sunny,
+            worktime: 0,
             activities: [],
             diary: "",
             photos: []
@@ -60,6 +63,7 @@ export default function Save({entry, collections}: Props) {
                 date: entry.date,
                 weather: entry.weather,
                 diary: entry.diary,
+                worktime: entry.worktime,
                 activities: entry.activities,
                 photos: entry.photos,
             })
@@ -120,6 +124,7 @@ export default function Save({entry, collections}: Props) {
                 <FormContent>
                     <MoodSelect name="mood" value={data.mood ?? Mood.Neutral} onChange={setField}/>
                     <WeatherSelect name="weather" value={data.weather ?? Weather.Sunny} onChange={setField}/>
+                    <WorktimeSelector name='worktime' value={data.worktime} onChange={setField}/>
                     <ActivityPicker collections={collections} value={data.activities ?? []} toggleActivity={addActivity}/>
                     <Diary name="diary" max={10000} value={data.diary ?? ""} onChange={setField}/>
                     <PhotoUploader name="photos[]" values={data.photos} deletePhoto={deletePhoto} onPhotosUploaded={addPhotos}/>

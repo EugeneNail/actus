@@ -15,6 +15,7 @@ class Entry extends Model
     protected $fillable = [
         'mood',
         'weather',
+        'worktime',
         'date',
         'diary'
     ];
