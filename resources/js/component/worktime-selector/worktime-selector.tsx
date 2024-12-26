@@ -1,6 +1,8 @@
 import "./worktime-selector.sass"
 import React, {ChangeEvent} from "react";
 import classNames from "classnames";
+import {Icons8} from "../icon8/icons8";
+import Icon8 from "../icon8/icon8";
 
 type Props = {
     name: string
@@ -26,7 +28,7 @@ export default function WorktimeSelector({name, value, onChange}: Props) {
 
     return (
         <div className="worktime-selector">
-            <label htmlFor={name} className="worktime-selector__label">Сколько часов работали?</label>
+            <label htmlFor={name} className="worktime-selector__label"><Icon8 className="worktime-selector__icon" id={Icons8.WindowsClient}/> Сколько часов работали?</label>
             <input name={name} id={name} type="text" className="worktime-selector__input" onChange={onChange}/>
             <div className="worktime-selector__large-options">
                 <div className={getClassName(0, true)} onClick={() => setWorktime(0)}>Не работал</div>

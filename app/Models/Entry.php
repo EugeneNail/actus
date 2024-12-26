@@ -16,6 +16,7 @@ class Entry extends Model
         'mood',
         'weather',
         'sleeptime',
+        'weight',
         'worktime',
         'date',
         'diary',

@@ -21,6 +21,7 @@ import FormOptions from "../../component/form/form-options";
 import Icon from "../../component/icon/icon";
 import WorktimeSelector from "../../component/worktime-selector/worktime-selector";
 import SleeptimeSelector from "../../component/sleeptime-selector/sleeptime-selector";
+import WeightSelector from "../../component/weight-selector/weight-selector";
 
 
 interface Payload {
@@ -29,6 +30,7 @@ interface Payload {
     date: string
     weather: Weather
     sleeptime: number
+    weight: number
     worktime: number
     diary: string
     activities: number[]
@@ -53,6 +55,7 @@ export default function Save({entry, collections}: Props) {
             mood: Mood.Neutral,
             weather: Weather.Sunny,
             sleeptime: 1,
+            weight: 70,
             worktime: 0,
             activities: [],
             diary: "",
@@ -67,6 +70,7 @@ export default function Save({entry, collections}: Props) {
                 weather: entry.weather,
                 diary: entry.diary,
                 sleeptime: entry.sleeptime,
+                weight: entry.weight,
                 worktime: entry.worktime,
                 activities: entry.activities,
                 photos: entry.photos,
@@ -129,6 +133,7 @@ export default function Save({entry, collections}: Props) {
                     <MoodSelect name="mood" value={data.mood ?? Mood.Neutral} onChange={setField}/>
                     <WeatherSelect name="weather" value={data.weather ?? Weather.Sunny} onChange={setField}/>
                     <SleeptimeSelector name='sleeptime' value={data.sleeptime} onChange={setField}/>
+                    <WeightSelector name='weight' value={data.weight} onChange={setField}/>
                     <WorktimeSelector name='worktime' value={data.worktime} onChange={setField}/>
                     <ActivityPicker collections={collections} value={data.activities ?? []} toggleActivity={addActivity}/>
                     <Diary name="diary" max={10000} value={data.diary ?? ""} onChange={setField}/>

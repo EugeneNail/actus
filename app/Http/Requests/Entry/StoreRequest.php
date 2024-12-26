@@ -20,6 +20,7 @@ class StoreRequest extends FormRequest
             'mood' => ['required', 'numeric', 'integer', 'between:1,5'],
             'weather' => ['required', 'numeric', 'integer', 'between:1,9'],
             'sleeptime' => ['required', 'numeric', 'integer', 'between:1,10'],
+            'weight' => ['required', 'numeric', 'decimal:0,10', 'between:40,200'],
             'worktime' => ['required', 'numeric', 'integer', 'between:0,9'],
             'diary' => ['nullable', 'string', 'max:10000'],
             'activities' => ['nullable', 'array'],

@@ -1,6 +1,8 @@
 import "./sleeptime-selector.sass"
 import React, {ChangeEvent} from "react";
 import classNames from "classnames";
+import {Icons8} from "../icon8/icons8";
+import Icon8 from "../icon8/icon8";
 
 type Props = {
     name: string
@@ -25,7 +27,7 @@ export default function SleeptimeSelector({name, value, onChange}: Props) {
 
     return (
         <div className="sleeptime-selector">
-            <label htmlFor={name} className="sleeptime-selector__label">Сколько часов спали?</label>
+            <label htmlFor={name} className="sleeptime-selector__label"><Icon8 className="sleeptime-selector__icon" id={Icons8.SleepingInBed}/> Сколько часов спали?</label>
             <input name={name} id={name} type="text" className="sleeptime-selector__input" onChange={onChange}/>
             <div className="sleeptime-selector__options">
                 <div className={getClassName(1)} onClick={() => setSleeptime(1)}>1</div>
