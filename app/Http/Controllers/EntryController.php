@@ -91,6 +91,7 @@ class EntryController extends Controller
                 'date' => $entry->date,
                 'mood' => $entry->mood,
                 'weather' => $entry->weather,
+                'sleeptime' => $entry->sleeptime,
                 'worktime' => $entry->worktime,
                 'diary' => $entry->diary,
                 'activities' => $entry->activities->map(fn($activity) => $activity->id),

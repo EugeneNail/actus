@@ -15,9 +15,10 @@ class Entry extends Model
     protected $fillable = [
         'mood',
         'weather',
+        'sleeptime',
         'worktime',
         'date',
-        'diary'
+        'diary',
     ];
 
     protected $hidden = [

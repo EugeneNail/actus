@@ -17,6 +17,7 @@ class UpdateRequest extends FormRequest
         return [
             'mood' => ['required', 'numeric', 'integer', 'between:1,5'],
             'weather' => ['required', 'numeric', 'integer', 'between:1,9'],
+            'sleeptime' => ['required', 'numeric', 'integer', 'between:1,10'],
             'worktime' => ['required', 'numeric', 'integer', 'between:0,9'],
             'diary' => ['nullable', 'string', 'max:10000'],
             'activities' => ['nullable', 'array'],
