@@ -139,22 +139,53 @@ class StatisticsCollector implements StatisticsCollectorInterface
             ->sortByDesc(fn($_, $key) => $key)
             ->map(fn($entry) => $entry->weight)
             ->toArray();
+
         $weights = [];
-        $period = new DatePeriod(
-            new DateTime(date('Y-m-d', time() - 60 * 60 * 24 * 30)),
-            new DateInterval('P1D'),
-            (new DateTime(date('Y-m-d')))->setTime(0,0, 1)
-        );
+        $period = $this->createMonthPeriod();
 
         foreach ($period as $date) {
             $date = $date->format('Y-m-d');
             $weights[] = $nodes[$date] ?? -1;
         }
 
-        $weights = array_reverse($weights);
+        return array_reverse($weights);
+    }
 
-//        dd($weights);
 
-        return $weights;
+    /**
+     * @param NodeEntry[] $nodes
+     * @return float[]
+     * @throws Exception
+     */
+    public function forSleeptimeChart(array $nodes): iterable
+    {
+        $nodes = collect($nodes)
+            ->keyBy(fn($entry) => "$entry->year-$entry->month-" . str_pad($entry->day, 2, '0', STR_PAD_LEFT))
+            ->sortByDesc(fn($_, $key) => $key)
+            ->map(fn($entry) => $entry->sleeptime)
+            ->toArray();
+
+        $sleeptimes = [];
+
+        $period = $this->createMonthPeriod();
+        foreach ($period as $date) {
+            $date = $date->format('Y-m-d');
+            $sleeptimes[] = $nodes[$date] ?? -1;
+        }
+
+        return array_reverse($sleeptimes);
+    }
+
+
+    /**
+     * @return DatePeriod
+     * @throws Exception
+     */
+    private function createMonthPeriod(): DatePeriod {
+        return new DatePeriod(
+            new DateTime(date('Y-m-d', time() - 60 * 60 * 24 * 30)),
+            new DateInterval('P1D'),
+            (new DateTime(date('Y-m-d')))->setTime(0,0, 1)
+        );
     }
 }
