@@ -154,7 +154,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
 
     /**
      * @param NodeEntry[] $nodes
-     * @return float[]
+     * @return int[]
      * @throws Exception
      */
     public function forSleeptimeChart(array $nodes): iterable
@@ -163,6 +163,31 @@ class StatisticsCollector implements StatisticsCollectorInterface
             ->keyBy(fn($entry) => "$entry->year-$entry->month-" . str_pad($entry->day, 2, '0', STR_PAD_LEFT))
             ->sortByDesc(fn($_, $key) => $key)
             ->map(fn($entry) => $entry->sleeptime)
+            ->toArray();
+
+        $sleeptimes = [];
+
+        $period = $this->createMonthPeriod();
+        foreach ($period as $date) {
+            $date = $date->format('Y-m-d');
+            $sleeptimes[] = $nodes[$date] ?? -1;
+        }
+
+        return array_reverse($sleeptimes);
+    }
+
+
+    /**
+     * @param NodeEntry[] $nodes
+     * @return int[]
+     * @throws Exception
+     */
+    public function forWorktimeChart(array $nodes): iterable
+    {
+        $nodes = collect($nodes)
+            ->keyBy(fn($entry) => "$entry->year-$entry->month-" . str_pad($entry->day, 2, '0', STR_PAD_LEFT))
+            ->sortByDesc(fn($_, $key) => $key)
+            ->map(fn($entry) => $entry->worktime)
             ->toArray();
 
         $sleeptimes = [];

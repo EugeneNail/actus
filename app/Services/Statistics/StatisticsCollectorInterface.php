@@ -49,4 +49,11 @@ interface StatisticsCollectorInterface
      * @return float[]
      */
     public function forSleeptimeChart(array $nodes): iterable;
+
+
+    /**
+     * @param array $nodes
+     * @return float[]
+     */
+    public function forWorktimeChart(array $nodes): iterable;
 }

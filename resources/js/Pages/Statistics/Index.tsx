@@ -10,6 +10,7 @@ import FrequentActivities from "../../component/frequent-activities/frequent-act
 import {FrequentActivity} from "../../model/frequent-activity";
 import WeightChart from "../../component/weight-chart/weight-chart";
 import SleeptimeChart from "../../component/sleeptime-chart/sleeptime-chart";
+import WorktimeChart from "../../component/worktime-chart/worktime-chart";
 
 type Props = {
     table: TableCollection[]
@@ -22,11 +23,12 @@ type Props = {
         year: FrequentActivity[]
     },
     weightChart: number[],
-    sleeptimeChart: number[]
+    sleeptimeChart: number[],
+    worktimeChart: number[]
 }
 
 export default withLayout(Index)
-function Index({table, mood, frequency, sleeptimeChart, weightChart}: Props) {
+function Index({table, mood, frequency, sleeptimeChart, weightChart, worktimeChart}: Props) {
     return (
         <div className="statistics-page">
             <div className="statistics-page__statistics wrapped">
@@ -34,6 +36,7 @@ function Index({table, mood, frequency, sleeptimeChart, weightChart}: Props) {
                 <MoodChart values={mood.chart}/>
                 <SleeptimeChart values={sleeptimeChart}/>
                 <WeightChart values={weightChart} />
+                <WorktimeChart values={worktimeChart}/>
                 {frequency.month.length > 0 && <FrequentActivities type="month" activities={frequency.month}/>}
                 {frequency.year.length > 0 && <FrequentActivities type="year" activities={frequency.year}/>}
                 <TableStatistics data={table}/>

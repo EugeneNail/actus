@@ -45,7 +45,8 @@ class StatisticsController extends Controller
                 'year' => $this->collector->forFrequency($yearNodeActivities, 9)
             ],
             'weightChart' => $this->collector->forWeightChart($monthNodeEntries),
-            'sleeptimeChart' => $this->collector->forSleeptimeChart($monthNodeEntries)
+            'sleeptimeChart' => $this->collector->forSleeptimeChart($monthNodeEntries),
+            'worktimeChart' => $this->collector->forWorktimeChart($monthNodeEntries)
         ]);
     }
 }
