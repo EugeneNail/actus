@@ -47,7 +47,7 @@ class StatisticsService implements StatisticsServiceInterface
             ->entries()
             ->where('date', '>', (new Carbon())->subDays($daysAgo))
             ->get()
-            ->map(fn(Entry $entry) => new NodeEntry($entry->mood, $entry->weather, $entry->date))
+            ->map(fn(Entry $entry) => new NodeEntry($entry->mood, $entry->weather, $entry->sleeptime, $entry->weight, $entry->worktime, $entry->date))
             ->toArray();
     }
 }

@@ -10,13 +10,18 @@ use App\Models\Support\NodeActivity;
 use App\Models\Support\NodeEntry;
 use App\Models\Support\TableActivity;
 use App\Models\Support\TableCollection;
+use DateInterval;
+use DatePeriod;
+use DateTime;
+use DB;
+use Exception;
 
 class StatisticsCollector implements StatisticsCollectorInterface
 {
     /**
-     * @param array<NodeActivity> $nodes
-     * @param array<Collection> $collections
-     * @return iterable<TableCollection>
+     * @param NodeActivity[] $nodes
+     * @param Collection[] $collections
+     * @return TableCollection[]
      */
     public function forTable(array $nodes, array $collections, int $daysAgo): iterable
     {
@@ -48,7 +53,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
     }
 
 
-    /** @param array<NodeEntry> $nodes */
+    /** @param NodeEntry[] $nodes */
     public function forMoodBand(array $nodes): MoodBand
     {
         $total = count($nodes);
@@ -76,21 +81,21 @@ class StatisticsCollector implements StatisticsCollectorInterface
 
 
     /**
-     * @param array<NodeEntry> $nodes
+     * @param NodeEntry[] $nodes
      * @return iterable<int>
      */
     public function forMoodChart(array $nodes): iterable
     {
         return collect($nodes)
             ->sortByDesc(['month', 'day'])
-            ->map(fn ($node) => $node->mood)
+            ->map(fn($node) => $node->mood)
             ->values()
             ->toArray();
     }
 
 
     /**
-     * @param array<NodeActivity> $nodes
+     * @param NodeActivity[] $nodes
      * @return iterable<FrequentActivity>
      */
     public function forFrequency(array $nodes, int $limit): iterable
@@ -111,13 +116,45 @@ class StatisticsCollector implements StatisticsCollectorInterface
         }
 
         return collect($countedNodes)
-            ->sortByDesc(fn ($countedNode) => $countedNode['count'])
+            ->sortByDesc(fn($countedNode) => $countedNode['count'])
             ->take($limit)
-            ->map(fn ($countedNode) => [
+            ->map(fn($countedNode) => [
                 'name' => $countedNode['node']->name,
                 'icon' => $countedNode['node']->icon,
                 'count' => $countedNode['count']
             ])
             ->values();
+    }
+
+
+    /**
+     * @param NodeEntry[] $nodes
+     * @return float[]
+     * @throws Exception
+     */
+    public function forWeightChart(array $nodes): iterable
+    {
+        $nodes = collect($nodes)
+            ->keyBy(fn($entry) => "$entry->year-$entry->month-" . str_pad($entry->day, 2, '0', STR_PAD_LEFT))
+            ->sortByDesc(fn($_, $key) => $key)
+            ->map(fn($entry) => $entry->weight)
+            ->toArray();
+        $weights = [];
+        $period = new DatePeriod(
+            new DateTime(date('Y-m-d', time() - 60 * 60 * 24 * 30)),
+            new DateInterval('P1D'),
+            (new DateTime(date('Y-m-d')))->setTime(0,0, 1)
+        );
+
+        foreach ($period as $date) {
+            $date = $date->format('Y-m-d');
+            $weights[] = $nodes[$date] ?? -1;
+        }
+
+        $weights = array_reverse($weights);
+
+//        dd($weights);
+
+        return $weights;
     }
 }

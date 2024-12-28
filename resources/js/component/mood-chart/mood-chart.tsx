@@ -10,11 +10,11 @@ type Props = {
 export default function MoodChart({values}: Props) {
     const canvasRef = useRef(null);
     const colors: {[key:number]: string} = {
-        1: '#EF1630',
-        2: '#F68C1E',
-        3: '#4EA3D4',
-        4: '#FFC540',
-        5: '#8CCD2A',
+        1: '#D33F49',
+        2: '#FE5D26',
+        3: '#4381C1',
+        4: '#FFB140',
+        5: '#8CB369',
     };
 
 

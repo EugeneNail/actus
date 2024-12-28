@@ -43,7 +43,8 @@ class StatisticsController extends Controller
             'frequency' => [
                 'month' => $this->collector->forFrequency($monthNodeActivities, 9),
                 'year' => $this->collector->forFrequency($yearNodeActivities, 9)
-            ]
+            ],
+            'weightChart' => $this->collector->forWeightChart($monthNodeEntries)
         ]);
     }
 }
