@@ -7,6 +7,9 @@ export default class Entry {
     date: string = ""
     mood: Mood = Mood.Neutral
     weather: Weather = Weather.Sunny
+    sleeptime: number
+    weight: number
+    worktime: number
     diary: string = ""
     collections: Collection[] = []
     photos: string[] = []

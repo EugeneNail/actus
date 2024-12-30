@@ -10,6 +10,12 @@ class IndexEntry
 
     public readonly int $weather;
 
+    public readonly int $sleeptime;
+
+    public readonly float $weight;
+
+    public readonly int $worktime;
+
     public readonly string $date;
 
     public readonly string $diary;
@@ -22,10 +28,13 @@ class IndexEntry
 
 
     /** @param $collections array<IndexEntryCollection>*/
-    public function __construct(int $id, int $mood, int $weather, string $date, ?string $diary, array $photos, array $collections) {
+    public function __construct(int $id, int $mood, int $weather, int $sleeptime, float $weight, int $worktime, string $date, ?string $diary, array $photos, array $collections) {
         $this->id = $id;
         $this->mood = $mood;
         $this->weather = $weather;
+        $this->sleeptime = $sleeptime;
+        $this->weight = $weight;
+        $this->worktime = $worktime;
         $this->date = $date;
         $this->diary = $diary ?? '';
         $this->photos = $photos;

@@ -52,6 +52,20 @@ export default function EntryCard({entry}: Props) {
                     <p className="entry-card__date">{formatDate()}</p>
                     <Icon className={moodClassName} name={MoodIcons[entry.mood]}/>
                     <Icon className={weatherClassName} name={WeatherIcons[entry.weather]}/>
+                    <div className="entry-card__stats">
+                        <div className="entry-card__stat">
+                            <Icon className='entry-card__stat-icon green' name='bedtime'/>
+                            <span className="entry-card__stat-value green">{entry.sleeptime}</span>
+                        </div>
+                        <div className="entry-card__stat">
+                            <Icon className='entry-card__stat-icon orange' name='weight'/>
+                            <span className="entry-card__stat-value orange">{entry.weight.toFixed(1)}</span>
+                        </div>
+                        <div className="entry-card__stat">
+                            <Icon className='entry-card__stat-icon blue' name='payments'/>
+                            <span className="entry-card__stat-value blue">{entry.worktime}</span>
+                        </div>
+                    </div>
                 </div>
                 {entry.collections && entry.collections.length > 0 && <div className="entry-card__collections">
                     {entry.collections && entry.collections.map(collection =>
