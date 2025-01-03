@@ -53,4 +53,9 @@ class User extends Authenticatable
     public function photos(): HasMany {
         return $this->hasMany(Photo::class);
     }
+
+
+    public function goals(): hasMany {
+        return $this->hasMany(Goal::class);
+    }
 }

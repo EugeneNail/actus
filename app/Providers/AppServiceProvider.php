@@ -8,6 +8,8 @@ use App\Services\Collection\CollectionService;
 use App\Services\Collection\CollectionServiceInterface;
 use App\Services\Entry\EntryService;
 use App\Services\Entry\EntryServiceInterface;
+use App\Services\Goal\GoalService;
+use App\Services\Goal\GoalServiceInterface;
 use App\Services\Photo\PhotoService;
 use App\Services\Photo\PhotoServiceInterface;
 use App\Services\Statistics\StatisticsCollector;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PhotoServiceInterface::class, PhotoService::class);
         $this->app->bind(StatisticsCollectorInterface::class, StatisticsCollector::class);
         $this->app->bind(StatisticsServiceInterface::class, StatisticsService::class);
+        $this->app->bind(GoalServiceInterface::class, GoalService::class);
     }
 
     /**

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\EntryController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\GoalController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
@@ -36,6 +37,14 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::prefix('goals')->name('goals.')->group(function() {
+        Route::get('/new', [GoalController::class, 'create'])->name('create');
+        Route::get('/', [GoalController::class, 'index'])->name('index');
+        Route::post('/', [GoalController::class, 'store'])->name('store');
+        Route::get('/{goal}', [GoalController::class, 'edit'])->name('edit');
+        Route::put('/{goal}', [GoalController::class, 'update'])->name('update');
+    });
 
     Route::prefix('collections')->name('collections.')->group(function () {
         Route::get('/', [CollectionController::class, 'index'])->name('index');

@@ -64,6 +64,7 @@ function Menu({user, counters}: Props) {
                     <MenuLink icon="calendar_month" label="Записи" to="/entries"/>
                     <MenuLink icon="bar_chart" label="Статистика" to="/statistics"/>
                     <MenuLink icon="category" label="Коллекции" to="/collections"/>
+                    <MenuLink icon="check" label="Цели" to="/goals"/>
                     <MenuLink className="logout-link" icon="logout" label="Выйти" to="/logout" method={Method.POST}/>
                 </div>
             </div>

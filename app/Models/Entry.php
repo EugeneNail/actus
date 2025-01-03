@@ -46,4 +46,9 @@ class Entry extends Model
     public function photos(): HasMany {
         return $this->hasMany(Photo::class);
     }
+
+
+    public function goals(): BelongsToMany {
+        return $this->belongsToMany(Goal::class, 'entries_goals');
+    }
 }

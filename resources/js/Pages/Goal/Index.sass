@@ -1,0 +1,30 @@
+@import ../../../css/variables
+
+.goals-page
+  margin-top: 40px
+  padding: 10px 0 20px 0
+  align-items: start
+
+  &__goals
+    display: flex
+    flex-direction: column
+    width: min(500px, calc(100% - 40px))
+    gap: 15px
+
+  &__button
+    border: 2px dashed $border-1
+    background: $background-3
+    border-radius: 10px
+    cursor: pointer
+    display: flex
+    align-items: center
+    height: 50px
+    padding-left: 6px
+
+    &:hover
+      border: 2px solid $border-1
+
+  &__button-icon
+    margin-left: 6px
+    color: $accent-1 !important
+    font-size: 30px
