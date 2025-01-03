@@ -22,6 +22,9 @@ interface EntryServiceInterface
     /** @param $activityIds array<int> */
     public function saveActivities(Entry $entry, array $activityIds): void;
 
+    /** @param $goalsIds array<int> */
+    public function saveGoals(Entry $entry, array $goalsIds): void;
+
     /** @param $photoNames array<string> */
     public function savePhotos(Entry $entry, array $photoNames): void;
 

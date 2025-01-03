@@ -22,11 +22,15 @@ import Icon from "../../component/icon/icon";
 import WorktimeSelector from "../../component/worktime-selector/worktime-selector";
 import SleeptimeSelector from "../../component/sleeptime-selector/sleeptime-selector";
 import WeightSelector from "../../component/weight-selector/weight-selector";
+import GoalChecker from "../../component/goal-checker/goal-checker";
+import Goal from "../../model/goal";
 
 
 interface Payload {
     id: number
     mood: Mood
+    completedGoals: number[]
+    goals: Goal[]
     date: string
     weather: Weather
     sleeptime: number
@@ -49,10 +53,13 @@ export default function Save({entry, collections}: Props) {
     const {data, setData, setField, errors, post, put} = useFormState<Payload>()
 
     useEffect(() => {
+        console.log(entry)
         setData({
             ...data,
             date: new Date().toISOString().split('T')[0],
             mood: Mood.Neutral,
+            goals: entry.goals,
+            completedGoals: [],
             weather: Weather.Sunny,
             sleeptime: 1,
             weight: 70,
@@ -66,6 +73,8 @@ export default function Save({entry, collections}: Props) {
             setData({
                 id: entry.id,
                 mood: entry.mood,
+                goals: entry.goals,
+                completedGoals: entry.completedGoals,
                 date: entry.date,
                 weather: entry.weather,
                 diary: entry.diary,
@@ -118,6 +127,21 @@ export default function Save({entry, collections}: Props) {
     }
 
 
+    function toggleGoal(id: number) {
+        if (data.completedGoals.includes(id)) {
+            setData({
+                ...data,
+                completedGoals: data.completedGoals.filter(goalId => goalId != id)
+            })
+        } else {
+            setData({
+                ...data,
+                completedGoals: [...data.completedGoals, id]
+            })
+        }
+    }
+
+
     return (
         <div className="save-entry-page">
             <Head title={willStore ? "Новая запись" : data.date?.split('T')[0]}/>
@@ -131,6 +155,7 @@ export default function Save({entry, collections}: Props) {
                 </FormHeader>
                 <FormContent>
                     <MoodSelect name="mood" value={data.mood ?? Mood.Neutral} onChange={setField}/>
+                    <GoalChecker toggleGoal={toggleGoal} goals={data.goals ?? []} completedGoals={data.completedGoals ?? []}/>
                     <WeatherSelect name="weather" value={data.weather ?? Weather.Sunny} onChange={setField}/>
                     <SleeptimeSelector name='sleeptime' value={data.sleeptime} onChange={setField}/>
                     <WeightSelector name='weight' value={data.weight} onChange={setField}/>

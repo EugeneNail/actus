@@ -116,13 +116,13 @@ class EntryService implements EntryServiceInterface
     }
 
 
-    public function saveActivities(Entry $entry, array $activityIds): void
+    public function saveActivities(Entry $entry, array $goalsIds): void
     {
         DB::table("activity_entry")
             ->where('entry_id', $entry->id)
-            ->whereNotIn('activity_id', $activityIds)
+            ->whereNotIn('activity_id', $goalsIds)
             ->delete();
-        $entry->activities()->sync($activityIds);
+        $entry->activities()->sync($goalsIds);
     }
 
 
@@ -149,5 +149,11 @@ class EntryService implements EntryServiceInterface
             'entry_id' => $entry->id,
         ])->toArray();
         DB::table('photos')->upsert($data, 'name', ['entry_id']);
+    }
+
+
+    public function saveGoals(Entry $entry, array $goalsIds): void
+    {
+        $entry->goals()->sync($goalsIds);
     }
 }

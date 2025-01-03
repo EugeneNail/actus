@@ -16,18 +16,18 @@ use Inertia\Response;
 
 class EntryController extends Controller
 {
-    private EntryServiceInterface $entryService;
+    private EntryServiceInterface $entries;
 
-    private ActivityServiceInterface $activityService;
+    private ActivityServiceInterface $activities;
 
-    private PhotoServiceInterface $photoService;
+    private PhotoServiceInterface $photos;
 
 
     public function __construct(EntryServiceInterface $entryService, ActivityServiceInterface $activityService, PhotoServiceInterface $photoService)
     {
-        $this->entryService = $entryService;
-        $this->activityService = $activityService;
-        $this->photoService = $photoService;
+        $this->entries = $entryService;
+        $this->activities = $activityService;
+        $this->photos = $photoService;
     }
 
 
@@ -41,8 +41,8 @@ class EntryController extends Controller
         }
 
         return Inertia::render('Entry/Index', [
-            'entries' => $this->entryService->collectForIndex($request->month, $request->year),
-            'months' => $this->entryService->collectMonthData($request->user()),
+            'entries' => $this->entries->collectForIndex($request->month, $request->year),
+            'months' => $this->entries->collectMonthData($request->user()),
         ]);
     }
 
@@ -50,7 +50,10 @@ class EntryController extends Controller
     public function create(): Response
     {
         return Inertia::render("Entry/Save", [
-            'entry' => [],
+            'entry' => [
+                'goals' => Auth::user()->goals,
+                'completedGoals' => [],
+            ],
             'collections' => Auth::user()->collections()->with("activities")->get(),
         ]);
     }
@@ -60,22 +63,23 @@ class EntryController extends Controller
     {
         $user = $request->user();
 
-        if ($this->entryService->existsForDate($request->date, $user->id)) {
+        if ($this->entries->existsForDate($request->date, $user->id)) {
             return back()->withErrors(['date' => 'У вас уже есть запись на эту дату.']);
         }
 
         $areRelationsValid =
-            $this->activityService->allExist($request->activities)
-            && $this->activityService->ownsEach($request->activities, $user->id)
-            && $this->photoService->allExist($request->photos)
-            && $this->photoService->ownsEach($request->photos, $user->id);
+            $this->activities->allExist($request->activities)
+            && $this->activities->ownsEach($request->activities, $user->id)
+            && $this->photos->allExist($request->photos)
+            && $this->photos->ownsEach($request->photos, $user->id);
         if (!$areRelationsValid) {
             abort(404);
         }
 
-        $entry = $this->entryService->create($request->validated(), $user->id);
-        $this->entryService->saveActivities($entry, $request->activities);
-        $this->entryService->savePhotos($entry, $request->photos);
+        $entry = $this->entries->create($request->validated(), $user->id);
+        $this->entries->saveActivities($entry, $request->activities);
+        $this->entries->savePhotos($entry, $request->photos);
+        $this->entries->saveGoals($entry, $request->completedGoals);
 
         return redirect(route('entries.index'));
     }
@@ -87,6 +91,8 @@ class EntryController extends Controller
             'entry' => [
                 'id' => $entry->id,
                 'date' => $entry->date,
+                'completedGoals' => $entry->goals->map(fn ($goal) => $goal->id),
+                'goals' => Auth::user()->goals,
                 'mood' => $entry->mood,
                 'weather' => $entry->weather,
                 'sleeptime' => $entry->sleeptime,
@@ -106,17 +112,18 @@ class EntryController extends Controller
         $user = $request->user();
 
         $areRelationsValid =
-            $this->activityService->allExist($request->activities)
-            && $this->activityService->ownsEach($request->activities, $user->id)
-            && $this->photoService->allExist($request->photos)
-            && $this->photoService->ownsEach($request->photos, $user->id);
+            $this->activities->allExist($request->activities)
+            && $this->activities->ownsEach($request->activities, $user->id)
+            && $this->photos->allExist($request->photos)
+            && $this->photos->ownsEach($request->photos, $user->id);
         if (!$areRelationsValid) {
             abort(404);
         }
 
-        $entry = $this->entryService->update($entry, $request->validated());
-        $this->entryService->saveActivities($entry, $request->activities);
-        $this->entryService->savePhotos($entry, $request->photos);
+        $entry = $this->entries->update($entry, $request->validated());
+        $this->entries->saveActivities($entry, $request->activities);
+        $this->entries->savePhotos($entry, $request->photos);
+        $this->entries->saveGoals($entry, $request->completedGoals);
 
         return redirect(route('entries.index'));
     }
