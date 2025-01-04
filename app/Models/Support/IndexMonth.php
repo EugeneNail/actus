@@ -15,7 +15,8 @@ class IndexMonth
     public int $year;
 
 
-    public function __construct(iterable $entries, Carbon $carbon) {
+    public function __construct(iterable $entries, Carbon $carbon)
+    {
         $this->entries = count($entries);
         $this->days = $carbon->daysInMonth;
         $this->month = $carbon->month;

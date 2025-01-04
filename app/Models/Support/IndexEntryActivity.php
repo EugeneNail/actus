@@ -9,7 +9,8 @@ class IndexEntryActivity
     public readonly int $icon;
 
 
-    public function __construct(string $name, int $icon) {
+    public function __construct(string $name, int $icon)
+    {
         $this->name = $name;
         $this->icon = $icon;
     }

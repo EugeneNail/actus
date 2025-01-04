@@ -57,7 +57,9 @@ class ActivityService implements ActivityServiceInterface
     }
 
 
-    public function ownsEach(array $activityIds, int $userId): bool {
+    /** @inheritDoc */
+    public function ownsEach(array $activityIds, int $userId): bool
+    {
         return Activity::query()
             ->whereIn('id', $activityIds)
             ->get()
@@ -65,7 +67,9 @@ class ActivityService implements ActivityServiceInterface
     }
 
 
-    public function allExist(array $activityIds): bool {
+    /** @inheritDoc */
+    public function allExist(array $activityIds): bool
+    {
         return DB::table('activities')
                 ->whereIn('id', $activityIds)
                 ->count() == count($activityIds);

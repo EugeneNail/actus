@@ -3,13 +3,13 @@
 namespace App\Services\Goal;
 
 use App\Models\Goal;
-use Auth;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use DateTime;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class GoalService implements GoalServiceInterface
 {
-
     public function store(array $data): void
     {
         $goal = new Goal($data);
@@ -24,6 +24,10 @@ class GoalService implements GoalServiceInterface
     }
 
 
+    /**
+     * @inheritDoc
+     * @throws Exception
+     */
     public function collectGoalCompletions(int $userId): array
     {
         $goalCompletions = [];

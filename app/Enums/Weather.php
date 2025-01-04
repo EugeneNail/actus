@@ -15,8 +15,9 @@ enum Weather: int
     case COLD = 9;
 
 
-    public function toString(): string {
-        return match($this) {
+    public function toString(): string
+    {
+        return match ($this) {
             self::HEAT => 'Зной',
             self::SUNNY => 'Солнечно',
             self::CLOUDY => 'Пасмурно',

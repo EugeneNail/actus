@@ -3,26 +3,17 @@
 namespace App\Services\Statistics;
 
 use App\Enums\Mood;
-use App\Models\Collection;
-use App\Models\Support\FrequentActivity;
 use App\Models\Support\MoodBand;
-use App\Models\Support\NodeActivity;
-use App\Models\Support\NodeEntry;
 use App\Models\Support\TableActivity;
 use App\Models\Support\TableCollection;
 use DateInterval;
 use DatePeriod;
 use DateTime;
-use DB;
 use Exception;
 
 class StatisticsCollector implements StatisticsCollectorInterface
 {
-    /**
-     * @param NodeActivity[] $nodes
-     * @param Collection[] $collections
-     * @return TableCollection[]
-     */
+    /** @inheritDoc */
     public function forTable(array $nodes, array $collections, int $daysAgo): iterable
     {
         $tableActivities = collect($nodes)
@@ -53,7 +44,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
     }
 
 
-    /** @param NodeEntry[] $nodes */
+    /** @inheritDoc */
     public function forMoodBand(array $nodes): MoodBand
     {
         $total = count($nodes);
@@ -80,10 +71,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
     }
 
 
-    /**
-     * @param NodeEntry[] $nodes
-     * @return iterable<int>
-     */
+    /** @inheritDoc */
     public function forMoodChart(array $nodes): iterable
     {
         return collect($nodes)
@@ -94,10 +82,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
     }
 
 
-    /**
-     * @param NodeActivity[] $nodes
-     * @return iterable<FrequentActivity>
-     */
+    /** @inheritDoc */
     public function forFrequency(array $nodes, int $limit): iterable
     {
         $countedNodes = [];
@@ -128,8 +113,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
 
 
     /**
-     * @param NodeEntry[] $nodes
-     * @return float[]
+     * @inheritDoc
      * @throws Exception
      */
     public function forWeightChart(array $nodes): iterable
@@ -153,8 +137,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
 
 
     /**
-     * @param NodeEntry[] $nodes
-     * @return int[]
+     * @inheritDoc
      * @throws Exception
      */
     public function forSleeptimeChart(array $nodes): iterable
@@ -178,8 +161,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
 
 
     /**
-     * @param NodeEntry[] $nodes
-     * @return int[]
+     * @inheritDoc
      * @throws Exception
      */
     public function forWorktimeChart(array $nodes): iterable
@@ -203,14 +185,14 @@ class StatisticsCollector implements StatisticsCollectorInterface
 
 
     /**
-     * @return DatePeriod
      * @throws Exception
      */
-    private function createMonthPeriod(): DatePeriod {
+    private function createMonthPeriod(): DatePeriod
+    {
         return new DatePeriod(
             new DateTime(date('Y-m-d', time() - 60 * 60 * 24 * 30)),
             new DateInterval('P1D'),
-            (new DateTime(date('Y-m-d')))->setTime(0,0, 1)
+            (new DateTime(date('Y-m-d')))->setTime(0, 0, 1)
         );
     }
 }

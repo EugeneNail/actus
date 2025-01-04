@@ -9,6 +9,7 @@ use ZipArchive;
 class PhotoExporter implements ExporterInterface
 {
 
+    /** @inheritDoc */
     public function export(User $user): array
     {
         $archive = new ZipArchive();

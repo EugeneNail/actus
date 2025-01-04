@@ -23,11 +23,13 @@ class SyncDates extends Command
         $userIds = $this->argument('userIds');
         $photosByEntryDate = Entry::query()
             ->with('photos')
-            ->when($userIds, function ($query) use ($userIds) {return $query->whereIn('user_id', $userIds);})
+            ->when($userIds, function ($query) use ($userIds) {
+                return $query->whereIn('user_id', $userIds);
+            })
             ->orderBy('date')
             ->get()
-            ->groupBy(fn ($entry) => $entry->date->format('Y-m-d'))
-            ->map(fn ($entries) => $this->entriesToPhotos($entries));
+            ->groupBy(fn($entry) => $entry->date->format('Y-m-d'))
+            ->map(fn($entries) => $this->entriesToPhotos($entries));
 
         $progressBar = $this->getProgressBar($photosByEntryDate);
 
@@ -40,10 +42,11 @@ class SyncDates extends Command
     }
 
 
-    private function entriesToPhotos($entries): iterable {
+    private function entriesToPhotos($entries): iterable
+    {
         $photos = new Collection();
 
-        foreach($entries as $entry) {
+        foreach ($entries as $entry) {
             $photos = $photos->merge($entry->photos);
         }
 
@@ -51,9 +54,10 @@ class SyncDates extends Command
     }
 
 
-    private function getProgressBar(Collection $photosByEntryDate): ProgressBar {
+    private function getProgressBar(Collection $photosByEntryDate): ProgressBar
+    {
         $progressBarCounter = 0;
-        
+
         foreach ($photosByEntryDate as $photos) {
             $progressBarCounter += $photos->count();
         }
@@ -62,7 +66,8 @@ class SyncDates extends Command
     }
 
 
-    private function syncDate(Photo $photo, string $date): void {
+    private function syncDate(Photo $photo, string $date): void
+    {
         if (preg_match($this->yyyymmdd, $photo->name, $matches) && $matches[0] != $date) {
             $oldName = "photos/{$photo->name}";
             $photo->name = preg_replace($this->yyyymmdd, $date, $photo->name);

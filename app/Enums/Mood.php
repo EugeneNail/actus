@@ -11,8 +11,9 @@ enum Mood: int
     case RADIATING = 5;
 
 
-    public function toString(): string {
-        return match($this) {
+    public function toString(): string
+    {
+        return match ($this) {
             self::AWFUL => 'Ужасное',
             self::BAD => 'Плохое',
             self::NEUTRAL => 'Никакое',

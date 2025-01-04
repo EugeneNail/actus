@@ -23,7 +23,8 @@ class NodeEntry
     public int $year;
 
 
-    public function __construct(int $mood, int $weather, int $sleeptime, float $weight, int $worktime, Carbon $carbon) {
+    public function __construct(int $mood, int $weather, int $sleeptime, float $weight, int $worktime, Carbon $carbon)
+    {
         $this->mood = $mood;
         $this->weather = $weather;
         $this->sleeptime = $sleeptime;

@@ -15,7 +15,8 @@ class NodeActivity
     public int $collectionId;
 
 
-    public function __construct(string $name, int $icon, Carbon $date, int $collectionId) {
+    public function __construct(string $name, int $icon, Carbon $date, int $collectionId)
+    {
         $this->name = $name;
         $this->icon = $icon;
         $this->date = $date;

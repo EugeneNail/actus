@@ -10,5 +10,6 @@ interface GoalServiceInterface
 
     public function update(Goal $goal, array $data): void;
 
+    /** @return array<int, int> */
     public function collectGoalCompletions(int $userId): array;
 }

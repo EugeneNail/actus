@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 
 class StatisticsService implements StatisticsServiceInterface
 {
-    /** @return array<NodeActivity> */
+    /** @inheritDoc */
     public function getActivityNodes(User $user, int $daysAgo): array
     {
         return $user

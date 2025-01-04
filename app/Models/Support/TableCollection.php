@@ -10,11 +10,12 @@ class TableCollection
 
     public int $color;
 
-    /** @var array<TableActivity> $activities*/
+    /** @var array<TableActivity> $activities */
     public array $activities;
 
 
-    public function __construct(int $id, int $color, string $name, array $activities) {
+    public function __construct(int $id, int $color, string $name, array $activities)
+    {
         $this->id = $id;
         $this->name = $name;
         $this->color = $color;

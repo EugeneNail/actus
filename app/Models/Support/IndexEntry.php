@@ -20,15 +20,16 @@ class IndexEntry
 
     public readonly string $diary;
 
-    /** @var array<string> $photos*/
+    /** @var array<string> $photos */
     public readonly array $photos;
 
-    /** @var $collections array<IndexEntryCollection>*/
+    /** @var $collections array<IndexEntryCollection> */
     public readonly array $collections;
 
 
-    /** @param $collections array<IndexEntryCollection>*/
-    public function __construct(int $id, int $mood, int $weather, int $sleeptime, float $weight, int $worktime, string $date, ?string $diary, array $photos, array $collections) {
+    /** @param $collections array<IndexEntryCollection> */
+    public function __construct(int $id, int $mood, int $weather, int $sleeptime, float $weight, int $worktime, string $date, ?string $diary, array $photos, array $collections)
+    {
         $this->id = $id;
         $this->mood = $mood;
         $this->weather = $weather;

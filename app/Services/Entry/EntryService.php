@@ -2,8 +2,6 @@
 
 namespace App\Services\Entry;
 
-use App\Models\Activity;
-use App\Models\Collection;
 use App\Models\Entry;
 use App\Models\Support\IndexEntry;
 use App\Models\Support\IndexEntryActivity;
@@ -17,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 
 class EntryService implements EntryServiceInterface
 {
+    /** @inheritDoc */
     public function collectForIndex(?int $month, ?int $year): array
     {
         $month = $month ?? date('m');
@@ -30,6 +29,7 @@ class EntryService implements EntryServiceInterface
         );
 
 
+        /** @var User $user */
         $user = Auth::user();
         $collectionsById = $user->collections->keyBy('id');
 
@@ -56,11 +56,6 @@ class EntryService implements EntryServiceInterface
     }
 
 
-    /**
-     * @param $activities array<Activity>
-     * @param $collectionsById array<int, Collection>
-     * @return array<IndexEntryCollection>
-     */
     private function groupActivitiesByCollection(iterable $activities, iterable $collectionsById): array
     {
         $collectionsMap = [];
@@ -86,11 +81,13 @@ class EntryService implements EntryServiceInterface
     }
 
 
-    public function collectMonthData(User $user): iterable {
+    /** @inheritDoc */
+    public function collectMonthData(User $user): iterable
+    {
         return $user->entries
             ->map(fn($entry) => ['date' => $entry->date->format("Y-m")])
             ->groupBy('date')
-            ->map(fn ($group, $key) =>  new IndexMonth($group, new Carbon($key)))
+            ->map(fn($group, $key) => new IndexMonth($group, new Carbon($key)))
             ->sortByDesc(['year', 'month'])
             ->values();
     }
@@ -116,16 +113,18 @@ class EntryService implements EntryServiceInterface
     }
 
 
-    public function saveActivities(Entry $entry, array $goalsIds): void
+    /** @inheritDoc */
+    public function saveActivities(Entry $entry, array $activitiesIds): void
     {
         DB::table("activity_entry")
             ->where('entry_id', $entry->id)
-            ->whereNotIn('activity_id', $goalsIds)
+            ->whereNotIn('activity_id', $activitiesIds)
             ->delete();
-        $entry->activities()->sync($goalsIds);
+        $entry->activities()->sync($activitiesIds);
     }
 
 
+    /** @inheritDoc */
     public function existsForDate(string $date, int $userId): bool
     {
         return Entry::query()
@@ -135,6 +134,7 @@ class EntryService implements EntryServiceInterface
     }
 
 
+    /** @inheritDoc */
     public function savePhotos(Entry $entry, array $photoNames): void
     {
         $unusedPhotos = $entry->photos()->whereNotIn('name', $photoNames)->pluck('name');
@@ -152,6 +152,7 @@ class EntryService implements EntryServiceInterface
     }
 
 
+    /** @inheritDoc */
     public function saveGoals(Entry $entry, array $goalsIds): void
     {
         $entry->goals()->sync($goalsIds);

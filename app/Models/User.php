@@ -2,13 +2,28 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Collection as LaravelCollection;
 
+/**
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property Carbon $email_verified_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property string $remember_token
+ * @property LaravelCollection|Collection[] $collections
+ * @property LaravelCollection|Activity[] $activities
+ * @property LaravelCollection|Entry[] $entries
+ * @property LaravelCollection|Photo[] $photos
+ * @property LaravelCollection|Goal[] $goals
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -35,27 +50,32 @@ class User extends Authenticatable
     ];
 
 
-    public function collections(): HasMany {
+    public function collections(): HasMany
+    {
         return $this->hasMany(Collection::class);
     }
 
 
-    public function activities(): HasMany {
+    public function activities(): HasMany
+    {
         return $this->hasMany(Activity::class);
     }
 
 
-    public function entries(): HasMany {
+    public function entries(): HasMany
+    {
         return $this->hasMany(Entry::class);
     }
 
 
-    public function photos(): HasMany {
+    public function photos(): HasMany
+    {
         return $this->hasMany(Photo::class);
     }
 
 
-    public function goals(): hasMany {
+    public function goals(): hasMany
+    {
         return $this->hasMany(Goal::class);
     }
 }

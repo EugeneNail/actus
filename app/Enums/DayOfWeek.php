@@ -13,7 +13,8 @@ enum DayOfWeek: int
     case SATURDAY = 6;
 
 
-    public function toString(): string {
+    public function toString(): string
+    {
         return match ($this) {
             self::SUNDAY => 'Воскресенье',
             self::MONDAY => 'Понедельник',

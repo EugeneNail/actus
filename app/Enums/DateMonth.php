@@ -18,7 +18,8 @@ enum DateMonth: int
     case DECEMBER = 12;
 
 
-    public function toString(): string {
+    public function toString(): string
+    {
         return match ($this) {
             self::JANUARY => 'Января',
             self::FEBRUARY => 'Февраля',

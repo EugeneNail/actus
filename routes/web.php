@@ -38,7 +38,7 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::prefix('goals')->name('goals.')->group(function() {
+    Route::prefix('goals')->name('goals.')->group(function () {
         Route::get('/new', [GoalController::class, 'create'])->name('create');
         Route::get('/', [GoalController::class, 'index'])->name('index');
         Route::post('/', [GoalController::class, 'store'])->name('store');
@@ -79,7 +79,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/{name}', [PhotoController::class, 'destroy'])->name('destroy');
     });
 
-    Route::prefix('export')->name('export.')->group(function() {
+    Route::prefix('export')->name('export.')->group(function () {
         Route::get('/diaries', [ExportController::class, 'diaries']);
         Route::get('/photos', [ExportController::class, 'photos']);
     });

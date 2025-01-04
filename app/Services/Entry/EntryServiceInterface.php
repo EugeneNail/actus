@@ -9,25 +9,25 @@ use App\Models\User;
 
 interface EntryServiceInterface
 {
-    /** @return array<IndexEntry> */
+    /** @return IndexEntry[] */
     public function collectForIndex(int $month, int $year): array;
 
-    /** @return  array<IndexMonth>*/
+    /** @return IndexMonth[] */
     public function collectMonthData(User $user): iterable;
 
     public function create(array $data, int $userId): Entry;
 
     public function update(Entry $entry, array $data): Entry;
 
-    /** @param $activityIds array<int> */
-    public function saveActivities(Entry $entry, array $activityIds): void;
+    /** @param $activitiesIds int[] */
+    public function saveActivities(Entry $entry, array $activitiesIds): void;
 
-    /** @param $goalsIds array<int> */
+    /** @param $goalsIds int[] */
     public function saveGoals(Entry $entry, array $goalsIds): void;
 
-    /** @param $photoNames array<string> */
+    /** @param $photoNames string[] */
     public function savePhotos(Entry $entry, array $photoNames): void;
 
-    /** @param string $date in format YYYY-mm-dd */
+    /** @param string $date in format Y-m-d */
     public function existsForDate(string $date, int $userId): bool;
 }

@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string $name
+ * @property int $user_id
+ * @property User $user
+ * @property Entry $entry
+ */
 class Photo extends Model
 {
     use HasFactory;
@@ -22,12 +28,14 @@ class Photo extends Model
     ];
 
 
-    public function user(): BelongsTo {
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
 
-    public function entry(): BelongsTo {
+    public function entry(): BelongsTo
+    {
         return $this->belongsTo(Entry::class);
     }
 }

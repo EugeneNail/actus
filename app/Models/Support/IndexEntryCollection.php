@@ -8,10 +8,11 @@ class IndexEntryCollection
 
     public readonly int $color;
 
-    /** @var array<IndexEntryActivity>*/
+    /** @var array<IndexEntryActivity> */
     public array $activities;
 
-    public function __construct(string $name, int $color) {
+    public function __construct(string $name, int $color)
+    {
         $this->name = $name;
         $this->color = $color;
     }

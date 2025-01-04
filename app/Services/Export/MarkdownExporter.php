@@ -13,12 +13,13 @@ use Illuminate\Support\Str;
 
 class MarkdownExporter implements ExporterInterface
 {
+    /** @inheritDoc */
     public function export(User $user): array
     {
         $file = Str::uuid();
         Storage::put($file, '');
 
-        foreach($user->entries->sortBy('date') as $entry) {
+        foreach ($user->entries->sortBy('date') as $entry) {
             $this->write($entry, $file);
         }
 
@@ -50,11 +51,14 @@ class MarkdownExporter implements ExporterInterface
             Weather::from($entry->weather)->toString(),
         );
 
-        Storage::append($file, sprintf(
-            "%s\n%s\n\n%s\n\n\n\n\n\n",
-            $header,
-            $subheader,
-            $entry->diary,
-        ));
+        Storage::append(
+            $file,
+            sprintf(
+                "%s\n%s\n\n%s\n\n\n\n\n\n",
+                $header,
+                $subheader,
+                $entry->diary,
+            )
+        );
     }
 }

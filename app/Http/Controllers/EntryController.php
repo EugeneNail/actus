@@ -54,7 +54,7 @@ class EntryController extends Controller
 
     public function create(): Response
     {
-        /** @var $user User */
+        /** @var User $user*/
         $user = Auth::user();
 
         return Inertia::render("Entry/Save", [
@@ -96,7 +96,7 @@ class EntryController extends Controller
 
     public function edit(Entry $entry): Response
     {
-        /** @var $user User */
+        /** @var User $user*/
         $user = Auth::user();
 
         return Inertia::render("Entry/Save", [

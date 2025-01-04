@@ -21,9 +21,10 @@ class PhotoService implements PhotoServiceInterface
     }
 
 
+    /** @inheritDoc */
     public function saveMany(array $photos, int $userId): array
     {
-        $names = [];
+        $data = [];
 
         foreach ($photos as $photo) {
             $name = sprintf(
@@ -34,17 +35,15 @@ class PhotoService implements PhotoServiceInterface
                 $photo->extension()
             );
             $photo->storeAs('photos', $name);
-            $names[] = $name;
-        }
-
-        Photo::insert(
-            collect($names)->map(fn($name) => [
+            $data[] = [
                 'name' => $name,
                 'user_id' => $userId
-            ])->toArray()
-        );
+            ];
+        }
 
-        return $names;
+        Photo::insert($data);
+
+        return $data;
     }
 
 
@@ -55,12 +54,14 @@ class PhotoService implements PhotoServiceInterface
     }
 
 
+    /** @inheritDoc */
     public function allExist(array $photoNames): bool
     {
         return Photo::whereIn('name', $photoNames)->count() == count($photoNames);
     }
 
 
+    /** @inheritDoc */
     public function ownsEach(array $photoNames, int $userId): bool
     {
         return Photo::whereIn('name', $photoNames)->get()->every(fn($photo) => $photo->user_id == $userId);
