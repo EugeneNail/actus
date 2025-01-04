@@ -3,6 +3,7 @@
 namespace App\Services\Goal;
 
 use App\Models\Goal;
+use Carbon\Carbon;
 
 interface GoalServiceInterface
 {
@@ -11,5 +12,5 @@ interface GoalServiceInterface
     public function update(Goal $goal, array $data): void;
 
     /** @return array<int, int> */
-    public function collectGoalCompletions(int $userId): array;
+    public function collectGoalCompletions(Carbon $today, int $userId): array;
 }

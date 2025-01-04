@@ -11,6 +11,7 @@ use App\Services\Activity\ActivityServiceInterface;
 use App\Services\Entry\EntryServiceInterface;
 use App\Services\Goal\GoalServiceInterface;
 use App\Services\Photo\PhotoServiceInterface;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -61,7 +62,7 @@ class EntryController extends Controller
             'entry' => [
                 'goals' => $user->goals,
                 'completedGoals' => [],
-                'goalCompletions' => $this->goals->collectGoalCompletions($user->id)
+                'goalCompletions' => $this->goals->collectGoalCompletions(new Carbon(), $user->id)
             ],
             'collections' => $user->collections()->with("activities")->get(),
         ]);
@@ -104,7 +105,7 @@ class EntryController extends Controller
                 'id' => $entry->id,
                 'date' => $entry->date,
                 'completedGoals' => $entry->goals->map(fn($goal) => $goal->id),
-                'goalCompletions' => $this->goals->collectGoalCompletions($user->id),
+                'goalCompletions' => $this->goals->collectGoalCompletions($entry->date, $user->id),
                 'goals' => $user->goals,
                 'mood' => $entry->mood,
                 'weather' => $entry->weather,

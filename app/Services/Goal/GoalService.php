@@ -3,9 +3,9 @@
 namespace App\Services\Goal;
 
 use App\Models\Goal;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
-use DateTime;
 use Illuminate\Support\Facades\DB;
 
 class GoalService implements GoalServiceInterface
@@ -28,9 +28,10 @@ class GoalService implements GoalServiceInterface
      * @inheritDoc
      * @throws Exception
      */
-    public function collectGoalCompletions(int $userId): array
+    public function collectGoalCompletions(Carbon $today, int $userId): array
     {
         $goalCompletions = [];
+        $startDate = (clone $today)->subMonth();
 
         $rows = DB::query()
             ->select('id')
@@ -46,15 +47,12 @@ class GoalService implements GoalServiceInterface
             ->select(['entries_goals.goal_id as goalId', DB::raw('MAX(entries.date) as date')])
             ->join('entries', 'entries.id', '=', 'entries_goals.entry_id')
             ->from('entries_goals')
-            ->where('entries.date', '<=', date('Y-m-d', strtotime('-30 days')))
+            ->where('entries.date', '>=', $startDate->format('Y-m-d'))
             ->groupBy('goalId')
             ->get();
 
-        $today = new DateTime(date('Y-m-d'));
-
         foreach ($rows as $row) {
-            $date = new DateTime($row->date);
-
+            $date = new Carbon($row->date);
             $goalCompletions[$row->goalId] = $today->diff($date)->days;
         }
 
