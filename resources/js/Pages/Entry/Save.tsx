@@ -30,6 +30,7 @@ interface Payload {
     id: number
     mood: Mood
     completedGoals: number[]
+    goalCompletions: {[key:number]: number}
     goals: Goal[]
     date: string
     weather: Weather
@@ -60,6 +61,7 @@ export default function Save({entry, collections}: Props) {
             mood: Mood.Neutral,
             goals: entry.goals,
             completedGoals: [],
+            goalCompletions: entry.goalCompletions,
             weather: Weather.Sunny,
             sleeptime: 1,
             weight: 70,
@@ -75,6 +77,7 @@ export default function Save({entry, collections}: Props) {
                 mood: entry.mood,
                 goals: entry.goals,
                 completedGoals: entry.completedGoals,
+                goalCompletions: entry.goalCompletions,
                 date: entry.date,
                 weather: entry.weather,
                 diary: entry.diary,
@@ -155,7 +158,7 @@ export default function Save({entry, collections}: Props) {
                 </FormHeader>
                 <FormContent>
                     <MoodSelect name="mood" value={data.mood ?? Mood.Neutral} onChange={setField}/>
-                    <GoalChecker toggleGoal={toggleGoal} goals={data.goals ?? []} completedGoals={data.completedGoals ?? []}/>
+                    <GoalChecker toggleGoal={toggleGoal} goals={data.goals ?? []} completedGoals={data.completedGoals ?? []} goalCompletions={data.goalCompletions ?? []}/>
                     <WeatherSelect name="weather" value={data.weather ?? Weather.Sunny} onChange={setField}/>
                     <SleeptimeSelector name='sleeptime' value={data.sleeptime} onChange={setField}/>
                     <WeightSelector name='weight' value={data.weight} onChange={setField}/>

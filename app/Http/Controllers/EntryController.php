@@ -6,8 +6,10 @@ use App\Http\Requests\Entry\IndexRequest;
 use App\Http\Requests\Entry\StoreRequest;
 use App\Http\Requests\Entry\UpdateRequest;
 use App\Models\Entry;
+use App\Models\User;
 use App\Services\Activity\ActivityServiceInterface;
 use App\Services\Entry\EntryServiceInterface;
+use App\Services\Goal\GoalServiceInterface;
 use App\Services\Photo\PhotoServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -22,16 +24,19 @@ class EntryController extends Controller
 
     private PhotoServiceInterface $photos;
 
+    private GoalServiceInterface $goals;
 
-    public function __construct(EntryServiceInterface $entryService, ActivityServiceInterface $activityService, PhotoServiceInterface $photoService)
+
+    public function __construct(EntryServiceInterface $entryService, ActivityServiceInterface $activityService, PhotoServiceInterface $photoService, GoalServiceInterface $goalService)
     {
         $this->entries = $entryService;
         $this->activities = $activityService;
         $this->photos = $photoService;
+        $this->goals = $goalService;
     }
 
 
-    public function index(IndexRequest $request): Response | RedirectResponse
+    public function index(IndexRequest $request): Response|RedirectResponse
     {
         if ($request->missing('month') || $request->missing('year')) {
             return redirect()->route('entries.index', [
@@ -49,12 +54,16 @@ class EntryController extends Controller
 
     public function create(): Response
     {
+        /** @var $user User */
+        $user = Auth::user();
+
         return Inertia::render("Entry/Save", [
             'entry' => [
-                'goals' => Auth::user()->goals,
+                'goals' => $user->goals,
                 'completedGoals' => [],
+                'goalCompletions' => $this->goals->collectGoalCompletions($user->id)
             ],
-            'collections' => Auth::user()->collections()->with("activities")->get(),
+            'collections' => $user->collections()->with("activities")->get(),
         ]);
     }
 
@@ -87,12 +96,16 @@ class EntryController extends Controller
 
     public function edit(Entry $entry): Response
     {
+        /** @var $user User */
+        $user = Auth::user();
+
         return Inertia::render("Entry/Save", [
             'entry' => [
                 'id' => $entry->id,
                 'date' => $entry->date,
-                'completedGoals' => $entry->goals->map(fn ($goal) => $goal->id),
-                'goals' => Auth::user()->goals,
+                'completedGoals' => $entry->goals->map(fn($goal) => $goal->id),
+                'goalCompletions' => $this->goals->collectGoalCompletions($user->id),
+                'goals' => $user->goals,
                 'mood' => $entry->mood,
                 'weather' => $entry->weather,
                 'sleeptime' => $entry->sleeptime,
@@ -100,9 +113,9 @@ class EntryController extends Controller
                 'worktime' => $entry->worktime,
                 'diary' => $entry->diary,
                 'activities' => $entry->activities->map(fn($activity) => $activity->id),
-                'photos' => $entry->photos->map(fn ($photo) => $photo->name)
+                'photos' => $entry->photos->map(fn($photo) => $photo->name)
             ],
-            'collections' => Auth::user()->collections()->with("activities")->get(),
+            'collections' => $user->collections()->with("activities")->get(),
         ]);
     }
 

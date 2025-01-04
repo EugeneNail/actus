@@ -18,8 +18,12 @@
     font-size: 12px
     color: $font-1
 
+  &__goals
+    display: flex
+    flex-direction: column
+    gap: 10px
+
 .checkable-goal
-  margin-bottom: 5px
   display: flex
   align-items: center
   gap: 10px
@@ -58,3 +62,7 @@
     &.checked
       color: $font-2
       text-decoration: line-through
+
+  &__days-ago
+    font-size: 12px
+    color: lighten($font-2, 20)
