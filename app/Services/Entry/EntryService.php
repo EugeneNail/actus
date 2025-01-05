@@ -32,6 +32,7 @@ class EntryService implements EntryServiceInterface
         /** @var User $user */
         $user = Auth::user();
         $collectionsById = $user->collections->keyBy('id');
+        $goalsTotal = $user->goals->count();
 
         return $user
             ->entries()
@@ -40,12 +41,14 @@ class EntryService implements EntryServiceInterface
             ->where('date', '<=', $endDate)
             ->orderByDesc('date')
             ->get()
-            ->map(fn($entry) => new IndexEntry(
+            ->map(fn(Entry $entry) => new IndexEntry(
                 $entry->id,
                 $entry->mood,
                 $entry->weather,
                 $entry->sleeptime,
                 $entry->weight,
+                $goalsTotal,
+                $entry->goals->count(),
                 $entry->worktime,
                 $entry->date,
                 $entry->diary,

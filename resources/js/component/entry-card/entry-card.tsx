@@ -8,8 +8,13 @@ import {Weather, WeatherIcons, WeatherNames} from "../../model/weather";
 import React from "react";
 import {Link, router} from "@inertiajs/react";
 
+type Goals = {
+    goalsTotal: number
+    goalsCompleted: number
+}
+
 type Props = {
-    entry: Entry
+    entry: Entry & Goals
 }
 
 const weekdays = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
@@ -64,6 +69,10 @@ export default function EntryCard({entry}: Props) {
                         <div className="entry-card__stat">
                             <Icon className='entry-card__stat-icon blue' name='payments'/>
                             <span className="entry-card__stat-value blue">{entry.worktime}</span>
+                        </div>
+                        <div className="entry-card__stat">
+                            <Icon className='entry-card__stat-icon' name='check' bold/>
+                            <span className="entry-card__stat-value">{entry.goalsCompleted} / {entry.goalsTotal}</span>
                         </div>
                     </div>
                 </div>

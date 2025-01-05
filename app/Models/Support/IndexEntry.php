@@ -14,6 +14,10 @@ class IndexEntry
 
     public readonly float $weight;
 
+    public readonly int $goalsTotal;
+
+    public readonly int $goalsCompleted;
+
     public readonly int $worktime;
 
     public readonly string $date;
@@ -28,13 +32,27 @@ class IndexEntry
 
 
     /** @param $collections array<IndexEntryCollection> */
-    public function __construct(int $id, int $mood, int $weather, int $sleeptime, float $weight, int $worktime, string $date, ?string $diary, array $photos, array $collections)
-    {
+    public function __construct(
+        int $id,
+        int $mood,
+        int $weather,
+        int $sleeptime,
+        float $weight,
+        int $goalsTotal,
+        int $goalsCompleted,
+        int $worktime,
+        string $date,
+        ?string $diary,
+        array $photos,
+        array $collections
+    ) {
         $this->id = $id;
         $this->mood = $mood;
         $this->weather = $weather;
         $this->sleeptime = $sleeptime;
         $this->weight = $weight;
+        $this->goalsTotal = $goalsTotal;
+        $this->goalsCompleted = $goalsCompleted;
         $this->worktime = $worktime;
         $this->date = $date;
         $this->diary = $diary ?? '';
