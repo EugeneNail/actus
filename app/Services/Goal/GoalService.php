@@ -59,4 +59,10 @@ class GoalService implements GoalServiceInterface
 
         return $goalCompletions;
     }
+
+
+    public function destroy(Goal $goal): void
+    {
+        $goal->delete();
+    }
 }

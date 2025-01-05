@@ -44,6 +44,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/', [GoalController::class, 'store'])->name('store');
         Route::get('/{goal}', [GoalController::class, 'edit'])->name('edit');
         Route::put('/{goal}', [GoalController::class, 'update'])->name('update');
+        Route::get('/{goal}/delete', [GoalController::class, 'delete'])->name('delete');
+        Route::delete('/{goal}', [GoalController::class, 'destroy'])->name('destroy');
     });
 
     Route::prefix('collections')->name('collections.')->group(function () {

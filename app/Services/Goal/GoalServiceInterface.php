@@ -13,4 +13,6 @@ interface GoalServiceInterface
 
     /** @return array<int, int> */
     public function collectGoalCompletions(Carbon $today, int $userId): array;
+
+    public function destroy(Goal $goal): void;
 }

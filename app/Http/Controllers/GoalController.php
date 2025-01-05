@@ -50,4 +50,18 @@ class GoalController extends Controller
         $this->service->update($goal, $request->validated());
         return redirect()->intended(route('goals.index'));
     }
+
+
+    public function delete(Goal $goal): Response {
+        return Inertia::render('Goal/Delete', [
+            'name' => $goal->name,
+            'id' => $goal->id,
+        ]);
+    }
+
+
+    public function destroy(Goal $goal): Response|RedirectResponse {
+        $this->service->destroy($goal);
+        return redirect()->intended(route('goals.index'));
+    }
 }
