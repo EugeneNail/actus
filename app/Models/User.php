@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Collection as LaravelCollection;
 
 /**
+ * @property int $id
  * @property string $name
  * @property string $email
  * @property string $password

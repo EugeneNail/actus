@@ -4,17 +4,17 @@ import Goal from "../../model/goal";
 import CheckableGoal from "./checkable-goal";
 
 type Props = {
-    goals: Goal[]
-    completedGoals: number[]
-    goalCompletions: {[key:number]: number}
+    userGoals: Goal[]
+    goals: number[]
+    lastGoalCompletions: {[key:number]: number}
     toggleGoal: (id: number) => void
 }
 
-export default function GoalChecker({goals, completedGoals, goalCompletions, toggleGoal}: Props) {
+export default function GoalChecker({userGoals, goals, lastGoalCompletions, toggleGoal}: Props) {
     return (
         <div className="goal-checker">
             <div className="goal-checker__goals">
-                {goals.map(goal => <CheckableGoal key={goal.id} goal={goal} completion={goalCompletions[goal.id]} toggle={toggleGoal} checked={completedGoals.includes(goal.id)}/>)}
+                {userGoals.map(goal => <CheckableGoal key={goal.id} goal={goal} completion={lastGoalCompletions[goal.id]} toggle={toggleGoal} checked={goals.includes(goal.id)}/>)}
             </div>
         </div>
     )

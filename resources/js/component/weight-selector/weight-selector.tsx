@@ -14,7 +14,7 @@ type Props = {
 export default function WeightSelector({name, value, onChange}: Props) {
     function addWeight(weight: number) {
         const input = document.getElementById(name) as HTMLInputElement
-        let previous = +input.defaultValue == 0 ? 70 : +input.defaultValue
+        let previous = +input.defaultValue == 0 ? value : +input.defaultValue
         weight = (previous + weight);
 
         if (weight < 40 || weight > 200) {

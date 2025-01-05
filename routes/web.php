@@ -32,7 +32,7 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.authenticate');
 
 Route::get('/', function () {
-    return redirect()->intended(route('entries.index'));
+    return redirect()->intended(route('entries.open'));
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -66,11 +66,9 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::prefix('entries')->name('entries.')->group(function () {
+        Route::get('/{date}', [EntryController::class, 'open'])->name('open');
         Route::get('/', [EntryController::class, 'index'])->name('index');
-        Route::get("/new", [EntryController::class, 'create'])->name('create');
-        Route::post('/', [EntryController::class, 'store'])->name('store');
-        Route::get('/{entry}', [EntryController::class, 'edit'])->name('edit');
-        Route::put('/{entry}', [EntryController::class, 'update'])->name('update');
+        Route::post('/', [EntryController::class, 'save'])->name('save');
     });
 
     Route::prefix('photos')->name('photos.')->group(function () {

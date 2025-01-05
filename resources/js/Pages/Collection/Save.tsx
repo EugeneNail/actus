@@ -20,11 +20,11 @@ interface Payload {
 
 export default function Save({id, name, color}: Payload) {
     const willStore = window.location.pathname.includes("/new")
-    const {data, setData, setField, errors, post, put} = useFormState<Payload>()
+    const {payload, setPayload, setField, errors, post, put} = useFormState<Payload>()
 
 
     useEffect(() => {
-        setData({
+        setPayload({
             id: id ?? 0,
             name: name ?? '',
             color: color ?? Color.Red
@@ -39,20 +39,20 @@ export default function Save({id, name, color}: Payload) {
 
     return (
         <div className="save-collection-page">
-            <Head title={willStore ? "Новая коллекция" : data.name}/>
+            <Head title={willStore ? "Новая коллекция" : payload.name}/>
             <Form>
                 <FormHeader>
                     <FormBackButton/>
                     <FormTitle>
-                        {willStore ? "Новая коллекция" : data.name}
+                        {willStore ? "Новая коллекция" : payload.name}
                     </FormTitle>
                     <FormOptions icon="delete" href={`/collections/${id}/delete`}/>
                 </FormHeader>
                 <FormContent>
-                    <Field name="name" label="Название" value={data.name} max={20} error={errors.name} onChange={setField}/>
-                    <Palette name="color" value={data.color} onChange={setField}/>
+                    <Field name="name" label="Название" value={payload.name} max={20} error={errors.name} onChange={setField}/>
+                    <Palette name="color" value={payload.color} onChange={setField}/>
                 </FormContent>
-                <FormSubmitButton color={data.color} label="Сохранить" onClick={save}/>
+                <FormSubmitButton color={payload.color} label="Сохранить" onClick={save}/>
             </Form>
         </div>
     )

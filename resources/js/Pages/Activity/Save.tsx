@@ -27,10 +27,10 @@ type Props = {
 
 export default function Save({collection, activity}: Props) {
     const willStore = window.location.pathname.includes("/new")
-    const {data, setData, setField, errors, post, put} = useFormState<Payload>()
+    const {payload, setPayload, setField, errors, post, put} = useFormState<Payload>()
 
     useEffect(() => {
-        setData({
+        setPayload({
             name: activity?.name ?? "",
             icon: activity?.icon ?? 100,
         })
@@ -46,19 +46,19 @@ export default function Save({collection, activity}: Props) {
 
     return (
         <div className="save-activity-page">
-            <Head title={willStore ? "Новая активность" : data.name}/>
+            <Head title={willStore ? "Новая активность" : payload.name}/>
             <Form>
                 <FormHeader>
                     <FormBackButton/>
-                    <FormTitle>{willStore ? "Новая активность" : data?.name}</FormTitle>
+                    <FormTitle>{willStore ? "Новая активность" : payload?.name}</FormTitle>
                     {!willStore && <FormOptions icon="delete" href={`/collections/${collection.id}/activities/${activity.id}/delete`}/>}
                 </FormHeader>
                 <FormContent>
                     <div className="save-activity-page__name-container wrapped">
-                        <Icon8 className="save-activity-page__icon" id={data.icon}/>
-                        <Field className="save-activity-page__field" name="name" label="Название" value={data.name} max={20} error={errors.name} onChange={setField}/>
+                        <Icon8 className="save-activity-page__icon" id={payload.icon}/>
+                        <Field className="save-activity-page__field" name="name" label="Название" value={payload.name} max={20} error={errors.name} onChange={setField}/>
                     </div>
-                    <IconSelect className="save-activity-page__icon-select" name="icon" color={collection.color} value={data.icon} onChange={setField}/>
+                    <IconSelect className="save-activity-page__icon-select" name="icon" color={collection.color} value={payload.icon} onChange={setField}/>
                 </FormContent>
                 <FormSubmitButton label="Сохранить" color={collection.color} onClick={save}/>
             </Form>

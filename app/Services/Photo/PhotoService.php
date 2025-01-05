@@ -43,7 +43,7 @@ class PhotoService implements PhotoServiceInterface
 
         Photo::insert($data);
 
-        return $data;
+        return collect($data)->pluck('name')->toArray();
     }
 
 

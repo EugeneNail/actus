@@ -8,13 +8,19 @@ import {Head, Link, router} from "@inertiajs/react";
 import Month from "../../model/month";
 import MonthCarousel from "../../component/month-carousel/month-carousel";
 
+export type Goals = {
+    goalsTotal: number
+    goalsCompleted: number
+}
+
 type Props = {
-    entries: Entry[],
+    entries: (Entry & Goals)[],
     months: Month[],
 }
 
 
 export default withLayout(Index)
+
 function Index({entries, months}: Props) {
 
     const messages = [
@@ -53,10 +59,10 @@ function Index({entries, months}: Props) {
     return (
         <div className="entries-page">
             <Head title='Записи'/>
-            {months && months.length > 0 && <MonthCarousel months={months}/> }
+            {months && months.length > 0 && <MonthCarousel months={months}/>}
             <div className="entries-page__entries wrapped">
                 {entries && canShowButton() &&
-                    <Link className="entries-page-button" href={"/entries/new"}>
+                    <Link className="entries-page-button" href={"/entries/" + new Date().toISOString().split('T')[0]}>
                         <div className="entries-page-button__icon-container">
                             <Icon className="entries-page-button__icon" name="add"/>
                         </div>

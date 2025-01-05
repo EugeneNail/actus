@@ -17,7 +17,7 @@ interface Payload {
 }
 
 export default function SignupPage() {
-    const {data, setField, errors, post} = useFormState<Payload>()
+    const {payload, setField, errors, post} = useFormState<Payload>()
 
     function signup() {
         post('/signup')
@@ -31,10 +31,10 @@ export default function SignupPage() {
                     <FormContent>
                         <img src="/img/logo/android-chrome-512x512.png" alt="" className="guest-page__logo"/>
                         <h1 className="guest-page__header">Actum</h1>
-                        <Field name="name" label="Как вас зовут?" value={data?.name} max={20} error={errors.name} onChange={setField}/>
-                        <Field name="email" label="Электронная почта" value={data?.email} email max={100} error={errors.email} onChange={setField}/>
-                        <Field name="password" label="Пароль" value={data?.password} max={100} error={errors.password} onChange={setField} password/>
-                        <Field name="passwordConfirmation" label="Повторите пароль" value={data?.passwordConfirmation} max={100} error={errors.passwordConfirmation} onChange={setField} password/>
+                        <Field name="name" label="Как вас зовут?" value={payload?.name} max={20} error={errors.name} onChange={setField}/>
+                        <Field name="email" label="Электронная почта" value={payload?.email} email max={100} error={errors.email} onChange={setField}/>
+                        <Field name="password" label="Пароль" value={payload?.password} max={100} error={errors.password} onChange={setField} password/>
+                        <Field name="passwordConfirmation" label="Повторите пароль" value={payload?.passwordConfirmation} max={100} error={errors.passwordConfirmation} onChange={setField} password/>
                         <Link href="/login" className="guest-page-link">У меня уже есть аккаунт</Link>
                     </FormContent>
                     <FormSubmitButton label="Зарегистрироваться" onClick={signup}/>

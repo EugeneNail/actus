@@ -2,21 +2,16 @@ import "./date-picker.sass"
 import React, {ChangeEvent, useEffect, useState} from "react";
 import classNames from "classnames";
 import Icon from "../icon/icon";
-import Button, {ButtonStyle} from "../button/button";
-import {Color} from "../../model/color";
 
 type Props = {
     className?: string
-    active: boolean
     name: string
     value: string
-    disabled?: boolean
     error: string
     onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
-
-export function DatePicker({className, active, name, value, disabled, error, onChange}: Props) {
+export function DatePicker({className, name, value, error, onChange}: Props) {
     const [isVisible, setVisible] = useState(false)
     const [year, setYear] = useState(new Date(value).getFullYear())
     const [month, setMonth] = useState(new Date(value).getMonth())
@@ -82,10 +77,6 @@ export function DatePicker({className, active, name, value, disabled, error, onC
 
 
     function toggleCalendar() {
-        if (disabled) {
-            return
-        }
-
         if (isVisible) {
             setVisible(false)
             document.body.style.overflow = "auto"
@@ -134,7 +125,6 @@ export function DatePicker({className, active, name, value, disabled, error, onC
         <div className={className}>
             <div className="date-picker__label">
                 <p className="date-picker__date" onClick={toggleCalendar}>{getDate()}</p>
-                {active && <Icon className="date-picker__dropdown" name="arrow_drop_down"/>}
             </div>
             <input type="text" id={name} name={name} className="date-picker__input" onChange={onChange}/>
             {isVisible && <div className="date-picker__cover" onClick={toggleCalendar}></div>}

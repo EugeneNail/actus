@@ -15,9 +15,8 @@ interface EntryServiceInterface
     /** @return IndexMonth[] */
     public function collectMonthData(User $user): iterable;
 
-    public function create(array $data, int $userId): Entry;
 
-    public function update(Entry $entry, array $data): Entry;
+    public function save(array $data): Entry;
 
     /** @param $activitiesIds int[] */
     public function saveActivities(Entry $entry, array $activitiesIds): void;

@@ -107,9 +107,15 @@ class EntryService implements EntryServiceInterface
     }
 
 
-    public function update(Entry $entry, array $data): Entry
+    public function save(array $data): Entry
     {
+        $entry = Entry::find($data['id']) ?? new Entry();
         $entry->fill($data);
+
+        if ($entry->user_id == 0) {
+            $entry->user_id = Auth::user()->id;
+        }
+
         $entry->save();
 
         return $entry;

@@ -48,6 +48,7 @@ class GoalService implements GoalServiceInterface
             ->join('entries', 'entries.id', '=', 'entries_goals.entry_id')
             ->from('entries_goals')
             ->where('entries.date', '>=', $startDate->format('Y-m-d'))
+            ->where('entries.date', '<=', $today->format('Y-m-d'))
             ->groupBy('goalId')
             ->get();
 
