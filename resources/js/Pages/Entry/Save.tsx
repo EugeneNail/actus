@@ -63,7 +63,7 @@ type Props = {
 
 export default function Save({data}: Props) {
     const willStore = data.id == 0
-    const {data: payload, setData: setPayload, setField, errors, post} = useFormState<Payload>()
+    const {payload, setPayload, setField, errors, post} = useFormState<Payload>()
 
     useEffect(() => {
         setPayload({
