@@ -4,6 +4,7 @@ namespace App\Services\Statistics;
 
 use App\Enums\Mood;
 use App\Models\Support\MoodBand;
+use App\Models\Support\NodeEntry;
 use App\Models\Support\TableActivity;
 use App\Models\Support\TableCollection;
 use DateInterval;
@@ -119,7 +120,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
     public function forWeightChart(array $nodes): iterable
     {
         $nodes = collect($nodes)
-            ->keyBy(fn($entry) => "$entry->year-$entry->month-" . str_pad($entry->day, 2, '0', STR_PAD_LEFT))
+            ->keyBy($this->nodeToDate(...))
             ->sortByDesc(fn($_, $key) => $key)
             ->map(fn($entry) => $entry->weight)
             ->toArray();
@@ -143,11 +144,10 @@ class StatisticsCollector implements StatisticsCollectorInterface
     public function forSleeptimeChart(array $nodes): iterable
     {
         $nodes = collect($nodes)
-            ->keyBy(fn($entry) => "$entry->year-$entry->month-" . str_pad($entry->day, 2, '0', STR_PAD_LEFT))
+            ->keyBy($this->nodeToDate(...))
             ->sortByDesc(fn($_, $key) => $key)
             ->map(fn($entry) => $entry->sleeptime)
             ->toArray();
-
         $sleeptimes = [];
 
         $period = $this->createMonthPeriod();
@@ -167,7 +167,7 @@ class StatisticsCollector implements StatisticsCollectorInterface
     public function forWorktimeChart(array $nodes): iterable
     {
         $nodes = collect($nodes)
-            ->keyBy(fn($entry) => "$entry->year-$entry->month-" . str_pad($entry->day, 2, '0', STR_PAD_LEFT))
+            ->keyBy($this->nodeToDate(...))
             ->sortByDesc(fn($_, $key) => $key)
             ->map(fn($entry) => $entry->worktime)
             ->toArray();
@@ -181,6 +181,16 @@ class StatisticsCollector implements StatisticsCollectorInterface
         }
 
         return array_reverse($sleeptimes);
+    }
+
+
+    private function nodeToDate(NodeEntry $entry): string {
+        return sprintf(
+            '%d-%s-%s',
+            $entry->year,
+            str_pad($entry->month, 2, '0', STR_PAD_LEFT),
+            str_pad($entry->day, 2, '0', STR_PAD_LEFT)
+        );
     }
 
 
