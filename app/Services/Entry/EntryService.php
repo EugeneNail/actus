@@ -125,22 +125,9 @@ class EntryService implements EntryServiceInterface
     /** @inheritDoc */
     public function saveActivities(Entry $entry, array $activitiesIds): void
     {
-        DB::table("activity_entry")
-            ->where('entry_id', $entry->id)
-            ->whereNotIn('activity_id', $activitiesIds)
-            ->delete();
         $entry->activities()->sync($activitiesIds);
     }
 
-
-    /** @inheritDoc */
-    public function existsForDate(string $date, int $userId): bool
-    {
-        return Entry::query()
-                ->where('user_id', $userId)
-                ->where('date', $date)
-                ->count() > 0;
-    }
 
 
     /** @inheritDoc */

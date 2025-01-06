@@ -26,7 +26,4 @@ interface EntryServiceInterface
 
     /** @param $photoNames string[] */
     public function savePhotos(Entry $entry, array $photoNames): void;
-
-    /** @param string $date in format Y-m-d */
-    public function existsForDate(string $date, int $userId): bool;
 }
