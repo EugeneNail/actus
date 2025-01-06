@@ -11,7 +11,7 @@ export default function SleeptimeChart({values}: Props) {
     return (
         <div className="sleeptime-chart">
             <p className="mood-chart__label">Динамика Сна</p>
-            <LineChart className='sleeptime-chart__canvas' values={values} color={Color.Green} rows={5} decimalPlaces={1}/>
+            <LineChart className='sleeptime-chart__canvas' values={values} color={Color.Green} step={1}/>
         </div>
     )
 }

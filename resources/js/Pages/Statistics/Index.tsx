@@ -11,6 +11,7 @@ import {FrequentActivity} from "../../model/frequent-activity";
 import WeightChart from "../../component/weight-chart/weight-chart";
 import SleeptimeChart from "../../component/sleeptime-chart/sleeptime-chart";
 import WorktimeChart from "../../component/worktime-chart/worktime-chart";
+import {Head} from "@inertiajs/react";
 
 type Props = {
     table: TableCollection[]
@@ -31,6 +32,7 @@ export default withLayout(Index)
 function Index({table, mood, frequency, sleeptimeChart, weightChart, worktimeChart}: Props) {
     return (
         <div className="statistics-page">
+            <Head title='Статистика'/>
             <div className="statistics-page__statistics wrapped">
                 <MoodBand values={mood.band}/>
                 <MoodChart values={mood.chart}/>

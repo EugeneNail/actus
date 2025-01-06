@@ -5,36 +5,40 @@ import {Color} from "../../model/color";
 type Props = {
     values: number[]
     color: Color
-    rows: number
+    step: number
     decimalPlaces?: number
     className?: string
 };
 
-export default function LineChart({className, values, color, rows, decimalPlaces = 0}: Props) {
+export default function LineChart({className, values, color, step, decimalPlaces = 0}: Props) {
     const canvasRef = useRef(null);
+
 
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const padding = 20
+        const padding = 30
         const marginLeft = 100
         const minY = Math.min(...values.filter(value => value != -1))
         const maxY = Math.max(...values.filter(value => value != -1))
         const stepY = (canvas.height - padding * 2) / (maxY - minY)
         const stepX = (canvas.width - marginLeft) / (values.length - 1);
+        const valueDifference = maxY - minY
+        const remainder = minY % step
+        console.log(minY + ' ' + remainder)
+        const rows = Math.floor(valueDifference / step)
 
         const lineStep = (canvas.height - padding * 2)  / rows
-        const valueStep = (maxY - minY) / rows
 
         for (let i = 0; i < rows + 1; i++) {
             ctx.beginPath()
-            const y = canvas.height - i * lineStep - padding
+            const y = canvas.height - (i + remainder) * lineStep - padding
             ctx.font = '30px Arial'
             ctx.fillStyle = '#999'
             ctx.textAlign = 'end'
-            ctx.fillText((minY + valueStep * i).toFixed(decimalPlaces), marginLeft - 40, y + 8)
+            ctx.fillText((minY + step * i - remainder).toFixed(decimalPlaces), marginLeft - 40, y + 8)
             ctx.moveTo(marginLeft - 20, y)
             ctx.lineTo(canvas.width, y)
             ctx.strokeStyle = '#bbb'

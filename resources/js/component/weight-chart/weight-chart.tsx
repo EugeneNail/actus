@@ -11,7 +11,7 @@ export default function WeightChart({values}: Props) {
     return (
         <div className="weight-chart">
             <p className="mood-chart__label">Динамика Веса</p>
-            <LineChart className='weight-chart__canvas' values={values} color={Color.Orange} rows={6} decimalPlaces={1}/>
+            <LineChart className='weight-chart__canvas' values={values} color={Color.Orange} decimalPlaces={1} step={0.5}/>
         </div>
     )
 }

@@ -11,7 +11,7 @@ export default function WorktimeChart({values}: Props) {
     return (
         <div className="worktime-chart">
             <p className="mood-chart__label">Динамика Работы</p>
-            <LineChart className='worktime-chart__canvas' values={values} color={Color.Blue} rows={6} decimalPlaces={1}/>
+            <LineChart className='worktime-chart__canvas' values={values} color={Color.Blue} step={1}/>
         </div>
     )
 }
