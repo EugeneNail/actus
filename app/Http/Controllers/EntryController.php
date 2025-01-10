@@ -59,6 +59,7 @@ class EntryController extends Controller
             $entry = new Entry();
             $entry->id = 0;
             $entry->date = new Carbon($date);
+            $entry->weather = 2;
             $entry->mood = 3;
             $entry->sleeptime = 1;
             $entry->weight = DB::query()->select('weight')->from('entries')->where('user_id', $user->id)->orderByDesc('date')->limit(1)->first()->weight;
