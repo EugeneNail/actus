@@ -2,19 +2,18 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Collection as LaravelCollection;
+use Illuminate\Support\Collection;
 
 /**
  * @property string $name
  * @property int $icon
  * @property int $user_id
  * @property User $user
- * @property LaravelCollection|Entry[] $entries
+ * @property Collection|Entry[] $entries
  */
 class Goal extends Model
 {

@@ -6,14 +6,12 @@ use App\Http\Requests\Entry\IndexRequest;
 use App\Http\Requests\Entry\SaveRequest;
 use App\Models\Entry;
 use App\Models\User;
-use App\Services\Activity\ActivityServiceInterface;
 use App\Services\Entry\EntryServiceInterface;
 use App\Services\Goal\GoalServiceInterface;
 use App\Services\Photo\PhotoServiceInterface;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -23,17 +21,14 @@ class EntryController extends Controller
 
     private EntryServiceInterface $entries;
 
-    private ActivityServiceInterface $activities;
-
     private PhotoServiceInterface $photos;
 
     private GoalServiceInterface $goals;
 
 
-    public function __construct(EntryServiceInterface $entryService, ActivityServiceInterface $activityService, PhotoServiceInterface $photoService, GoalServiceInterface $goalService)
+    public function __construct(EntryServiceInterface $entryService, PhotoServiceInterface $photoService, GoalServiceInterface $goalService)
     {
         $this->entries = $entryService;
-        $this->activities = $activityService;
         $this->photos = $photoService;
         $this->goals = $goalService;
     }
@@ -44,7 +39,7 @@ class EntryController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        // Чтобы на маршруте /entries/today не осуществлялась переадресация
+        // Чтобы при переходе на /entries/today из манифеста не осуществлялась переадресация
         if ($date == self::DATE_TODAY) {
             $date = date('Y-m-d');
         }
@@ -61,9 +56,6 @@ class EntryController extends Controller
             $entry->date = new Carbon($date);
             $entry->weather = 2;
             $entry->mood = 3;
-            $entry->sleeptime = 1;
-            $entry->weight = DB::query()->select('weight')->from('entries')->where('user_id', $user->id)->orderByDesc('date')->limit(1)->first()->weight;
-            $entry->worktime = 0;
         }
 
         return Inertia::render("Entry/Save", [
@@ -75,13 +67,8 @@ class EntryController extends Controller
                 'userGoals' => $user->goals,
                 'mood' => $entry->mood,
                 'weather' => $entry->weather,
-                'sleeptime' => $entry->sleeptime,
-                'weight' => $entry->weight,
-                'worktime' => $entry->worktime,
                 'diary' => $entry->diary,
-                'activities' => $entry->activities->map(fn($activity) => $activity->id),
                 'photos' => $entry->photos->map(fn($photo) => $photo->name),
-                'collections' => $user->collections()->with("activities")->get(),
             ]
         ]);
     }
@@ -92,11 +79,7 @@ class EntryController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        $areRelationsValid =
-            $this->activities->allExist($request->activities)
-            && $this->activities->ownsEach($request->activities, $user->id)
-            && $this->photos->allExist($request->photos)
-            && $this->photos->ownsEach($request->photos, $user->id);
+        $areRelationsValid = $this->photos->allExist($request->photos) && $this->photos->ownsEach($request->photos, $user->id);
         if (!$areRelationsValid) {
             abort(404);
         }

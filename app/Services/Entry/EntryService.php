@@ -4,8 +4,6 @@ namespace App\Services\Entry;
 
 use App\Models\Entry;
 use App\Models\Support\IndexEntry;
-use App\Models\Support\IndexEntryActivity;
-use App\Models\Support\IndexEntryCollection;
 use App\Models\Support\IndexMonth;
 use App\Models\User;
 use Illuminate\Support\Carbon;
@@ -31,7 +29,6 @@ class EntryService implements EntryServiceInterface
 
         /** @var User $user */
         $user = Auth::user();
-        $collectionsById = $user->collections->keyBy('id');
         $goalsTotal = $user->goals->count();
 
         return $user
@@ -45,42 +42,13 @@ class EntryService implements EntryServiceInterface
                 $entry->id,
                 $entry->mood,
                 $entry->weather,
-                $entry->sleeptime,
-                $entry->weight,
                 $goalsTotal,
                 $entry->goals->count(),
-                $entry->worktime,
                 $entry->date,
                 $entry->diary,
                 $entry->photos->map(fn($photo) => $photo->name)->toArray(),
-                $this->groupActivitiesByCollection($entry->activities, $collectionsById),
             ))
             ->toArray();
-    }
-
-
-    private function groupActivitiesByCollection(iterable $activities, iterable $collectionsById): array
-    {
-        $collectionsMap = [];
-
-        foreach ($activities as $activity) {
-            $collectionId = $activity->collection_id;
-
-            if (!array_key_exists($collectionId, $collectionsMap)) {
-                $collection = $collectionsById[$collectionId];
-                $collectionsMap[$collectionId] = new IndexEntryCollection(
-                    $collection->name,
-                    $collection->color
-                );
-            }
-
-            $collectionsMap[$collectionId]->activities[] = new IndexEntryActivity(
-                $activity->name,
-                $activity->icon
-            );
-        }
-
-        return array_values($collectionsMap);
     }
 
 
