@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Collection as LaravelCollection;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -19,11 +19,9 @@ use Illuminate\Support\Collection as LaravelCollection;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property string $remember_token
- * @property LaravelCollection|Collection[] $collections
- * @property LaravelCollection|Activity[] $activities
- * @property LaravelCollection|Entry[] $entries
- * @property LaravelCollection|Photo[] $photos
- * @property LaravelCollection|Goal[] $goals
+ * @property Collection|Entry[] $entries
+ * @property Collection|Photo[] $photos
+ * @property Collection|Goal[] $goals
  */
 class User extends Authenticatable
 {
@@ -49,18 +47,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-
-    public function collections(): HasMany
-    {
-        return $this->hasMany(Collection::class);
-    }
-
-
-    public function activities(): HasMany
-    {
-        return $this->hasMany(Activity::class);
-    }
 
 
     public function entries(): HasMany

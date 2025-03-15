@@ -1,10 +1,10 @@
 import "./Index.sass"
-import React, {useEffect, useState} from "react";
+import React from "react";
 import EntryCard from "../../component/entry-card/entry-card";
 import Entry from "../../model/entry";
 import Icon from "../../component/icon/icon";
 import withLayout from "../../Layout/default-layout";
-import {Head, Link, router} from "@inertiajs/react";
+import {Head, Link} from "@inertiajs/react";
 import Month from "../../model/month";
 import MonthCarousel from "../../component/month-carousel/month-carousel";
 
@@ -20,7 +20,6 @@ type Props = {
 
 
 export default withLayout(Index)
-
 function Index({entries, months}: Props) {
 
     const messages = [

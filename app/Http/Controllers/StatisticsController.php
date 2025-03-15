@@ -12,8 +12,6 @@ class StatisticsController extends Controller
 {
     const OFFSET_MONTH = 30;
 
-    const OFFSET_YEAR = 365;
-
     private StatisticsCollectorInterface $collector;
 
     private StatisticsServiceInterface $service;
@@ -29,24 +27,13 @@ class StatisticsController extends Controller
     public function index(Request $request): Response {
         $user = $request->user();
 
-        $monthNodeActivities = $this->service->getActivityNodes($user, self::OFFSET_MONTH);
         $monthNodeEntries = $this->service->getEntryNodes($user, self::OFFSET_MONTH);
 
-        $yearNodeActivities = $this->service->getActivityNodes($user, self::OFFSET_YEAR);
-
         return Inertia::render('Statistics/Index', [
-            'table' => $this->collector->forTable($monthNodeActivities, $user->collections->toArray(), self::OFFSET_MONTH),
             'mood' => [
                 'band' => $this->collector->forMoodBand($monthNodeEntries),
                 'chart' => $this->collector->forMoodChart($monthNodeEntries)
             ],
-            'frequency' => [
-                'month' => $this->collector->forFrequency($monthNodeActivities, 9),
-                'year' => $this->collector->forFrequency($yearNodeActivities, 9)
-            ],
-            'weightChart' => $this->collector->forWeightChart($monthNodeEntries),
-            'sleeptimeChart' => $this->collector->forSleeptimeChart($monthNodeEntries),
-            'worktimeChart' => $this->collector->forWorktimeChart($monthNodeEntries)
         ]);
     }
 }

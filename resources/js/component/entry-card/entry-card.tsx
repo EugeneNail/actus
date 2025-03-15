@@ -1,13 +1,12 @@
 import "./entry-card.sass"
 import Entry from "../../model/entry";
 import Icon from "../icon/icon";
-import {Mood, MoodIcons} from "../../model/mood";
+import {Mood, MoodIcons} from "@/model/mood";
 import classNames from "classnames";
-import EntryCardCollection from "./entry-card-collection";
-import {Weather, WeatherIcons, WeatherNames} from "../../model/weather";
+import {Weather, WeatherIcons} from "@/model/weather";
 import React from "react";
-import {Link, router} from "@inertiajs/react";
-import {Goals} from "../../Pages/Entry/Index";
+import {Link} from "@inertiajs/react";
+import {Goals} from "@/Pages/Entry/Index";
 
 type Props = {
     entry: Entry & Goals
@@ -54,29 +53,11 @@ export default function EntryCard({entry}: Props) {
                     <Icon className={weatherClassName} name={WeatherIcons[entry.weather]}/>
                     <div className="entry-card__stats">
                         <div className="entry-card__stat">
-                            <Icon className='entry-card__stat-icon green' name='bedtime'/>
-                            <span className="entry-card__stat-value green">{entry.sleeptime}</span>
-                        </div>
-                        <div className="entry-card__stat">
-                            <Icon className='entry-card__stat-icon orange' name='weight'/>
-                            <span className="entry-card__stat-value orange">{entry.weight.toFixed(1)}</span>
-                        </div>
-                        <div className="entry-card__stat">
-                            <Icon className='entry-card__stat-icon blue' name='payments'/>
-                            <span className="entry-card__stat-value blue">{entry.worktime}</span>
-                        </div>
-                        <div className="entry-card__stat">
                             <Icon className='entry-card__stat-icon' name='check' bold/>
                             <span className="entry-card__stat-value">{entry.goalsCompleted} / {entry.goalsTotal}</span>
                         </div>
                     </div>
                 </div>
-                {entry.collections && entry.collections.length > 0 && <div className="entry-card__collections">
-                    {entry.collections && entry.collections.map(collection =>
-                        collection.activities?.length > 0 &&
-                        <EntryCardCollection key={Math.random()} collection={collection}/>
-                    )}
-                </div>}
             </div>
             {entry.diary.length > 0 && <p className="entry-card__diary">{entry.diary}</p>}
             {entry.photos && entry.photos.length > 0 &&

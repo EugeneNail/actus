@@ -14,19 +14,6 @@ class EntryTestSeeder extends Seeder
     public function run(): void
     {
         $user = User::first();
-        Collection::factory()
-            ->for($user)
-            ->count(20)
-            ->has(Activity::factory()->for($user)->count(20))
-            ->create();
         Entry::factory()->for($user)->count(100)->create();
-
-
-        $activities = Activity::all();
-        Entry::all()->each(function (Entry $entry) use($activities) {
-            $entry->activities()->attach(
-                $activities->random(rand(15, 35))->pluck('id')->toArray()
-            );
-        });
     }
 }

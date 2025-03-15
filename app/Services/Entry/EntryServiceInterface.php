@@ -18,8 +18,6 @@ interface EntryServiceInterface
 
     public function save(array $data): Entry;
 
-    /** @param $activitiesIds int[] */
-    public function saveActivities(Entry $entry, array $activitiesIds): void;
 
     /** @param $goalsIds int[] */
     public function saveGoals(Entry $entry, array $goalsIds): void;
