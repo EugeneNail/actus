@@ -12,7 +12,7 @@ interface GoalServiceInterface
     public function update(Goal $goal, array $data): void;
 
     /** @return array<int, int> */
-    public function collectGoalCompletions(Carbon $today, int $userId): array;
+    public function collectLatestGoalCompletions(Carbon $today, int $userId): array;
 
     public function destroy(Goal $goal): void;
 }

@@ -24,7 +24,7 @@ type Data = {
     id: number
     date: string
     goals: number[]
-    lastGoalCompletions: { [key: number]: number }
+    latestGoalCompletions: { [key: number]: number }
     userGoals: Goal[]
     mood: Mood
     weather: Weather
@@ -125,7 +125,7 @@ export default function Save({data}: Props) {
                 </FormHeader>
                 <FormContent>
                     <MoodSelect name="mood" value={payload.mood ?? Mood.Neutral} onChange={setField}/>
-                    <GoalChecker toggleGoal={toggleGoal} userGoals={data.userGoals ?? []} goals={payload.goals ?? []} lastGoalCompletions={data.lastGoalCompletions ?? []}/>
+                    <GoalChecker toggleGoal={toggleGoal} userGoals={data.userGoals ?? []} goals={payload.goals ?? []} lastGoalCompletions={data.latestGoalCompletions ?? []}/>
                     <WeatherSelect name="weather" value={payload.weather ?? Weather.Sunny} onChange={setField}/>
                     <Diary name="diary" max={10000} value={payload.diary ?? ""} onChange={setField}/>
                     <PhotoUploader name="photos[]" values={payload.photos} deletePhoto={deletePhoto} onPhotosUploaded={addPhotos}/>

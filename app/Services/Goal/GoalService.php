@@ -28,7 +28,7 @@ class GoalService implements GoalServiceInterface
      * @inheritDoc
      * @throws Exception
      */
-    public function collectGoalCompletions(Carbon $today, int $userId): array
+    public function collectLatestGoalCompletions(Carbon $today, int $userId): array
     {
         $goalCompletions = [];
         $startDate = (clone $today)->subMonth();
@@ -49,6 +49,7 @@ class GoalService implements GoalServiceInterface
             ->from('entries_goals')
             ->where('entries.date', '>=', $startDate->format('Y-m-d'))
             ->where('entries.date', '<=', $today->format('Y-m-d'))
+            ->where('entries.user_id', $userId)
             ->groupBy('goalId')
             ->get();
 

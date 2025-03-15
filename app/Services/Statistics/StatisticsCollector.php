@@ -3,7 +3,12 @@
 namespace App\Services\Statistics;
 
 use App\Enums\Mood;
+use App\Models\Goal;
 use App\Models\Support\MoodBand;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use DateTime;
+use Illuminate\Support\Facades\Auth;
 
 class StatisticsCollector implements StatisticsCollectorInterface
 {
@@ -42,5 +47,39 @@ class StatisticsCollector implements StatisticsCollectorInterface
             ->map(fn($node) => $node->mood)
             ->values()
             ->toArray();
+    }
+
+
+    public function forGoalHeatmap(array $nodes, int $daysAgo): iterable
+    {
+        $heatmap = [];
+
+        /** @var Goal[] $goals */
+        $goals = Auth::user()->goals->keyBy('id');
+
+        $indexed = [];
+        foreach ($nodes as $node) {
+            $date = (new DateTime())->setDate($node->year, $node->month, $node->day)->format('Y-m-d');
+            $indexed[$date][$node->id] = $node->id;
+        }
+
+        $start = (new Carbon())->subDays($daysAgo)->format('Y-m-d');
+        $period = new CarbonPeriod($start, '1 days', date('Y-m-d'));
+
+        foreach ($goals as $goal) {
+            $heatmap[$goal->id] = [
+                'icon' => $goal->icon,
+                'heat' => []
+            ];
+
+            foreach ($period as $date) {
+                $date = $date->format('Y-m-d');
+                $heatmap[$goal->id]['heat'][] = isset($indexed[$date][$goal->id]);
+            }
+
+            $heatmap[$goal->id]['heat'] = array_reverse($heatmap[$goal->id]['heat']);
+        }
+
+        return array_values($heatmap);
     }
 }

@@ -9,6 +9,9 @@ use App\Models\User;
 use App\Services\Entry\EntryServiceInterface;
 use App\Services\Goal\GoalServiceInterface;
 use App\Services\Photo\PhotoServiceInterface;
+use App\Services\Statistics\StatisticsCollector;
+use App\Services\Statistics\StatisticsCollectorInterface;
+use App\Services\Statistics\StatisticsServiceInterface;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -25,12 +28,23 @@ class EntryController extends Controller
 
     private GoalServiceInterface $goals;
 
+    private StatisticsCollectorInterface $statisticsCollector;
 
-    public function __construct(EntryServiceInterface $entryService, PhotoServiceInterface $photoService, GoalServiceInterface $goalService)
-    {
+    private StatisticsServiceInterface $statisticsService;
+
+
+    public function __construct(
+        EntryServiceInterface $entryService,
+        PhotoServiceInterface $photoService,
+        GoalServiceInterface $goalService,
+        StatisticsCollector $statisticsCollector,
+        StatisticsServiceInterface $statisticsService
+    ) {
         $this->entries = $entryService;
         $this->photos = $photoService;
         $this->goals = $goalService;
+        $this->statisticsCollector = $statisticsCollector;
+        $this->statisticsService = $statisticsService;
     }
 
 
@@ -63,7 +77,7 @@ class EntryController extends Controller
                 'id' => $entry->id,
                 'date' => $entry->date,
                 'goals' => $entry->goals->map(fn($goal) => $goal->id),
-                'lastGoalCompletions' => $this->goals->collectGoalCompletions($entry->date, $user->id),
+                'latestGoalCompletions' => $this->goals->collectLatestGoalCompletions($entry->date, $user->id),
                 'userGoals' => $user->goals,
                 'mood' => $entry->mood,
                 'weather' => $entry->weather,
@@ -79,7 +93,10 @@ class EntryController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        $areRelationsValid = $this->photos->allExist($request->photos) && $this->photos->ownsEach($request->photos, $user->id);
+        $areRelationsValid = $this->photos->allExist($request->photos) && $this->photos->ownsEach(
+                $request->photos,
+                $user->id
+            );
         if (!$areRelationsValid) {
             abort(404);
         }
@@ -101,7 +118,11 @@ class EntryController extends Controller
             ]);
         }
 
+
+        $goalNodes = $this->statisticsService->getGoalNodes(Auth::user(), 30);
+
         return Inertia::render('Entry/Index', [
+            'goalHeatmap' => $this->statisticsCollector->forGoalHeatmap($goalNodes, 30),
             'entries' => $this->entries->collectForIndex($request->month, $request->year),
             'months' => $this->entries->collectMonthData($request->user()),
         ]);

@@ -1,0 +1,28 @@
+@import ../../../css/variables
+
+.goal-heatmap
+  padding: 15px 15px
+  background: $background-3
+  border-radius: 10px
+  border: 1px solid $border-1
+  display: grid
+  gap: 3px
+  justify-content: center
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr))
+
+  &__grid
+    display: flex
+    flex-direction: column
+    gap: 3px
+
+  &__icon
+    aspect-ratio: 1 / 1
+
+  &__heat
+    background: $accent-3
+    aspect-ratio: 1 / 1
+    border-radius: 3px
+    background: transparentize(black, 0.9)
+
+    &.hot
+      background: $green-1

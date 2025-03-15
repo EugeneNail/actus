@@ -7,6 +7,8 @@ import withLayout from "../../Layout/default-layout";
 import {Head, Link} from "@inertiajs/react";
 import Month from "../../model/month";
 import MonthCarousel from "../../component/month-carousel/month-carousel";
+import GoalHeatmapModel from "@/model/goal-heatmap";
+import GoalHeatmap from "@/component/goal-heatmap/goal-heatmap";
 
 export type Goals = {
     goalsTotal: number
@@ -14,13 +16,15 @@ export type Goals = {
 }
 
 type Props = {
+    goalHeatmap: GoalHeatmapModel[],
     entries: (Entry & Goals)[],
     months: Month[],
 }
 
 
 export default withLayout(Index)
-function Index({entries, months}: Props) {
+
+function Index({entries, months, goalHeatmap}: Props) {
 
     const messages = [
         "Давайте не будем оставлять эту страницу дневника пустой? ✌",
@@ -54,12 +58,12 @@ function Index({entries, months}: Props) {
         return messages[Math.floor(Math.random() * messages.length)];
     }
 
-
     return (
         <div className="entries-page">
             <Head title='Записи'/>
             {months && months.length > 0 && <MonthCarousel months={months}/>}
             <div className="entries-page__entries wrapped">
+                {goalHeatmap && goalHeatmap.length > 0 && <GoalHeatmap data={goalHeatmap}/>}
                 {entries && canShowButton() &&
                     <Link className="entries-page-button" href={"/entries/" + new Date().toISOString().split('T')[0]}>
                         <div className="entries-page-button__icon-container">
