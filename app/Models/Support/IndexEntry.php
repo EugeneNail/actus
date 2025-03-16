@@ -2,6 +2,8 @@
 
 namespace App\Models\Support;
 
+use App\Models\Goal;
+
 class IndexEntry
 {
     public readonly int $id;
@@ -12,7 +14,8 @@ class IndexEntry
 
     public readonly int $goalsTotal;
 
-    public readonly int $goalsCompleted;
+    /** @var Goal[] $goals*/
+    public readonly iterable $goals;
 
     public readonly string $date;
 
@@ -27,7 +30,7 @@ class IndexEntry
         int $mood,
         int $weather,
         int $goalsTotal,
-        int $goalsCompleted,
+        iterable $goals,
         string $date,
         ?string $diary,
         array $photos,
@@ -36,7 +39,7 @@ class IndexEntry
         $this->mood = $mood;
         $this->weather = $weather;
         $this->goalsTotal = $goalsTotal;
-        $this->goalsCompleted = $goalsCompleted;
+        $this->goals = $goals;
         $this->date = $date;
         $this->diary = $diary ?? '';
         $this->photos = $photos;

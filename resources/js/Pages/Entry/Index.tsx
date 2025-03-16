@@ -63,7 +63,6 @@ function Index({entries, months, goalHeatmap}: Props) {
             <Head title='Записи'/>
             {months && months.length > 0 && <MonthCarousel months={months}/>}
             <div className="entries-page__entries wrapped">
-                {goalHeatmap && goalHeatmap.length > 0 && <GoalHeatmap data={goalHeatmap}/>}
                 {entries && canShowButton() &&
                     <Link className="entries-page-button" href={"/entries/" + new Date().toISOString().split('T')[0]}>
                         <div className="entries-page-button__icon-container">
@@ -71,6 +70,7 @@ function Index({entries, months, goalHeatmap}: Props) {
                         </div>
                         <p className="entries-page-button__label">{getRandomMessage()}</p>
                     </Link>}
+                {goalHeatmap && goalHeatmap.length > 0 && <GoalHeatmap data={goalHeatmap}/>}
                 {entries && entries.map(entry => (
                     <EntryCard key={entry.id} entry={entry}/>
                 ))}

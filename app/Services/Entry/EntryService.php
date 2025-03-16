@@ -33,7 +33,7 @@ class EntryService implements EntryServiceInterface
 
         return $user
             ->entries()
-            ->with(['photos'])
+            ->with(['goals', 'photos'])
             ->where('date', '>=', $startDate)
             ->where('date', '<=', $endDate)
             ->orderByDesc('date')
@@ -43,7 +43,7 @@ class EntryService implements EntryServiceInterface
                 $entry->mood,
                 $entry->weather,
                 $goalsTotal,
-                $entry->goals->count(),
+                $entry->goals,
                 $entry->date,
                 $entry->diary,
                 $entry->photos->map(fn($photo) => $photo->name)->toArray(),

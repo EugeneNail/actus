@@ -7,6 +7,7 @@ import {Weather, WeatherIcons} from "@/model/weather";
 import React from "react";
 import {Link} from "@inertiajs/react";
 import {Goals} from "@/Pages/Entry/Index";
+import CardGoal from "@/component/card-goal/card-goal";
 
 type Props = {
     entry: Entry & Goals
@@ -54,11 +55,17 @@ export default function EntryCard({entry}: Props) {
                     <div className="entry-card__stats">
                         <div className="entry-card__stat">
                             <Icon className='entry-card__stat-icon' name='check' bold/>
-                            <span className="entry-card__stat-value">{entry.goalsCompleted} / {entry.goalsTotal}</span>
+                            <span className="entry-card__stat-value">{entry.goals.length} / {entry.goalsTotal}</span>
                         </div>
                     </div>
                 </div>
+                <div className="entry-card__goals">
+                    {entry.goals && entry.goals.length && entry.goals.map(goal => (
+                        <CardGoal goal={goal} key={Math.random()}/>
+                    ))}
+                </div>
             </div>
+
             {entry.diary.length > 0 && <p className="entry-card__diary">{entry.diary}</p>}
             {entry.photos && entry.photos.length > 0 &&
                 <div className="entry-card__photos">
