@@ -6,12 +6,11 @@ use App\Http\Requests\Entry\IndexRequest;
 use App\Http\Requests\Entry\SaveRequest;
 use App\Models\Entry;
 use App\Models\User;
-use App\Services\Entry\EntryServiceInterface;
-use App\Services\Goal\GoalServiceInterface;
-use App\Services\Photo\PhotoServiceInterface;
+use App\Services\EntryService;
+use App\Services\GoalService;
+use App\Services\PhotoService;
 use App\Services\Statistics\StatisticsCollector;
-use App\Services\Statistics\StatisticsCollectorInterface;
-use App\Services\Statistics\StatisticsServiceInterface;
+use App\Services\Statistics\StatisticsService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -22,23 +21,23 @@ class EntryController extends Controller
 {
     private const DATE_TODAY = 'today';
 
-    private EntryServiceInterface $entries;
+    private EntryService $entries;
 
-    private PhotoServiceInterface $photos;
+    private PhotoService $photos;
 
-    private GoalServiceInterface $goals;
+    private GoalService $goals;
 
-    private StatisticsCollectorInterface $statisticsCollector;
+    private StatisticsCollector $statisticsCollector;
 
-    private StatisticsServiceInterface $statisticsService;
+    private StatisticsService $statisticsService;
 
 
     public function __construct(
-        EntryServiceInterface $entryService,
-        PhotoServiceInterface $photoService,
-        GoalServiceInterface $goalService,
+        EntryService $entryService,
+        PhotoService $photoService,
+        GoalService $goalService,
         StatisticsCollector $statisticsCollector,
-        StatisticsServiceInterface $statisticsService
+        StatisticsService $statisticsService
     ) {
         $this->entries = $entryService;
         $this->photos = $photoService;

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Goals\StoreRequest;
 use App\Http\Requests\Goals\UpdateRequest;
 use App\Models\Goal;
-use App\Services\Goal\GoalServiceInterface;
+use App\Services\GoalService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -13,10 +13,10 @@ use Inertia\Response;
 
 class GoalController extends Controller
 {
-    private GoalServiceInterface $service;
+    private GoalService $service;
 
 
-    public function __construct(GoalServiceInterface $service) {
+    public function __construct(GoalService $service) {
         $this->service = $service;
     }
 

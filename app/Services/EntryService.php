@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Entry;
+namespace App\Services;
 
 use App\Models\Entry;
 use App\Models\Support\IndexEntry;
@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class EntryService implements EntryServiceInterface
+class EntryService
 {
-    /** @inheritDoc */
+    /**
+     * @return IndexEntry[]
+     */
     public function collectForIndex(?int $month, ?int $year): array
     {
         $month = $month ?? date('m');
@@ -52,7 +54,9 @@ class EntryService implements EntryServiceInterface
     }
 
 
-    /** @inheritDoc */
+    /**
+     * @return IndexMonth[]
+     */
     public function collectMonthData(User $user): iterable
     {
         return $user->entries
@@ -90,7 +94,9 @@ class EntryService implements EntryServiceInterface
     }
 
 
-    /** @inheritDoc */
+    /**
+     * @param $photoNames string[]
+     */
     public function savePhotos(Entry $entry, array $photoNames): void
     {
         $unusedPhotos = $entry->photos()->whereNotIn('name', $photoNames)->pluck('name');
@@ -108,7 +114,9 @@ class EntryService implements EntryServiceInterface
     }
 
 
-    /** @inheritDoc */
+    /**
+     * @param $goalsIds int[]
+     */
     public function saveGoals(Entry $entry, array $goalsIds): void
     {
         $entry->goals()->sync($goalsIds);

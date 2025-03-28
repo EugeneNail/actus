@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Statistics\StatisticsCollectorInterface;
-use App\Services\Statistics\StatisticsServiceInterface;
+use App\Services\Statistics\StatisticsCollector;
+use App\Services\Statistics\StatisticsService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -12,12 +12,12 @@ class StatisticsController extends Controller
 {
     const OFFSET_MONTH = 30;
 
-    private StatisticsCollectorInterface $collector;
+    private StatisticsCollector $collector;
 
-    private StatisticsServiceInterface $service;
+    private StatisticsService $service;
 
 
-    public function __construct(StatisticsCollectorInterface $collector, StatisticsServiceInterface $service)
+    public function __construct(StatisticsCollector $collector, StatisticsService $service)
     {
         $this->collector = $collector;
         $this->service = $service;

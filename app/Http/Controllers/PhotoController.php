@@ -3,20 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Photo\StoreRequest;
-use App\Models\Photo;
-use App\Services\Photo\PhotoServiceInterface;
+use App\Services\PhotoService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class PhotoController extends Controller
 {
-    private PhotoServiceInterface $service;
+    private PhotoService $service;
 
 
-    public function __construct(PhotoServiceInterface $service)
+    public function __construct(PhotoService $service)
     {
         $this->service = $service;
     }

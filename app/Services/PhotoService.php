@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Services\Photo;
+namespace App\Services;
 
 use App\Models\Photo;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class PhotoService implements PhotoServiceInterface
+class PhotoService
 {
     public function isOwned(string $name, int $userId): bool
     {
-        return str_starts_with($name, $userId);
+        return str_starts_with($name, $userId . '_');
     }
 
 
@@ -21,7 +21,10 @@ class PhotoService implements PhotoServiceInterface
     }
 
 
-    /** @inheritDoc */
+    /**
+     * @param array<UploadedFile> $photos
+     * @return array<string> names of saved files
+     */
     public function saveMany(array $photos, int $userId): array
     {
         $data = [];
@@ -54,14 +57,18 @@ class PhotoService implements PhotoServiceInterface
     }
 
 
-    /** @inheritDoc */
+    /**
+     * @param $photoNames string[]
+     */
     public function allExist(array $photoNames): bool
     {
         return Photo::whereIn('name', $photoNames)->count() == count($photoNames);
     }
 
 
-    /** @inheritDoc */
+    /**
+     * @param $photoNames string[]
+     */
     public function ownsEach(array $photoNames, int $userId): bool
     {
         return Photo::whereIn('name', $photoNames)->get()->every(fn($photo) => $photo->user_id == $userId);

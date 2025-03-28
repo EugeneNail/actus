@@ -8,9 +8,11 @@ use App\Models\Support\NodeGoal;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 
-class StatisticsService implements StatisticsServiceInterface
+class StatisticsService
 {
-    /** @return array<NodeEntry> */
+    /**
+     * @return array<NodeEntry>
+     */
     public function getEntryNodes(User $user, int $daysAgo): array
     {
         return $user

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Goal;
+namespace App\Services;
 
 use App\Models\Goal;
 use Carbon\Carbon;
@@ -8,8 +8,12 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class GoalService implements GoalServiceInterface
+class GoalService
 {
+    /**
+     * @param array $data
+     * @return void
+     */
     public function store(array $data): void
     {
         $goal = new Goal($data);
@@ -25,7 +29,7 @@ class GoalService implements GoalServiceInterface
 
 
     /**
-     * @inheritDoc
+     * @return array<int, int>
      * @throws Exception
      */
     public function collectLatestGoalCompletions(Carbon $today, int $userId): array
