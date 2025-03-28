@@ -19,9 +19,10 @@ class MarkdownExporter implements ExporterInterface
         $file = Str::uuid();
         Storage::put($file, '');
 
-        foreach ($user->entries->sortBy('date') as $entry) {
-            $this->write($entry, $file);
-        }
+        $user->entries
+            ->where('diary', '!=', '')
+            ->sortBy('date')
+            ->each(fn($entry) => $this->write($entry, $file));
 
         return [
             storage_path("app/$file"),
@@ -32,10 +33,6 @@ class MarkdownExporter implements ExporterInterface
 
     private function write(Entry $entry, string $file): void
     {
-        if (strlen($entry->diary) == 0) {
-            return;
-        }
-
         $date = $entry->date;
         $header = sprintf(
             '# %s, %d %s %d',
