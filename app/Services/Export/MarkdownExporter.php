@@ -13,7 +13,10 @@ use Illuminate\Support\Str;
 
 class MarkdownExporter implements ExporterInterface
 {
-    /** @inheritDoc */
+    /**
+     * Collects and writes all entries with non-empty diary to a file
+     * @inheritDoc
+     */
     public function export(User $user): array
     {
         $file = Str::uuid();
@@ -31,6 +34,12 @@ class MarkdownExporter implements ExporterInterface
     }
 
 
+    /**
+     * Formats plain text into markdown format
+     * @param Entry $entry
+     * @param string $file
+     * @return void
+     */
     private function write(Entry $entry, string $file): void
     {
         $date = $entry->date;

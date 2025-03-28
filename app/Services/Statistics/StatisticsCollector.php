@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Auth;
 class StatisticsCollector
 {
     /**
+     * Collects and calculates mood percentage distribution
      * @param NodeEntry[] $nodes
+     * @return MoodBand
      */
     public function forMoodBand(array $nodes): MoodBand
     {
@@ -32,6 +34,13 @@ class StatisticsCollector
     }
 
 
+    /**
+     * Calculates percentage from plain values
+     * @param Mood $mood
+     * @param iterable $groups
+     * @param int $total
+     * @return float
+     */
     private function moodToPercents(Mood $mood, iterable $groups, int $total): float
     {
         if ($total == 0) {
@@ -44,6 +53,7 @@ class StatisticsCollector
 
 
     /**
+     * Extracts only mood values
      * @param NodeEntry[] $nodes
      * @return iterable<int>
      */
@@ -58,6 +68,8 @@ class StatisticsCollector
 
 
     /**
+     * Determines for each date whether the goal has been completed.
+     * If there is no value for a date, sets it to FALSE
      * @param NodeGoal[] $nodes
      * @param int $daysAgo
      * @return iterable

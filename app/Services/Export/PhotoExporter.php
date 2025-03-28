@@ -9,7 +9,10 @@ use ZipArchive;
 class PhotoExporter implements ExporterInterface
 {
 
-    /** @inheritDoc */
+    /**
+     * Collects and writes all user's photos into a zip file
+     * @inheritDoc
+     */
     public function export(User $user): array
     {
         $archive = new ZipArchive();

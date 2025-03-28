@@ -34,7 +34,7 @@ class GoalController extends Controller
 
 
     public function store(StoreRequest $request): Response | RedirectResponse {
-        $this->service->store($request->validated());
+        $this->service->create($request->validated());
         return redirect()->intended(route('goals.index'));
     }
 
@@ -61,7 +61,7 @@ class GoalController extends Controller
 
 
     public function destroy(Goal $goal): Response|RedirectResponse {
-        $this->service->destroy($goal);
+        $this->service->delete($goal);
         return redirect()->intended(route('goals.index'));
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Statistics\StatisticsCollector;
-use App\Services\Statistics\StatisticsService;
+use App\Services\Statistics\NodeCollector;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -12,27 +12,27 @@ class StatisticsController extends Controller
 {
     const OFFSET_MONTH = 30;
 
-    private StatisticsCollector $collector;
+    private StatisticsCollector $statisticsCollector;
 
-    private StatisticsService $service;
+    private NodeCollector $nodeCollector;
 
 
-    public function __construct(StatisticsCollector $collector, StatisticsService $service)
+    public function __construct(StatisticsCollector $collector, NodeCollector $service)
     {
-        $this->collector = $collector;
-        $this->service = $service;
+        $this->statisticsCollector = $collector;
+        $this->nodeCollector = $service;
     }
 
 
     public function index(Request $request): Response {
         $user = $request->user();
 
-        $monthNodeEntries = $this->service->getEntryNodes($user, self::OFFSET_MONTH);
+        $monthNodeEntries = $this->nodeCollector->collectEntryNodes($user, self::OFFSET_MONTH);
 
         return Inertia::render('Statistics/Index', [
             'mood' => [
-                'band' => $this->collector->forMoodBand($monthNodeEntries),
-                'chart' => $this->collector->forMoodChart($monthNodeEntries)
+                'band' => $this->statisticsCollector->forMoodBand($monthNodeEntries),
+                'chart' => $this->statisticsCollector->forMoodChart($monthNodeEntries)
             ],
         ]);
     }

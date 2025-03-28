@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Storage;
 class EntryService
 {
     /**
+     * Collects all entries in period and maps them into IndexEntry array
+     * @param int|null $month
+     * @param int|null $year
      * @return IndexEntry[]
      */
     public function collectForIndex(?int $month, ?int $year): array
@@ -55,6 +58,8 @@ class EntryService
 
 
     /**
+     * Collects months for the month carousel
+     * @param User $user
      * @return IndexMonth[]
      */
     public function collectMonthData(User $user): iterable
@@ -68,24 +73,18 @@ class EntryService
     }
 
 
-    public function create(array $data, int $userId): Entry
-    {
-        $entry = new Entry($data);
-        $entry->user()
-            ->associate($userId)
-            ->save();
-
-        return $entry;
-    }
-
-
+    /**
+     * Creates or updates an entry
+     * @param array $data
+     * @return Entry
+     */
     public function save(array $data): Entry
     {
         $entry = Entry::find($data['id']) ?? new Entry();
         $entry->fill($data);
 
         if ($entry->user_id == 0) {
-            $entry->user_id = Auth::user()->id;
+            $entry->user()->associate(Auth::user());
         }
 
         $entry->save();
@@ -95,9 +94,12 @@ class EntryService
 
 
     /**
+     * Deletes unused photos and inserts new ones
+     * @param Entry $entry
      * @param $photoNames string[]
+     * @return void
      */
-    public function savePhotos(Entry $entry, array $photoNames): void
+    public function syncPhotos(Entry $entry, array $photoNames): void
     {
         $unusedPhotos = $entry->photos()->whereNotIn('name', $photoNames)->pluck('name');
         $entry->photos()->whereIn('name', $unusedPhotos)->delete();
@@ -115,9 +117,12 @@ class EntryService
 
 
     /**
+     * Deletes unused goals and inserts new ones
+     * @param Entry $entry
      * @param $goalsIds int[]
+     * @return void
      */
-    public function saveGoals(Entry $entry, array $goalsIds): void
+    public function syncGoals(Entry $entry, array $goalsIds): void
     {
         $entry->goals()->sync($goalsIds);
     }

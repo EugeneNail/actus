@@ -10,7 +10,7 @@ use App\Services\EntryService;
 use App\Services\GoalService;
 use App\Services\PhotoService;
 use App\Services\Statistics\StatisticsCollector;
-use App\Services\Statistics\StatisticsService;
+use App\Services\Statistics\NodeCollector;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +29,7 @@ class EntryController extends Controller
 
     private StatisticsCollector $statisticsCollector;
 
-    private StatisticsService $statisticsService;
+    private NodeCollector $nodeCollector;
 
 
     public function __construct(
@@ -37,13 +37,13 @@ class EntryController extends Controller
         PhotoService $photoService,
         GoalService $goalService,
         StatisticsCollector $statisticsCollector,
-        StatisticsService $statisticsService
+        NodeCollector $nodeCollector
     ) {
         $this->entries = $entryService;
         $this->photos = $photoService;
         $this->goals = $goalService;
         $this->statisticsCollector = $statisticsCollector;
-        $this->statisticsService = $statisticsService;
+        $this->nodeCollector = $nodeCollector;
     }
 
 
@@ -101,8 +101,8 @@ class EntryController extends Controller
         }
 
         $entry = $this->entries->save($request->validated());
-        $this->entries->savePhotos($entry, $request->photos);
-        $this->entries->saveGoals($entry, $request->goals);
+        $this->entries->syncPhotos($entry, $request->photos);
+        $this->entries->syncGoals($entry, $request->goals);
 
         return redirect()->intended(route('entries.index'));
     }
@@ -118,7 +118,7 @@ class EntryController extends Controller
         }
 
 
-        $goalNodes = $this->statisticsService->getGoalNodes(Auth::user(), 30);
+        $goalNodes = $this->nodeCollector->collectGoalNodes(Auth::user(), 30);
 
         return Inertia::render('Entry/Index', [
             'goalHeatmap' => $this->statisticsCollector->forGoalHeatmap($goalNodes, 30),

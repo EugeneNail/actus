@@ -14,7 +14,7 @@ class GoalService
      * @param array $data
      * @return void
      */
-    public function store(array $data): void
+    public function create(array $data): void
     {
         $goal = new Goal($data);
         $goal->user()->associate(Auth::user());
@@ -29,6 +29,8 @@ class GoalService
 
 
     /**
+     * Collects goals in period and calculates the number of days between the given date and the latest date when the goal was completed.
+     * Default value -1 means "There were no certain goal completions during period"
      * @return array<int, int>
      * @throws Exception
      */
@@ -66,7 +68,12 @@ class GoalService
     }
 
 
-    public function destroy(Goal $goal): void
+    /**
+     * Delete the goal from database
+     * @param Goal $goal
+     * @return void
+     */
+    public function delete(Goal $goal): void
     {
         $goal->delete();
     }

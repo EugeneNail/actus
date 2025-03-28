@@ -8,12 +8,15 @@ use App\Models\Support\NodeGoal;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 
-class StatisticsService
+class NodeCollector
 {
     /**
-     * @return array<NodeEntry>
+     * Collects and maps entries to NodeEntry array
+     * @param User $user
+     * @param int $daysAgo
+     * @return NodeEntry[]
      */
-    public function getEntryNodes(User $user, int $daysAgo): array
+    public function collectEntryNodes(User $user, int $daysAgo): array
     {
         return $user
             ->entries()
@@ -24,7 +27,13 @@ class StatisticsService
     }
 
 
-    public function getGoalNodes(User $user, int $daysAgo): array
+    /**
+     * Collects and maps goals to NodeGoal array
+     * @param User $user
+     * @param int $daysAgo
+     * @return NodeGoal[]
+     */
+    public function collectGoalNodes(User $user, int $daysAgo): array
     {
         $entries = $user
             ->entries()

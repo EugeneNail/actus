@@ -9,12 +9,23 @@ use Illuminate\Support\Str;
 
 class PhotoService
 {
+    /**
+     * Checks if the user owns the photo
+     * @param string $name
+     * @param int $userId
+     * @return bool
+     */
     public function isOwned(string $name, int $userId): bool
     {
         return str_starts_with($name, $userId . '_');
     }
 
 
+    /**
+     * Checks if the photo exists
+     * @param string $name
+     * @return bool
+     */
     public function exists(string $name): bool
     {
         return file_exists(storage_path("app/photos/$name"));
@@ -22,8 +33,10 @@ class PhotoService
 
 
     /**
-     * @param array<UploadedFile> $photos
-     * @return array<string> names of saved files
+     * Writes multiple photos into storage and database and returns their names
+     * @param UploadedFile[] $photos
+     * @param int $userId
+     * @return string[] names of saved files
      */
     public function saveMany(array $photos, int $userId): array
     {
@@ -50,6 +63,11 @@ class PhotoService
     }
 
 
+    /**
+     * Deletes the photo from storage and database
+     * @param string $name
+     * @return void
+     */
     public function destroy(string $name): void
     {
         Photo::where('name', $name)->delete();
@@ -58,7 +76,9 @@ class PhotoService
 
 
     /**
+     * Checks whether each photo exists
      * @param $photoNames string[]
+     * @return bool
      */
     public function allExist(array $photoNames): bool
     {
@@ -67,7 +87,10 @@ class PhotoService
 
 
     /**
+     * Check whether the user owns each photo
      * @param $photoNames string[]
+     * @param int $userId
+     * @return bool
      */
     public function ownsEach(array $photoNames, int $userId): bool
     {
