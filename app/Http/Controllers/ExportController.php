@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Export\MarkdownExporter;
 use App\Services\Export\PhotoExporter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ExportController extends Controller
 {
@@ -34,8 +35,10 @@ class ExportController extends Controller
     {
         [$path, $name] = $this->photoExporter->export($request->user());
 
-        return response()
-            ->download($path, $name)
-            ->deleteFileAfterSend();
+        if (!File::exists($path)) {
+            return redirect(route('menu.index'));
+        }
+
+        return response()->download($path, $name);
     }
 }
