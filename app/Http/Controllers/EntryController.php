@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Entry\IndexRequest;
 use App\Http\Requests\Entry\SaveRequest;
+use App\Http\Resources\EntryCardResource;
 use App\Models\Entry;
 use App\Models\User;
 use App\Services\EntryService;
@@ -12,7 +13,9 @@ use App\Services\PhotoService;
 use App\Services\Statistics\StatisticsCollector;
 use App\Services\Statistics\NodeCollector;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -21,11 +24,11 @@ class EntryController extends Controller
 {
     private const DATE_TODAY = 'today';
 
-    private EntryService $entries;
+    private EntryService $entryService;
 
-    private PhotoService $photos;
+    private PhotoService $photoService;
 
-    private GoalService $goals;
+    private GoalService $goalService;
 
     private StatisticsCollector $statisticsCollector;
 
@@ -39,20 +42,20 @@ class EntryController extends Controller
         StatisticsCollector $statisticsCollector,
         NodeCollector $nodeCollector
     ) {
-        $this->entries = $entryService;
-        $this->photos = $photoService;
-        $this->goals = $goalService;
+        $this->entryService = $entryService;
+        $this->photoService = $photoService;
+        $this->goalService = $goalService;
         $this->statisticsCollector = $statisticsCollector;
         $this->nodeCollector = $nodeCollector;
     }
 
 
-    public function open(string $date): Response|RedirectResponse
+    public function open(Request $request, string $date): Response|RedirectResponse
     {
         /** @var User $user */
         $user = Auth::user();
 
-        // Чтобы при переходе на /entries/today из манифеста не осуществлялась переадресация
+        // This will avoid unnecessary redirects when navigating the route /entries/today
         if ($date == self::DATE_TODAY) {
             $date = date('Y-m-d');
         }
@@ -62,28 +65,13 @@ class EntryController extends Controller
             return redirect()->intended(route('entries.open', ['date' => date('Y-m-d')]));
         }
 
-        $entry = $user->entries->where('date', Carbon::parse($date))->first();
-        if (!$entry) {
-            $entry = new Entry();
-            $entry->id = 0;
-            $entry->date = new Carbon($date);
-            $entry->weather = 2;
-            $entry->mood = 3;
-        }
+        $entry = $user->entries->where('date', Carbon::parse($date))->first()
+            ?? $this->entryService->createDefaultInstance($date);
 
-        return Inertia::render("Entry/Save", [
-            'data' => [
-                'id' => $entry->id,
-                'date' => $entry->date,
-                'goals' => $entry->goals->map(fn($goal) => $goal->id),
-                'latestGoalCompletions' => $this->goals->collectLatestGoalCompletions($entry->date, $user->id),
-                'userGoals' => $user->goals,
-                'mood' => $entry->mood,
-                'weather' => $entry->weather,
-                'diary' => $entry->diary,
-                'photos' => $entry->photos->map(fn($photo) => $photo->name),
-            ]
-        ]);
+        $latestGoalCompletions = $this->goalService->collectLatestGoalCompletions($entry->date, $user->id);
+        $resource = new EntryCardResource($entry, $user->goals, $latestGoalCompletions);
+
+        return Inertia::render("Entry/Save", $resource->toArray($request));
     }
 
 
@@ -92,7 +80,7 @@ class EntryController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        $areRelationsValid = $this->photos->allExist($request->photos) && $this->photos->ownsEach(
+        $areRelationsValid = $this->photoService->allExist($request->photos) && $this->photoService->ownsEach(
                 $request->photos,
                 $user->id
             );
@@ -100,9 +88,9 @@ class EntryController extends Controller
             abort(404);
         }
 
-        $entry = $this->entries->save($request->validated());
-        $this->entries->syncPhotos($entry, $request->photos);
-        $this->entries->syncGoals($entry, $request->goals);
+        $entry = $this->entryService->save($request->validated());
+        $this->entryService->syncPhotos($entry, $request->photos);
+        $this->entryService->syncGoals($entry, $request->goals);
 
         return redirect()->intended(route('entries.index'));
     }
@@ -122,8 +110,8 @@ class EntryController extends Controller
 
         return Inertia::render('Entry/Index', [
             'goalHeatmap' => $this->statisticsCollector->forGoalHeatmap($goalNodes, 30),
-            'entries' => $this->entries->collectForIndex($request->month, $request->year),
-            'months' => $this->entries->collectMonthData($request->user()),
+            'entries' => $this->entryService->collectForIndex($request->month, $request->year),
+            'months' => $this->entryService->collectMonthData($request->user()),
         ]);
     }
 }

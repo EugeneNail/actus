@@ -20,7 +20,7 @@ import GoalChecker from "../../component/goal-checker/goal-checker";
 import Goal from "../../model/goal";
 
 
-type Data = {
+type Props = {
     id: number
     date: string
     goals: number[]
@@ -29,7 +29,6 @@ type Data = {
     mood: Mood
     weather: Weather
     diary: string
-    activities: number[]
     photos: string[]
 }
 
@@ -40,16 +39,11 @@ type Payload = {
     date: string
     weather: Weather
     diary: string
-    activities: number[]
     photos: string[]
 }
 
-type Props = {
-    data: Data
-}
 
-
-export default function Save({data}: Props) {
+export default function Save(data: Props) {
     const willStore = data.id == 0
     const {payload, setPayload, setField, errors, post} = useFormState<Payload>()
 
@@ -61,7 +55,6 @@ export default function Save({data}: Props) {
             date: data.date.split('T')[0],
             weather: data.weather,
             diary: data.diary,
-            activities: data.activities,
             photos: data.photos,
         })
     }, []);

@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+use App\Http\Resources\EntryIndexResource;
 use App\Models\Entry;
-use App\Models\Support\IndexEntry;
 use App\Models\Support\IndexMonth;
 use App\Models\User;
 use Illuminate\Support\Carbon;
@@ -17,7 +17,7 @@ class EntryService
      * Collects all entries in period and maps them into IndexEntry array
      * @param int|null $month
      * @param int|null $year
-     * @return IndexEntry[]
+     * @return EntryIndexResource[]
      */
     public function collectForIndex(?int $month, ?int $year): array
     {
@@ -34,7 +34,7 @@ class EntryService
 
         /** @var User $user */
         $user = Auth::user();
-        $goalsTotal = $user->goals->count();
+        $userGoalsCount = $user->goals->count();
 
         return $user
             ->entries()
@@ -43,16 +43,7 @@ class EntryService
             ->where('date', '<=', $endDate)
             ->orderByDesc('date')
             ->get()
-            ->map(fn(Entry $entry) => new IndexEntry(
-                $entry->id,
-                $entry->mood,
-                $entry->weather,
-                $goalsTotal,
-                $entry->goals,
-                $entry->date,
-                $entry->diary,
-                $entry->photos->map(fn($photo) => $photo->name)->toArray(),
-            ))
+            ->map(fn(Entry $entry) => new EntryIndexResource($entry, $userGoalsCount))
             ->toArray();
     }
 
@@ -125,5 +116,21 @@ class EntryService
     public function syncGoals(Entry $entry, array $goalsIds): void
     {
         $entry->goals()->sync($goalsIds);
+    }
+
+
+    /**
+     * Creates an instance of Entry class and sets its non-default values
+     * @param string $date
+     * @return Entry
+     */
+    public function createDefaultInstance(string $date = ''): Entry {
+        $entry = new Entry();
+        $entry->id = 0;
+        $entry->date = new \Carbon\Carbon($date);
+        $entry->weather = 2;
+        $entry->mood = 3;
+
+        return $entry;
     }
 }
