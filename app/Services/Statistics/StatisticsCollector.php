@@ -30,7 +30,14 @@ class StatisticsCollector
         $entries = $entries->mapWithKeys(fn (Entry $entry) => [$entry->date->format('Y-m-d') => $entry->mood]);
 
         $total = count($dates);
-        $occurrences = [];
+        $occurrences = [
+            Mood::RADIATING->value => 0,
+            Mood::HAPPY->value => 0,
+            Mood::NEUTRAL->value => 0,
+            Mood::BAD->value => 0,
+            Mood::AWFUL->value => 0,
+        ];
+        
         foreach($dates as $date) {
             $mood = $entries[$date] ?? 1;
 
