@@ -45,9 +45,9 @@ class EntryCardResource extends JsonResource
         return [
             'id' => $this->id,
             'date' => $this->date,
-            'latestGoalCompletions' => null,
+            'latestGoalCompletions' => $this->latestGoalCompletions,
             'userGoals' => $this->userGoals,
-            'goals' => $this->goals->map(fn(Goal $goal) => new GoalResource($goal)),
+            'goals' => $this->goals->map(fn(Goal $goal) => $goal->id),
             'mood' => $this->mood,
             'weather' => $this->weather,
             'diary' => $this->diary ?? '',
