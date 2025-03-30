@@ -26,7 +26,7 @@ class StatisticsController extends Controller
 
 
     public function index(StatisticsIndexRequest $request): Response {
-        $period = $request->period == StatisticsPeriod::MONTH->toString() ? StatisticsPeriod::MONTH->value : StatisticsPeriod::YEAR->value;
+        $period = StatisticsPeriod::toPeriod($request->period);
         $dates = [];
         for ($i = 0; $i < $period; $i++) {
             $dates[] = date('Y-m-d', strtotime("-$i days"));

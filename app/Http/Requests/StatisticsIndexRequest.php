@@ -23,8 +23,14 @@ class StatisticsIndexRequest extends FormRequest
      */
     public function rules(): array
     {
+        $periods = [
+            StatisticsPeriod::MONTH->toString(),
+            StatisticsPeriod::SEASON->toString(),
+            StatisticsPeriod::YEAR->toString()
+        ];
+
         return [
-            'period' => ['required', 'string', Rule::in([StatisticsPeriod::MONTH->toString(), StatisticsPeriod::YEAR->toString()])]
+            'period' => ['required', 'string', Rule::in($periods)]
         ];
     }
 }

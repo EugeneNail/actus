@@ -5,6 +5,7 @@ namespace App\Enums;
 enum StatisticsPeriod: int
 {
     case MONTH = 30;
+    case SEASON = 90;
     case YEAR = 365;
 
 
@@ -12,7 +13,17 @@ enum StatisticsPeriod: int
     {
         return match ($this) {
             self::MONTH => 'month',
+            self::SEASON => 'season',
             self::YEAR => 'year',
+        };
+    }
+
+
+    public static function toPeriod(string $name): int {
+        return match($name) {
+            'month' => self::MONTH->value,
+            'season' => self::SEASON->value,
+            'year' => self::YEAR->value,
         };
     }
 }

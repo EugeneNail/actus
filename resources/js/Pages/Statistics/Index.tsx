@@ -29,6 +29,7 @@ function Index({mood, goalChart}: Props) {
             <div className="statistics-page__statistics wrapped">
                 <div className="statistics-page__links">
                     <StatisticsLink to="/statistics?period=month" label="Month" type="month" period={period}/>
+                    <StatisticsLink to="/statistics?period=season" label="Season" type="season" period={period}/>
                     <StatisticsLink to="/statistics?period=year" label="Year" type="year" period={period}/>
                 </div>
                 <MoodBand values={mood.band}/>
