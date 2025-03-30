@@ -37,7 +37,7 @@ class StatisticsCollector
             Mood::BAD->value => 0,
             Mood::AWFUL->value => 0,
         ];
-        
+
         foreach($dates as $date) {
             $mood = $entries[$date] ?? 1;
 

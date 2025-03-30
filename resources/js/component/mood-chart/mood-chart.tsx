@@ -52,11 +52,13 @@ export default function MoodChart({values, period}: Props) {
         const x1 = (i1) * stepX + paddingX;
         const y1 = (canvas.height - paddingY - stepY * (values[i1] - 1));
 
+        const lineWidth = period == 'month' ? 3 : 2;
+
         ctx.beginPath();
         ctx.moveTo(x0, y0);
         ctx.lineTo(x1, y1);
         ctx.strokeStyle = '#4381C1';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = lineWidth;
         ctx.stroke();
 
         if (period == 'month') {
