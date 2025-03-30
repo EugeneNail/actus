@@ -39,7 +39,7 @@ class StatisticsController extends Controller
 
         return Inertia::render('Statistics/Index', [
             'mood' => [
-                'band' => $this->statisticsCollector->forMoodBand($monthNodeEntries),
+                'band' => $this->statisticsCollector->forMoodBand($dates, $entries),
                 'chart' => $this->statisticsCollector->forMoodChart($dates, $entries)
             ],
             'goalChart' => $this->statisticsCollector->forGoalChart($dates, $entries, $user->goals->count()),

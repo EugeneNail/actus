@@ -21,20 +21,32 @@ class StatisticsCollector
 {
     /**
      * Collects and calculates mood percentage distribution
-     * @param NodeEntry[] $nodes
+     * @param string[] $dates
+     * @param Collection|Entry[] $entries
      * @return MoodBand
      */
-    public function forMoodBand(array $nodes): MoodBand
+    public function forMoodBand(array $dates, Collection $entries): MoodBand
     {
-        $total = count($nodes);
-        $groups = collect($nodes)->groupBy('mood');
+        $entries = $entries->mapWithKeys(fn (Entry $entry) => [$entry->date->format('Y-m-d') => $entry->mood]);
+
+        $total = count($dates);
+        $occurrences = [];
+        foreach($dates as $date) {
+            $mood = $entries[$date] ?? 1;
+
+            if (!isset($occurrences[$mood])) {
+                $occurrences[$mood] = 0;
+            }
+
+            $occurrences[$mood] += 1;
+        }
 
         return new MoodBand(
-            radiating: $this->moodToPercents(Mood::RADIATING, $groups, $total),
-            happy: $this->moodToPercents(Mood::HAPPY, $groups, $total),
-            neutral: $this->moodToPercents(Mood::NEUTRAL, $groups, $total),
-            bad: $this->moodToPercents(Mood::BAD, $groups, $total),
-            awful: $this->moodToPercents(Mood::AWFUL, $groups, $total),
+            radiating: $this->moodToPercents(Mood::RADIATING, $occurrences, $total),
+            happy: $this->moodToPercents(Mood::HAPPY, $occurrences, $total),
+            neutral: $this->moodToPercents(Mood::NEUTRAL, $occurrences, $total),
+            bad: $this->moodToPercents(Mood::BAD, $occurrences, $total),
+            awful: $this->moodToPercents(Mood::AWFUL, $occurrences, $total),
         );
     }
 
@@ -42,18 +54,17 @@ class StatisticsCollector
     /**
      * Calculates percentage from plain values
      * @param Mood $mood
-     * @param iterable $groups
+     * @param int[] $occurrences
      * @param int $total
      * @return float
      */
-    private function moodToPercents(Mood $mood, iterable $groups, int $total): float
+    private function moodToPercents(Mood $mood, array $occurrences, int $total): float
     {
         if ($total == 0) {
             return 0;
         }
 
-        $group = $groups[$mood->value] ?? [];
-        return count($group) / $total * 100;
+        return round($occurrences[$mood->value] / $total * 100);
     }
 
 
