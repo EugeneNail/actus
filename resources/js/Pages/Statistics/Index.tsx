@@ -6,6 +6,7 @@ import MoodBandData from "../../model/mood-band-data";
 import MoodChart from "../../component/mood-chart/mood-chart";
 import {Head} from "@inertiajs/react";
 import GoalChart from "@/component/goal-chart/goal-chart";
+import StatisticsLink from "@/component/statistics-link/statistics-link";
 
 type Props = {
     mood: {
@@ -26,6 +27,10 @@ function Index({mood, goalChart}: Props) {
         <div className="statistics-page">
             <Head title='Статистика'/>
             <div className="statistics-page__statistics wrapped">
+                <div className="statistics-page__links">
+                    <StatisticsLink to="/statistics?period=month" label="Month" type="month" period={period}/>
+                    <StatisticsLink to="/statistics?period=year" label="Year" type="year" period={period}/>
+                </div>
                 <MoodBand values={mood.band}/>
                 <MoodChart values={mood.chart} period={period}/>
                 <GoalChart values={goalChart} period={period}/>
