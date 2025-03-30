@@ -58,17 +58,21 @@ class StatisticsCollector
 
 
     /**
-     * Extracts only mood values
-     * @param NodeEntry[] $nodes
-     * @return iterable<int>
+     * Collects moods for each entry
+     * @param string[] $dates
+     * @param Collection|Entry[] $entries
+     * @return int[]
      */
-    public function forMoodChart(array $nodes): iterable
+    public function forMoodChart(array $dates, Collection $entries): iterable
     {
-        return collect($nodes)
-            ->sortByDesc(['month', 'day'])
-            ->map(fn($node) => $node->mood)
-            ->values()
-            ->toArray();
+        $entries = $entries->mapWithKeys(fn (Entry $entry) => [$entry->date->format('Y-m-d') => $entry->mood]);
+
+        $moodChart = [];
+        foreach ($dates as $date) {
+            $moodChart[] = $entries[$date] ?? 1;
+        }
+
+        return $moodChart;
     }
 
 
@@ -114,7 +118,7 @@ class StatisticsCollector
 
 
     /**
-     * Collects completed goal count in percents for each entry in period
+     * Collects completed goal count in percents for each entry
      * @param string[] $dates
      * @param Collection|Entry[] $entries
      * @param int $userGoalCount
@@ -125,12 +129,7 @@ class StatisticsCollector
         $goalChart = [];
 
         foreach ($dates as $date) {
-            if (!isset($entries[$date])) {
-                $goalChart[] = new GoalChartNode(0, $userGoalCount);
-                continue;
-            }
-
-            $goalChart[] = new GoalChartNode($entries[$date], $userGoalCount);
+            $goalChart[] = new GoalChartNode($entries[$date] ?? 0, $userGoalCount);
         }
 
         return $goalChart;

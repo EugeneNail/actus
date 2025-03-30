@@ -1,13 +1,12 @@
 import "./mood-chart.sass"
 import React, {useEffect, useRef} from "react";
-import Icon from "../icon/icon";
-import {Mood, MoodIcons} from "../../model/mood";
 
 type Props = {
     values: number[]
+    period: string
 }
 
-export default function MoodChart({values}: Props) {
+export default function MoodChart({values, period}: Props) {
     const canvasRef = useRef(null);
     const colors: {[key:number]: string} = {
         1: '#D33F49',
@@ -17,75 +16,62 @@ export default function MoodChart({values}: Props) {
         5: '#8CB369',
     };
 
-
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const paddingY = 35;
+        const paddingX = 15;
 
-        const valuesCount = 5
-        const stepX = canvas.width / (values.length - 1);
+        const stepsY = 4;
+        let stepY = (canvas.height - paddingY * 2) / stepsY;
 
-        function normalize(value) {
-            const result = canvas.height / valuesCount * (value - 1) + canvas.height / valuesCount / 2
-            return -result
-        }
-
-        ctx.translate(10, canvas.height);
-
-        const stepY = -canvas.height / valuesCount
-        for (let i = 0; i <= valuesCount; i++) {
-            ctx.beginPath()
-            ctx.moveTo(0, stepY * i)
-            ctx.lineTo(canvas.width, stepY * i)
-            ctx.strokeStyle = '#bbb'
-            ctx.lineWidth = 1
-            ctx.stroke()
-        }
-
-
-        for (let i = 0; i < values.length - 1; i++) {
-            const x0 = i * stepX;
-            const y0 = normalize(values[i]);
-            const x1 = (i + 1) * stepX;
-            const y1 = normalize(values[i + 1]);
-
-            const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
-
-            gradient.addColorStop(0, colors[values[i]]);
-            gradient.addColorStop(0.35, colors[values[i]]);
-            gradient.addColorStop(0.65, colors[values[i + 1]]);
-            gradient.addColorStop(1, colors[values[i + 1]]);
-
+        for (let i = 0; i <= stepsY; i++) {
             ctx.beginPath();
-            ctx.moveTo(x0, y0);
-            ctx.lineTo(x1, y1);
-            ctx.strokeStyle = gradient;
-            ctx.lineWidth = 3;
+            ctx.moveTo(0, stepY * i + paddingY);
+            ctx.lineTo(canvas.width - paddingX, stepY * i + paddingY);
+            ctx.strokeStyle = '#bbb';
+            ctx.lineWidth = 1;
             ctx.stroke();
-
-            ctx.beginPath()
-            const radius = i % 10 == 0 ? 12 : 8
-            ctx.arc(x0, y0, radius, 0, 2 * Math.PI)
-            ctx.fillStyle = colors[values[i]]
-            ctx.fill()
         }
+
+        const stepX = (canvas.width - paddingX * 2) / values.length
+        stepY = (canvas.height - paddingY * 2 ) / 4
+
+        for (let i = 0; i < values.length -1; i++) {
+            drawLine(canvas, ctx, paddingY, paddingX, i, i+1, stepX, stepY)
+        }
+
+        drawLine(canvas, ctx, paddingY, paddingX, values.length - 1, values.length - 1, stepX, stepY)
     }, []);
+
+
+    function drawLine(canvas, ctx, paddingY: number, paddingX: number, i0: number, i1: number, stepX: number, stepY: number) {
+        const x0 = i0 * stepX + paddingX;
+        const y0 = (canvas.height - paddingY - stepY * (values[i0] - 1));
+        const x1 = (i1) * stepX + paddingX;
+        const y1 = (canvas.height - paddingY - stepY * (values[i1] - 1));
+
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.strokeStyle = '#4381C1';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        if (period == 'month') {
+            ctx.beginPath();
+            ctx.arc(x0, y0, 14, 0, 2 * Math.PI);
+            ctx.fillStyle = colors[values[i0]];
+            ctx.fill();
+        }
+    }
 
 
     return (
         <div className="mood-chart">
-            <p className="mood-chart__label">График Настроения</p>
-            <div className="mood-chart__wrapper">
-                <div className="mood-chart__moods">
-                    <Icon className="mood-chart__mood radiating" name={MoodIcons[Mood.Radiating]}/>
-                    <Icon className="mood-chart__mood happy" name={MoodIcons[Mood.Radiating]}/>
-                    <Icon className="mood-chart__mood neutral" name={MoodIcons[Mood.Neutral]}/>
-                    <Icon className="mood-chart__mood bad" name={MoodIcons[Mood.Bad]}/>
-                    <Icon className="mood-chart__mood awful" name={MoodIcons[Mood.Awful]}/>
-                </div>
-                <canvas className="mood-chart__chart" ref={canvasRef} width={1000} height={500}/>
-            </div>
+            <p className="mood-chart__label">Mood Chart</p>
+            <canvas className="mood-chart__chart" ref={canvasRef} width={1000} height={500}/>
         </div>
     );
 }

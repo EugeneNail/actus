@@ -42,11 +42,11 @@ export default function GoalChart({values, period}: Props) {
     }, []);
 
 
-    function drawLine(canvas, ctx, paddingY: number, paddingX: number, i1: number, i2: number, stepX: number, stepY: number) {
-        const x0 = i1 * stepX + paddingX;
-        const y0 = (canvas.height - paddingY - stepY * values[i1].percent);
-        const x1 = (i2) * stepX + paddingX;
-        const y1 = (canvas.height - paddingY - stepY * values[i2].percent);
+    function drawLine(canvas, ctx, paddingY: number, paddingX: number, i0: number, i1: number, stepX: number, stepY: number) {
+        const x0 = i0 * stepX + paddingX;
+        const y0 = (canvas.height - paddingY - stepY * values[i0].percent);
+        const x1 = (i1) * stepX + paddingX;
+        const y1 = (canvas.height - paddingY - stepY * values[i1].percent);
 
         ctx.beginPath();
         ctx.moveTo(x0, y0);
@@ -63,7 +63,7 @@ export default function GoalChart({values, period}: Props) {
 
             ctx.font = '25px Arial';
             ctx.fillStyle = '#777';
-            ctx.fillText(values[i1].plain, x0 -5, y0 - 15);
+            ctx.fillText(values[i0].plain, x0 -5, y0 - 15);
         }
     }
 

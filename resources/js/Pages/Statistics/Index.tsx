@@ -27,7 +27,7 @@ function Index({mood, goalChart}: Props) {
             <Head title='Статистика'/>
             <div className="statistics-page__statistics wrapped">
                 <MoodBand values={mood.band}/>
-                <MoodChart values={mood.chart}/>
+                <MoodChart values={mood.chart} period={period}/>
                 <GoalChart values={goalChart} period={period}/>
             </div>
         </div>
