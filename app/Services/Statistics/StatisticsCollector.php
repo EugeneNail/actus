@@ -3,13 +3,18 @@
 namespace App\Services\Statistics;
 
 use App\Enums\Mood;
+use App\Enums\StatisticsPeriod;
+use App\Models\Entry;
 use App\Models\Goal;
+use App\Models\Support\GoalChartNode;
 use App\Models\Support\MoodBand;
 use App\Models\Support\NodeEntry;
 use App\Models\Support\NodeGoal;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use DatePeriod;
 use DateTime;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class StatisticsCollector
@@ -105,5 +110,29 @@ class StatisticsCollector
         }
 
         return array_values($heatmap);
+    }
+
+
+    /**
+     * Collects completed goal count in percents for each entry in period
+     * @param string[] $dates
+     * @param Collection|Entry[] $entries
+     * @param int $userGoalCount
+     * @return int[]
+     */
+    public function forGoalChart(array $dates, Collection $entries, int $userGoalCount): array {
+        $entries = $entries->mapWithKeys(fn (Entry $entry) => [$entry->date->format('Y-m-d') => $entry->goals->count()]);
+        $goalChart = [];
+
+        foreach ($dates as $date) {
+            if (!isset($entries[$date])) {
+                $goalChart[] = new GoalChartNode(0, $userGoalCount);
+                continue;
+            }
+
+            $goalChart[] = new GoalChartNode($entries[$date], $userGoalCount);
+        }
+
+        return $goalChart;
     }
 }

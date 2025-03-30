@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatisticsPeriod;
+use App\Http\Requests\StatisticsIndexRequest;
 use App\Services\Statistics\StatisticsCollector;
 use App\Services\Statistics\NodeCollector;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -24,8 +25,15 @@ class StatisticsController extends Controller
     }
 
 
-    public function index(Request $request): Response {
+    public function index(StatisticsIndexRequest $request): Response {
+        $period = $request->period == StatisticsPeriod::MONTH->toString() ? StatisticsPeriod::MONTH->value : StatisticsPeriod::YEAR->value;
+        $dates = [];
+        for ($i = 0; $i < $period; $i++) {
+            $dates[] = date('Y-m-d', strtotime("-$i days"));
+        }
+
         $user = $request->user();
+        $entries = $user->entries()->with('goals')->get();
 
         $monthNodeEntries = $this->nodeCollector->collectEntryNodes($user, self::OFFSET_MONTH);
 
@@ -34,6 +42,7 @@ class StatisticsController extends Controller
                 'band' => $this->statisticsCollector->forMoodBand($monthNodeEntries),
                 'chart' => $this->statisticsCollector->forMoodChart($monthNodeEntries)
             ],
+            'goalChart' => $this->statisticsCollector->forGoalChart($dates, $entries, $user->goals->count()),
         ]);
     }
 }

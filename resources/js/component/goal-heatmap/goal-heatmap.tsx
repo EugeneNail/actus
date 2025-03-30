@@ -9,7 +9,6 @@ type Props = {
 }
 
 export default function GoalHeatmap({data}: Props) {
-    console.log(data)
     return (
         <div className="goal-heatmap">
             {data && data.length && data.map(heatmap =>
