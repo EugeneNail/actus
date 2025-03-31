@@ -43,6 +43,7 @@ class StatisticsController extends Controller
                 'chart' => $this->statisticsCollector->forMoodChart($dates, $entries)
             ],
             'goalChart' => $this->statisticsCollector->forGoalChart($dates, $entries, $user->goals->count()),
+            'bestWorst' => $this->statisticsCollector->forBestWorst($dates, $entries, $user->goals),
         ]);
     }
 }

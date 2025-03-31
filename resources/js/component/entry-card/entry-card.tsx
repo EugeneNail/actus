@@ -60,7 +60,7 @@ export default function EntryCard({entry}: Props) {
                     </div>
                 </div>
                 <div className="entry-card__goals">
-                    {entry.goals && entry.goals.length && entry.goals.map(goal => (
+                    {entry?.goals && entry.goals.map(goal => (
                         <CardGoal goal={goal} key={Math.random()}/>
                     ))}
                 </div>

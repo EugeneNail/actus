@@ -19,7 +19,7 @@ export default function MoodBand({values}: Props) {
 
     return (
         <div className="mood-band">
-            <p className="mood-band__label">Шкала Настроения</p>
+            <p className="mood-band__label">Mood Band</p>
             <div className="mood-band__moods">
                 <BandMood mood={Mood.Radiating} value={values.radiating} greatest={greatest}/>
                 <BandMood mood={Mood.Happy} value={values.happy} greatest={greatest}/>

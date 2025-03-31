@@ -152,4 +152,39 @@ class StatisticsCollector
 
         return $goalChart;
     }
+
+
+    /**
+     * @param array $dates
+     * @param Collection|Entry[] $entries
+     * @param Collection|Goal[] $userGoals
+     * @return array
+     */
+    public function forBestWorst(array $dates, Collection $entries, Collection $userGoals): array {
+        $numbersOfGoalsToShow = 3;
+        $goals = [];
+        $entries = $entries->keyBy(fn (Entry $entry) => $entry->date->format('Y-m-d'));
+
+
+        foreach ($userGoals as $goal) {
+            $goals[$goal->id] = [
+                'icon' => $goal->icon,
+                'mood' => 0
+            ];
+
+            $moods = [];
+            foreach ($dates as $date) {
+                $moods[] = $entries[$date]->mood ?? 1;
+            }
+
+            $goals[$goal->id]['mood'] = collect($moods)->average();
+        }
+
+        $goals = collect($goals)->sort(fn ($item) => $item['mood']);
+
+        return [
+            'best' => $goals->take($numbersOfGoalsToShow)->values(),
+            'worst' => $goals->skip($goals->count() - $numbersOfGoalsToShow)->take($numbersOfGoalsToShow)->values()
+        ];
+    }
 }

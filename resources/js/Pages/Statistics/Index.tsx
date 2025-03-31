@@ -7,6 +7,7 @@ import MoodChart from "../../component/mood-chart/mood-chart";
 import {Head} from "@inertiajs/react";
 import GoalChart from "@/component/goal-chart/goal-chart";
 import StatisticsLink from "@/component/statistics-link/statistics-link";
+import BestWorst, {BestWorstGoalModel} from "@/component/best-worst/best-worst";
 
 type Props = {
     mood: {
@@ -16,11 +17,15 @@ type Props = {
     goalChart: {
         plain: number
         percent: number
-    }[]
+    }[],
+    bestWorst: {
+        best: BestWorstGoalModel[],
+        worst: BestWorstGoalModel[],
+    }
 }
 
 export default withLayout(Index)
-function Index({mood, goalChart}: Props) {
+function Index({mood, goalChart, bestWorst}: Props) {
     const period = new URLSearchParams(window.location.search).get('period')
 
     return (
@@ -33,8 +38,9 @@ function Index({mood, goalChart}: Props) {
                     <StatisticsLink to="/statistics?period=year" label="Year" type="year" period={period}/>
                 </div>
                 <MoodBand values={mood.band}/>
-                <MoodChart values={mood.chart} period={period}/>
-                <GoalChart values={goalChart} period={period}/>
+                {/*<MoodChart values={mood.chart} period={period}/>*/}
+                {/*<GoalChart values={goalChart} period={period}/>*/}
+                <BestWorst values={bestWorst}/>
             </div>
         </div>
     );

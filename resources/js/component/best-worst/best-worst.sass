@@ -1,0 +1,82 @@
+@import ../../../css/variables
+
+.best-worst
+  background: $background-3
+  border-radius: 15px
+  padding: 20px
+
+  &__label
+    font-size: 14px
+    font-weight: bold
+    color: $font-1
+
+  &__title
+    margin-top: 20px
+    margin-bottom: 5px
+    font-size: 12px
+
+    & span
+      font-size: inherit
+      color: $red-1
+
+    &:nth-child(2) span
+      color: darken($green-1, 12%)
+
+  &__goals
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr))
+    gap: 15px
+
+.best-worst-goal
+  border: 1px solid $border-1
+  border-radius: 10px
+  padding: 10px
+
+  &__index
+    font-size: 14px
+    margin-left: 3px
+    font-weight: bold
+
+  &__icon-container
+    margin-top: 5px
+    background: darken(white, 1%)
+    border: 1px solid $border-1
+    border-radius: 100px
+    width: 54px
+    padding: 5px
+    aspect-ratio: 1 / 1
+    justify-self: center
+
+  &__icon
+    width: 100%
+    height: 100%
+
+  &__mood
+    display: flex
+    justify-content: center
+    margin-top: 10px
+    align-items: center
+    gap: 5px
+
+  &__mood-star
+    border-radius: 100px
+    height: 16px
+    aspect-ratio: 1 / 1
+
+    &.green
+      background: $green-1
+
+    &.yellow
+      background: $yellow-1
+
+    &.blue
+      background: $blue-1
+
+    &.orange
+      background: $orange-1
+
+    &.red
+      background: $red-1
+
+  &__mood-value
+    font-size: 14px
