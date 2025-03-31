@@ -38,8 +38,8 @@ function Index({mood, goalChart, bestWorst}: Props) {
                     <StatisticsLink to="/statistics?period=year" label="Year" type="year" period={period}/>
                 </div>
                 <MoodBand values={mood.band}/>
-                {/*<MoodChart values={mood.chart} period={period}/>*/}
-                {/*<GoalChart values={goalChart} period={period}/>*/}
+                <MoodChart values={mood.chart} period={period}/>
+                <GoalChart values={goalChart} period={period}/>
                 <BestWorst values={bestWorst}/>
             </div>
         </div>
