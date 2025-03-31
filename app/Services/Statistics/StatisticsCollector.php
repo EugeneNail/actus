@@ -163,7 +163,7 @@ class StatisticsCollector
      */
     public function forBestWorst(array $dates, Collection $entries, Collection $userGoals): array
     {
-        $numbersOfGoalsToShow = 3;
+        $numbersOfGoalsToShow = 6;
         $goals = [];
         $entries = $entries->mapWithKeys(fn(Entry $entry) => [
             $entry->date->format('Y-m-d') => [
@@ -185,7 +185,7 @@ class StatisticsCollector
 
             $goals[$goal->id]['mood'] = collect($moods)->average();
         }
-        
+
         $goals = collect($goals)->sortByDesc(fn($item) => $item['mood']);
 
         return [
