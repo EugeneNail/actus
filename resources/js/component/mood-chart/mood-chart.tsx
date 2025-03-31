@@ -52,15 +52,21 @@ export default function MoodChart({values, period}: Props) {
         const x1 = (i1) * stepX + paddingX;
         const y1 = (canvas.height - paddingY - stepY * (values[i1] - 1));
 
-        const lineWidth = period == 'month' ? 3 : 2;
+        const stepXOffset = stepX / 4;
+        const x01 = x0 + stepXOffset;
+        const y01 = y0 == y1 ? y1 : (y0 > y1 ? y0 - stepXOffset : y0 + stepXOffset);
+        const x11 = x1 - stepXOffset;
+        const y11 = y0 == y1 ? y1 : (y0 > y1 ? y1 + stepXOffset : y1 - stepXOffset);
 
-        ctx.save();
         ctx.beginPath();
         ctx.moveTo(x0, y0);
+
+        ctx.lineTo(x01, y01);
+        ctx.lineTo(x11, y11);
         ctx.lineTo(x1, y1);
 
         ctx.strokeStyle = '#4381C1';
-        ctx.lineWidth = lineWidth;
+        ctx.lineWidth = period == 'month' ? 3 : 2;
         ctx.stroke();
 
         ctx.lineTo(x1, canvas.height - paddingY);
@@ -69,11 +75,10 @@ export default function MoodChart({values, period}: Props) {
 
         ctx.fillStyle = '#4381C199';
         ctx.fill();
-        ctx.restore();
 
         if (period == 'month') {
             ctx.beginPath();
-            ctx.arc(x0, y0, 14, 0, 2 * Math.PI);
+            ctx.arc(x0, y0, 5, 0, 2 * Math.PI);
             ctx.fillStyle = colors[values[i0]];
             ctx.fill();
         }

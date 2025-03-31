@@ -16,11 +16,11 @@ export default function GoalChart({values, period}: Props) {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const paddingY = 35;
+        const paddingY = 40;
         const paddingX = 15;
 
         const stepsY = 5;
-        let stepY = (canvas.height - paddingY *2) / stepsY;
+        let stepY = (canvas.height - paddingY * 2) / stepsY;
 
         for (let i = 0; i <= stepsY; i++) {
             ctx.beginPath();
@@ -48,26 +48,28 @@ export default function GoalChart({values, period}: Props) {
         const x1 = (i1) * stepX + paddingX;
         const y1 = (canvas.height - paddingY - stepY * values[i1].percent);
 
-        const lineWidth = period == 'month' ? 3 : 2;
-
-        ctx.save();
+        const stepXOffset = stepX / 4;
+        const x01 = x0 + stepXOffset;
+        const y01 = y0 == y1 ? y1 : (y0 > y1 ? y0 - stepXOffset : y0 + stepXOffset);
+        const x11 = x1 - stepXOffset;
+        const y11 = y0 == y1 ? y1 : (y0 > y1 ? y1 + stepXOffset : y1 - stepXOffset);
 
         ctx.beginPath();
         ctx.moveTo(x0, y0);
+
+        ctx.lineTo(x01, y01);
+        ctx.lineTo(x11, y11);
         ctx.lineTo(x1, y1);
 
-
         ctx.strokeStyle = '#8CB369';
-        ctx.lineWidth = lineWidth;
+        ctx.lineWidth = period == 'month' ? 3 : 2;
         ctx.stroke();
 
         ctx.lineTo(x1, canvas.height - paddingY);
         ctx.lineTo(x0, canvas.height - paddingY);
         ctx.lineTo(x0, y0);
-
         ctx.fillStyle = '#8CB36999';
         ctx.fill();
-        ctx.restore();
 
         if (period == 'month') {
             ctx.beginPath();
@@ -77,7 +79,7 @@ export default function GoalChart({values, period}: Props) {
 
             ctx.font = '25px Arial';
             ctx.fillStyle = '#777';
-            ctx.fillText(values[i0].plain, x0 -5, y0 - 15);
+            ctx.fillText(values[i0].plain, x0 - (values[i0].plain < 10 ? 7 : 14), y0 - 20);
         }
     }
 
