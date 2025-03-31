@@ -18,10 +18,7 @@ type Props = {
         plain: number
         percent: number
     }[],
-    bestWorst: {
-        best: BestWorstGoalModel[],
-        worst: BestWorstGoalModel[],
-    }
+    bestWorst: BestWorstGoalModel[]
 }
 
 export default withLayout(Index)

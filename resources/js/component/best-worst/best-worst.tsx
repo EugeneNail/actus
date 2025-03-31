@@ -10,23 +10,16 @@ export type BestWorstGoalModel = {
 }
 
 type Props = {
-    values: {
-        best: BestWorstGoalModel[],
-        worst: BestWorstGoalModel[]
-    }
+    values: BestWorstGoalModel[]
 }
 
 export default function BestWorst({values}: Props) {
+    console.log(values)
     return (
         <div className="best-worst">
             <p className="best-worst__label">Best and Worst</p>
-            <p className="best-worst__title">When you was <span>radiating...</span></p>
             <div className="best-worst__goals">
-                {values.best && values.best.map((goal, index) => <BestWorstGoal key={index} goal={goal} index={index + 1}/>)}
-            </div>
-            <p className="best-worst__title">When you was <span>awful...</span></p>
-            <div className="best-worst__goals">
-                {values.worst && values.worst.map((goal, index) => <BestWorstGoal key={index} goal={goal} index={index + 1}/>)}
+                {values && values.map((goal, index) => <BestWorstGoal key={index} goal={goal} index={index + 1}/>)}
             </div>
         </div>
     )

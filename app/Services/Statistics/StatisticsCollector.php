@@ -161,10 +161,9 @@ class StatisticsCollector
      * @param Collection|Goal[] $userGoals
      * @return array
      */
-    public function forBestWorst(array $dates, Collection $entries, Collection $userGoals): array
+    public function forBestWorst(array $dates, Collection $entries, Collection $userGoals): iterable
     {
-        $numbersOfGoalsToShow = 6;
-        $goals = [];
+        $bestAndWorst = [];
         $entries = $entries->mapWithKeys(fn(Entry $entry) => [
             $entry->date->format('Y-m-d') => [
                 'mood' => $entry->mood,
@@ -173,7 +172,7 @@ class StatisticsCollector
         ]);
 
         foreach ($userGoals as $goal) {
-            $goals[$goal->id] = [
+            $bestAndWorst[$goal->id] = [
                 'icon' => $goal->icon,
                 'mood' => 0
             ];
@@ -183,14 +182,9 @@ class StatisticsCollector
                 $moods[] = isset($entries[$date]['goals'][$goal->id]) ? $entries[$date]['mood'] : 1;
             }
 
-            $goals[$goal->id]['mood'] = collect($moods)->average();
+            $bestAndWorst[$goal->id]['mood'] = collect($moods)->average();
         }
 
-        $goals = collect($goals)->sortByDesc(fn($item) => $item['mood']);
-
-        return [
-            'best' => $goals->take($numbersOfGoalsToShow)->values(),
-            'worst' => $goals->skip($goals->count() - $numbersOfGoalsToShow)->take($numbersOfGoalsToShow)->values()
-        ];
+        return collect($bestAndWorst)->sortByDesc(fn($item) => $item['mood'])->values();
     }
 }
