@@ -27,7 +27,7 @@ class StatisticsCollector
      */
     public function forMoodBand(array $dates, Collection $entries): MoodBand
     {
-        $entries = $entries->mapWithKeys(fn (Entry $entry) => [$entry->date->format('Y-m-d') => $entry->mood]);
+        $entries = $entries->mapWithKeys(fn(Entry $entry) => [$entry->date->format('Y-m-d') => $entry->mood]);
 
         $total = count($dates);
         $occurrences = [
@@ -38,7 +38,7 @@ class StatisticsCollector
             Mood::AWFUL->value => 0,
         ];
 
-        foreach($dates as $date) {
+        foreach ($dates as $date) {
             $mood = $entries[$date] ?? 1;
 
             if (!isset($occurrences[$mood])) {
@@ -83,7 +83,7 @@ class StatisticsCollector
      */
     public function forMoodChart(array $dates, Collection $entries): iterable
     {
-        $entries = $entries->mapWithKeys(fn (Entry $entry) => [$entry->date->format('Y-m-d') => $entry->mood]);
+        $entries = $entries->mapWithKeys(fn(Entry $entry) => [$entry->date->format('Y-m-d') => $entry->mood]);
 
         $moodChart = [];
         foreach ($dates as $date) {
@@ -142,8 +142,9 @@ class StatisticsCollector
      * @param int $userGoalCount
      * @return int[]
      */
-    public function forGoalChart(array $dates, Collection $entries, int $userGoalCount): array {
-        $entries = $entries->mapWithKeys(fn (Entry $entry) => [$entry->date->format('Y-m-d') => $entry->goals->count()]);
+    public function forGoalChart(array $dates, Collection $entries, int $userGoalCount): array
+    {
+        $entries = $entries->mapWithKeys(fn(Entry $entry) => [$entry->date->format('Y-m-d') => $entry->goals->count()]);
         $goalChart = [];
 
         foreach ($dates as $date) {
@@ -160,11 +161,16 @@ class StatisticsCollector
      * @param Collection|Goal[] $userGoals
      * @return array
      */
-    public function forBestWorst(array $dates, Collection $entries, Collection $userGoals): array {
+    public function forBestWorst(array $dates, Collection $entries, Collection $userGoals): array
+    {
         $numbersOfGoalsToShow = 3;
         $goals = [];
-        $entries = $entries->keyBy(fn (Entry $entry) => $entry->date->format('Y-m-d'));
-
+        $entries = $entries->mapWithKeys(fn(Entry $entry) => [
+            $entry->date->format('Y-m-d') => [
+                'mood' => $entry->mood,
+                'goals' => $entry->goals->keyBy('id'),
+            ]
+        ]);
 
         foreach ($userGoals as $goal) {
             $goals[$goal->id] = [
@@ -174,13 +180,13 @@ class StatisticsCollector
 
             $moods = [];
             foreach ($dates as $date) {
-                $moods[] = $entries[$date]->mood ?? 1;
+                $moods[] = isset($entries[$date]['goals'][$goal->id]) ? $entries[$date]['mood'] : 1;
             }
 
             $goals[$goal->id]['mood'] = collect($moods)->average();
         }
-
-        $goals = collect($goals)->sort(fn ($item) => $item['mood']);
+        
+        $goals = collect($goals)->sortByDesc(fn($item) => $item['mood']);
 
         return [
             'best' => $goals->take($numbersOfGoalsToShow)->values(),
