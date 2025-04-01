@@ -161,30 +161,30 @@ class StatisticsCollector
      * @param Collection|Goal[] $userGoals
      * @return array
      */
-    public function forBestWorst(array $dates, Collection $entries, Collection $userGoals): iterable
+    public function forGoalCompletion(array $dates, Collection $entries, Collection $userGoals): iterable
     {
-        $bestAndWorst = [];
+        $datesCount = count($dates);
+        $goalCompletion = [];
         $entries = $entries->mapWithKeys(fn(Entry $entry) => [
-            $entry->date->format('Y-m-d') => [
-                'mood' => $entry->mood,
-                'goals' => $entry->goals->keyBy('id'),
-            ]
+            $entry->date->format('Y-m-d') => $entry->goals->keyBy('id'),
         ]);
 
         foreach ($userGoals as $goal) {
-            $bestAndWorst[$goal->id] = [
+            $goalCompletion[$goal->id] = [
                 'icon' => $goal->icon,
-                'mood' => 0
+                'completionRate' => 0
             ];
 
-            $moods = [];
+            $occurrences = 0;
             foreach ($dates as $date) {
-                $moods[] = isset($entries[$date]['goals'][$goal->id]) ? $entries[$date]['mood'] : 1;
+                if (isset($entries[$date][$goal->id])) {
+                    $occurrences++;
+                }
             }
 
-            $bestAndWorst[$goal->id]['mood'] = collect($moods)->average();
+            $goalCompletion[$goal->id]['completionRate'] = round($occurrences / $datesCount * 100);
         }
 
-        return collect($bestAndWorst)->sortByDesc(fn($item) => $item['mood'])->values();
+        return collect($goalCompletion)->sortByDesc(fn($item) => $item['completionRate'])->values();
     }
 }
