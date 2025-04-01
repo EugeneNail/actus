@@ -20,7 +20,7 @@ export default function GoalCompletionItem({goal, index}: Props) {
             return '#FFB140';
         }
 
-        if (60 > goal.completionRate && goal.completionRate >= 400) {
+        if (60 > goal.completionRate && goal.completionRate >= 40) {
             return '#4381C1';
         }
 
