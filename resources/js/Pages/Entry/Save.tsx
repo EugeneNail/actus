@@ -123,7 +123,7 @@ export default function Save(data: Props) {
                     <Diary name="diary" max={10000} value={payload.diary ?? ""} onChange={setField}/>
                     <PhotoUploader name="photos[]" values={payload.photos} deletePhoto={deletePhoto} onPhotosUploaded={addPhotos}/>
                 </FormContent>
-                <FormSubmitButton label={willStore ? 'Создать' : 'Сохранить'} onClick={save}/>
+                <FormSubmitButton label={willStore ? 'Create' : 'Save'} onClick={save}/>
             </Form>
         </div>
     )

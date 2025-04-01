@@ -19,10 +19,10 @@ export default function Diary({className, name, max, value, onChange}: Props) {
 
     return (
         <div className={classNames("diary", className)}>
-            <label className="diary__label" htmlFor={name}>Сегодняшний дневник</label>
+            <label className="diary__label" htmlFor={name}>Today's diary</label>
             <textarea className="diary__textarea"
                       ref={ref}
-                      placeholder="Расскажите, что интересного случилось"
+                      placeholder="What interesting happened?"
                       value={value}
                       name={name}
                       id={name}

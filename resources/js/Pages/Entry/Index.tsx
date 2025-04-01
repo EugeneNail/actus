@@ -27,10 +27,10 @@ export default withLayout(Index)
 function Index({entries, months, goalHeatmap}: Props) {
 
     const messages = [
-        "Давайте не будем оставлять эту страницу дневника пустой? ✌",
-        "Давайте продолжим с того места, где вы остановились. 🙌",
-        "Что ни день, то новая история. 👏",
-        "Сделайте перерыв и добавьте запись на сегодня. ✍"
+        "Let's not leave this diary page blank? ✌",
+        "Let's continue from where you left off. 🙌",
+        "A new day, a new story. 👏",
+        "Take a break and create a new entry for today. ✍"
     ]
 
 
@@ -60,7 +60,7 @@ function Index({entries, months, goalHeatmap}: Props) {
 
     return (
         <div className="entries-page">
-            <Head title='Записи'/>
+            <Head title='Entries'/>
             {months && months.length > 0 && <MonthCarousel months={months}/>}
             <div className="entries-page__entries wrapped">
                 {entries && canShowButton() &&

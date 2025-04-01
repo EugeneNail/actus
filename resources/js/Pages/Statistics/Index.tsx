@@ -27,7 +27,7 @@ function Index({mood, goalChart, goalCompletion}: Props) {
 
     return (
         <div className="statistics-page">
-            <Head title='Статистика'/>
+            <Head title='Statistics'/>
             <div className="statistics-page__statistics wrapped">
                 <div className="statistics-page__links">
                     <StatisticsLink to="/statistics?period=month" label="Month" type="month" period={period}/>

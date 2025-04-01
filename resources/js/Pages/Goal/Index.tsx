@@ -15,7 +15,7 @@ export default withLayout(Index)
 function Index({goals}: Props) {
     return (
         <div className="goals-page">
-            <Head title='Цели'/>
+            <Head title='Goals'/>
             <div className="goals-page__goals wrapped">
                 {goals && goals.map(entry => (
                     <GoalCard key={entry.id} goal={entry}/>

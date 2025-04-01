@@ -13,7 +13,7 @@ type Props = {
     entry: Entry & Goals
 }
 
-const weekdays = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
+const weekdays = ["Su", "Mn", "Tu", "We", "Th", "Fr", "Sa"]
 
 export default function EntryCard({entry}: Props) {
     const moodClassName = classNames(

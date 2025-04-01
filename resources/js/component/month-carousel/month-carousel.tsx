@@ -10,18 +10,18 @@ type Props = {
 }
 
 const shortNames: { [key: number]: string } = {
-    1: "Январь",
-    2: "Февраль",
-    3: "Март",
-    4: "Апрель",
-    5: "Май",
-    6: "Июнь",
-    7: "Июль",
-    8: "Август",
-    9: "Сентябрь",
-    10: "Октябрь",
-    11: "Ноябрь",
-    12: "Декабрь",
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December",
 };
 
 export default function MonthCarousel({months}: Props) {
@@ -57,7 +57,7 @@ export default function MonthCarousel({months}: Props) {
             {getCurrentIndex() > 0 && <Icon className="month-carousel__button left" name="arrow_back_ios" onClick={() => goTo(-1)}/>}
             <p className="month-carousel__title">
                 {shortNames[currentMonth.month]} {currentMonth.year}
-                , {currentMonth.entries} из {currentMonth.days}</p>
+                , {currentMonth.entries} of {currentMonth.days}</p>
             {getCurrentIndex() < months.length - 1 && <Icon className="month-carousel__button right" name="arrow_forward_ios" onClick={() => goTo(+1)}/>}
         </div>
     )

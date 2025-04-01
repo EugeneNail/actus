@@ -25,9 +25,9 @@ export default function Delete({name, id}: Props) {
                     <FormTitle>{name}</FormTitle>
                 </FormHeader>
                 <FormContent>
-                    <p className="justified">Удаление цели "{name}" также удалит ее из всех ваших записей.</p>
-                    <p className="justified">Это действие необратимо.</p>
-                    <p className="justified">Вы действительно хотите удалить цель?</p>
+                    <p className="justified">Deleting the "{name}" goal will delete it from all your entries.</p>
+                    <p className="justified">This action cannot be undone.</p>
+                    <p className="justified">Are you sure you want to delete it?</p>
                 </FormContent>
                 <FormSubmitButton label="Удалить" color={Color.Red} onClick={() => router.delete(`/goals/${id}`)}/>
             </Form>

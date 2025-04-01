@@ -26,15 +26,15 @@ export default function IconSelect({className, name, value, color, onChange}: Pr
     return (
         <div className={classNames("icon-select", className)}>
             <input id={inputId} className="icon-select__input" name={name} onChange={onChange}/>
-            <IconSelectList setIcon={setIcon} selectedIconId={value} group={100} color={color} label="Люди" />
-            <IconSelectList setIcon={setIcon} selectedIconId={value} group={200} color={color} label="Животные и Насекомые" />
-            <IconSelectList setIcon={setIcon} selectedIconId={value} group={300} color={color} label="Еда и Напитки" />
-            <IconSelectList setIcon={setIcon} selectedIconId={value} group={400} color={color} label="Природа" />
-            <IconSelectList setIcon={setIcon} selectedIconId={value} group={500} color={color} label="Спорт" />
-            <IconSelectList setIcon={setIcon} selectedIconId={value} group={600} color={color} label="Места и Путешествия" />
-            <IconSelectList setIcon={setIcon} selectedIconId={value} group={700} color={color} label="Дом и Двор" />
-            <IconSelectList setIcon={setIcon} selectedIconId={value} group={800} color={color} label="Тело" />
-            <IconSelectList setIcon={setIcon} selectedIconId={value} group={900} color={color} label="Красота и Мода" />
+            <IconSelectList setIcon={setIcon} selectedIconId={value} group={100} color={color} label="People" />
+            <IconSelectList setIcon={setIcon} selectedIconId={value} group={200} color={color} label="Animals" />
+            <IconSelectList setIcon={setIcon} selectedIconId={value} group={300} color={color} label="Food and Drinks" />
+            <IconSelectList setIcon={setIcon} selectedIconId={value} group={400} color={color} label="Nature" />
+            <IconSelectList setIcon={setIcon} selectedIconId={value} group={500} color={color} label="Sport" />
+            <IconSelectList setIcon={setIcon} selectedIconId={value} group={600} color={color} label="Places and Travel" />
+            <IconSelectList setIcon={setIcon} selectedIconId={value} group={700} color={color} label="House" />
+            <IconSelectList setIcon={setIcon} selectedIconId={value} group={800} color={color} label="Body" />
+            <IconSelectList setIcon={setIcon} selectedIconId={value} group={900} color={color} label="Beauty" />
         </div>
     )
 }

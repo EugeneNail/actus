@@ -45,21 +45,21 @@ export default function Save({goal}: Props) {
 
     return (
         <div className="save-goal-page">
-            <Head title={willStore ? "Новая цель" : payload.name}/>
+            <Head title={willStore ? "New goal" : payload.name}/>
             <Form>
                 <FormHeader>
                     <FormBackButton/>
-                    <FormTitle>{willStore ? "Новая цель" : payload?.name}</FormTitle>
+                    <FormTitle>{willStore ? "New goal" : payload?.name}</FormTitle>
                     {!willStore && <FormOptions icon="delete" href={`/goals/${goal.id}/delete`}/>}
                 </FormHeader>
                 <FormContent>
                     <div className="save-goal-page__name-container wrapped">
                         <Icon8 className="save-goal-page__icon" id={payload.icon}/>
-                        <Field className="save-goal-page__field" name="name" label="Название" value={payload.name} max={50} error={errors.name} onChange={setField}/>
+                        <Field className="save-goal-page__field" name="name" label="Name" value={payload.name} max={50} error={errors.name} onChange={setField}/>
                     </div>
                     <IconSelect className="save-goal-page__icon-select" name="icon" color={Color.Accent} value={payload.icon} onChange={setField}/>
                 </FormContent>
-                <FormSubmitButton label="Сохранить" color={Color.Accent} onClick={save}/>
+                <FormSubmitButton label="Save" color={Color.Accent} onClick={save}/>
             </Form>
         </div>
     )

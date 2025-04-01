@@ -15,38 +15,30 @@ type Props = {
 export default function CheckableGoal({goal, toggle, completion, checked}: Props) {
     function formatCompletion(completion: number): string {
         if (completion >= 28 || completion == -1) {
-            return 'Более месяца назад'
+            return 'More than a month ago'
         }
 
         if (completion >= 21) {
-            return 'Три недели назад'
+            return 'Three weeks ago'
         }
 
         if (completion >= 14) {
-            return 'Две недели назад'
+            return 'Two weeks ago'
         }
 
         if (completion >= 7) {
-            return 'Неделю назад'
+            return 'A week ago'
         }
 
-        if (completion >= 3 && completion <= 4) {
-            return completion + ' дня назад'
-        }
-
-        if (completion >= 5 && completion <= 6) {
-            return completion + ' дней назад'
-        }
-
-        if (completion == 2) {
-            return 'Позавчера'
+        if (completion >= 2 && completion <= 6) {
+            return completion + ' days ago'
         }
 
         if (completion == 1) {
-            return 'Вчера'
+            return 'Yesterday'
         }
 
-        return completion + ' дней назад';
+        return completion + ' days ago';
     }
 
     return (
