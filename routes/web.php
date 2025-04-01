@@ -32,7 +32,7 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.authenticate');
 
 Route::get('/', function () {
-    return redirect()->intended(route('entries.open'));
+    return redirect()->intended(route('entries.index'));
 });
 
 Route::group(['middleware' => 'auth'], function () {
