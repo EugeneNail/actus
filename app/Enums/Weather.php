@@ -18,15 +18,15 @@ enum Weather: int
     public function toString(): string
     {
         return match ($this) {
-            self::HEAT => 'Зной',
-            self::SUNNY => 'Солнечно',
-            self::CLOUDY => 'Пасмурно',
-            self::WINDY => 'Ветрено',
-            self::RAINY => 'Дождь',
-            self::THUNDER => 'Гроза',
-            self::FOG => 'Туман',
-            self::SNOWING => 'Снег',
-            self::COLD => 'Мороз'
+            self::HEAT => 'Heat',
+            self::SUNNY => 'Sunny',
+            self::CLOUDY => 'Cloudy',
+            self::WINDY => 'Windy',
+            self::RAINY => 'Rainy',
+            self::THUNDER => 'Thunder',
+            self::FOG => 'Fog',
+            self::SNOWING => 'Snowing',
+            self::COLD => 'Cold'
         };
     }
 }

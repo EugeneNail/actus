@@ -2,8 +2,6 @@
 
 namespace App\Services\Export;
 
-use App\Enums\DateMonth;
-use App\Enums\DayOfWeek;
 use App\Enums\Mood;
 use App\Enums\Weather;
 use App\Models\Entry;
@@ -11,25 +9,27 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class MarkdownExporter implements ExporterInterface
+class DiaryExporter implements ExporterInterface
 {
     /**
-     * Collects and writes all entries with non-empty diary to a file
+     * Collects and writes all entries with a non-empty diary to a file
      * @inheritDoc
      */
-    public function export(User $user): array
+    public function export(User $user, int $year, int $month = 0): array
     {
         $file = Str::uuid();
         Storage::put($file, '');
 
         $user->entries
             ->where('diary', '!=', '')
-            ->sortBy('date')
+            ->where('date', '>=', "$year-01-01")
+            ->where('date', '<=', "$year-12-31")
+            ->sortByDesc('date')
             ->each(fn($entry) => $this->write($entry, $file));
 
         return [
             storage_path("app/$file"),
-            sprintf("Дневники %s.md", date('Y-m-d'))
+            "Diaries $year.md"
         ];
     }
 
@@ -45,9 +45,9 @@ class MarkdownExporter implements ExporterInterface
         $date = $entry->date;
         $header = sprintf(
             '# %s, %d %s %d',
-            DayOfWeek::from($date->dayOfWeek)->toString(),
+            $entry->date->format('l'),
             $date->day,
-            DateMonth::from($date->month)->toString(),
+            $entry->date->format('F'),
             $date->year,
         );
 

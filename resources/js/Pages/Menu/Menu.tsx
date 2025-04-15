@@ -5,14 +5,19 @@ import withLayout from "../../Layout/default-layout";
 import Icon from "../../component/icon/icon";
 import MenuLink from "../../component/menu-option/menu-link";
 import {Method} from "@inertiajs/inertia";
+import {MonthNames} from "@/model/month-names";
 
 type Props = {
     user: {name: string, id: number},
-    counters: {records: number, photos: number}
+    counters: {records: number, photos: number},
+    exportPeriods: {
+        diaries: number[],
+        photos: { year: number, month: number }[]
+    }
 }
 
 export default withLayout(Menu)
-function Menu({user, counters}: Props) {
+function Menu({user, counters, exportPeriods}: Props) {
     function getPostfix(extension: string): string {
         return `${new Date().toISOString().split('T')[0]}.${extension}`
     }
@@ -42,22 +47,36 @@ function Menu({user, counters}: Props) {
                 </div>
                 <h2 className="label">Export</h2>
                 <div className="exports">
-                    <a className="export" href="/export/diaries" download>
-                        <Icon className="export__icon" name="download"/>
-                        <p className="export__filename">
-                            Diaries
-                            <br/>
-                            {getPostfix('md')}
-                        </p>
-                    </a>
-                    <a className="export" href="/export/photos" download>
-                        <Icon className="export__icon" name="download"/>
-                        <p className="export__filename">
-                            Photos
-                            <br/>
-                            {getPostfix('zip')}
-                        </p>
-                    </a>
+                    {exportPeriods?.diaries?.length > 0 && (
+                        <div className="exports-column">
+                            {exportPeriods.diaries.map(period => (
+                                <a className="export" href={`/export/diaries?year=${period}`} download>
+                                    <Icon className="export__icon" name="download"/>
+                                    <p className="export__filename">
+                                        Diaries
+                                        <br/>
+                                        {`${period}.md`}
+                                    </p>
+                                </a>
+                            ))}
+                        </div>
+                    )}
+
+                    {exportPeriods?.photos?.length > 0 && (
+                        <div className="exports-column">
+                            {exportPeriods.photos.map(period => (
+                                <a className="export" href={`export/photos?year=${period.year}&month=${period.month}`}>
+                                    <Icon className="export__icon" name="download"/>
+                                    <p className="export__filename">
+                                        Photos
+                                        <br/>
+                                        {`${MonthNames[+period.month]} ${period.year}.zip`}
+                                    </p>
+                                </a>
+                            ))}
+                        </div>
+                    )}
+
                 </div>
                 <h2 className="label">Navigation</h2>
                 <div className="links">

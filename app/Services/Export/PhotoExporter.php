@@ -2,10 +2,11 @@
 
 namespace App\Services\Export;
 
-use App\Models\Photo;
+use App\Models\Entry;
 use App\Models\User;
+use DateTime;
 use Exception;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use ZipArchive;
 
 class PhotoExporter implements ExporterInterface
@@ -16,47 +17,31 @@ class PhotoExporter implements ExporterInterface
      * @inheritDoc
      * @throws Exception
      */
-    public function export(User $user): array
+    public function export(User $user, int $year, int $month): array
     {
-        Storage::makeDirectory('downloadable');
-
         $archive = new ZipArchive();
-        $filename = storage_path("app/downloadable/user_{$user->id}_photos.zip");
+        $path = storage_path(Str::uuid());
 
-        $successfullyOpens = $archive->open($filename, ZipArchive::CREATE);
-        if (!$successfullyOpens) {
-            throw new Exception("Unable to open the $filename file. Code $successfullyOpens");
+        if ($archive->open($path, ZipArchive::CREATE)) {
+            $user->entries()->with('photos')
+                ->where('date', '>=', date("$year-$month-01"))
+                ->where('date', '<=', date("$year-$month-t"))
+                ->whereHas('photos')
+                ->get()
+                ->flatMap(fn (Entry $entry) => $entry->photos)
+                ->pluck('name')
+                ->each(fn ($name) => $archive->addFile(storage_path("app/photos/$name"), $name));
+
+            $archive->close();
         }
 
-        $this->removeDeletedPhotos($archive, $user);
-
-        foreach ($user->photos->pluck('name') as $photo) {
-            // Already added files won't be duplicated because they have same names as these files
-            $archive->addFile(storage_path("app/photos/$photo"), $photo);
-        }
-
-        $archive->close();
-
-        return [$filename, sprintf("Фотографии %s.zip", date('Y-m-d'))];
-    }
-
-
-    /**
-     * Removes each photo that was deleted from user's account since last export
-     * @param ZipArchive $archive
-     * @param User $user
-     * @return void
-     */
-    private function removeDeletedPhotos(ZipArchive $archive, User $user): void
-    {
-        $actualPhotos = $user->photos->mapWithKeys(fn (Photo $photo) => [$photo->name => $photo->name]);
-
-        for ($i = 0; $i < $archive->numFiles; $i++) {
-            $name = $archive->getNameIndex($i);
-
-            if (!isset($actualPhotos[$name])) {
-                $archive->deleteName($name);
-            }
-        }
+        return [
+            $path,
+            sprintf(
+                "Photos %s %d.zip",
+                DateTime::createFromFormat('m', $month)->format('F'),
+                $year
+            )
+        ];
     }
 }

@@ -2,28 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Export\MarkdownExporter;
+use App\Http\Requests\ExportDiariesRequest;
+use App\Http\Requests\ExportPhotosRequest;
+use App\Services\Export\DiaryExporter;
 use App\Services\Export\PhotoExporter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class ExportController extends Controller
 {
-    private MarkdownExporter $markdownExporter;
+    private DiaryExporter $diaryExporter;
 
     private PhotoExporter $photoExporter;
 
 
-    public function __construct(MarkdownExporter $markdownExporter, PhotoExporter $photoExporter)
+    public function __construct(DiaryExporter $diaryExporter, PhotoExporter $photoExporter)
     {
-        $this->markdownExporter = $markdownExporter;
+        $this->diaryExporter = $diaryExporter;
         $this->photoExporter = $photoExporter;
     }
 
 
-    public function diaries(Request $request)
+    public function diaries(ExportDiariesRequest $request)
     {
-        [$path, $name] = $this->markdownExporter->export($request->user());
+        [$path, $name] = $this->diaryExporter->export($request->user(), $request->year);
 
         return response()
             ->download($path, $name)
@@ -31,9 +33,9 @@ class ExportController extends Controller
     }
 
 
-    public function photos(Request $request)
+    public function photos(ExportPhotosRequest $request)
     {
-        [$path, $name] = $this->photoExporter->export($request->user());
+        [$path, $name] = $this->photoExporter->export($request->user(), $request->year, $request->month);
 
         if (!File::exists($path)) {
             return redirect(route('menu.index'));

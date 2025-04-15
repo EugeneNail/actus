@@ -70,6 +70,11 @@
     grid-template-columns: repeat(auto-fill, minmax(175px, 1fr))
     gap: 10px
 
+  & .exports-column
+    display: flex
+    flex-direction: column
+    gap: 10px
+
   & .export
     border: 1px solid $border-1
     background: $background-3
@@ -78,6 +83,7 @@
     display: flex
     gap: 10px
     align-items: center
+    height: fit-content
 
     &__icon
       color: $accent-1

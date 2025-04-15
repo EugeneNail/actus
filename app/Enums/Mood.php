@@ -14,11 +14,11 @@ enum Mood: int
     public function toString(): string
     {
         return match ($this) {
-            self::AWFUL => 'Ужасное',
-            self::BAD => 'Плохое',
-            self::NEUTRAL => 'Никакое',
-            self::HAPPY => 'Хорошее',
-            self::RADIATING => 'Отличное',
+            self::AWFUL => 'Awful',
+            self::BAD => 'Bad',
+            self::NEUTRAL => 'Neutral',
+            self::HAPPY => 'Happy',
+            self::RADIATING => 'Radiating',
         };
     }
 }
