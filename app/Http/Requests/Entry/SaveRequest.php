@@ -29,7 +29,7 @@ class SaveRequest extends FormRequest
             'mood' => ['required', 'numeric', 'integer', 'between:1,5'],
             'weather' => ['required', 'numeric', 'integer', 'between:1,9'],
             'diary' => ['nullable', 'string', 'max:10000'],
-            'photos' => ['nullable', 'array', 'max:10'],
+            'photos' => ['nullable', 'array', 'max:25'],
             'photos.*' => ['string'],
         ];
     }
