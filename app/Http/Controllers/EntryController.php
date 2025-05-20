@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Entry\IndexRequest;
 use App\Http\Requests\Entry\SaveRequest;
 use App\Http\Resources\EntryCardResource;
-use App\Models\Entry;
 use App\Models\User;
 use App\Services\EntryService;
 use App\Services\GoalService;
@@ -13,7 +12,6 @@ use App\Services\PhotoService;
 use App\Services\Statistics\StatisticsCollector;
 use App\Services\Statistics\NodeCollector;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -105,11 +103,17 @@ class EntryController extends Controller
             ]);
         }
 
+        $user = $request->user();
+        $period = 10;
+        $dates = [];
+        for ($i = 0; $i < $period; $i++) {
+            $dates[] = date('Y-m-d', strtotime("-$i days"));
+        }
 
-        $goalNodes = $this->nodeCollector->collectGoalNodes(Auth::user(), 30);
+        $goalNodes = $this->nodeCollector->collectGoalNodes($user, $period);
 
         return Inertia::render('Entry/Index', [
-            'goalHeatmap' => $this->statisticsCollector->forGoalHeatmap($goalNodes, 30),
+            'goalHeatmap' => $this->statisticsCollector->forGoalHeatmap($dates, $user->entries()->with('goals')->get()),
             'entries' => $this->entryService->collectForIndex($request->month, $request->year),
             'months' => $this->entryService->collectMonthData($request->user()),
         ]);

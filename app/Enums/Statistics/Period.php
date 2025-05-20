@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Statistics;
 
-enum StatisticsPeriod: int
+enum Period: int
 {
     case MONTH = 30;
     case SEASON = 90;

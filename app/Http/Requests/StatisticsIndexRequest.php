@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\StatisticsPeriod;
+use App\Enums\Statistics\Period;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,9 +24,9 @@ class StatisticsIndexRequest extends FormRequest
     public function rules(): array
     {
         $periods = [
-            StatisticsPeriod::MONTH->toString(),
-            StatisticsPeriod::SEASON->toString(),
-            StatisticsPeriod::YEAR->toString()
+            Period::MONTH->toString(),
+            Period::SEASON->toString(),
+            Period::YEAR->toString()
         ];
 
         return [

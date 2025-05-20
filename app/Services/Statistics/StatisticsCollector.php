@@ -3,16 +3,13 @@
 namespace App\Services\Statistics;
 
 use App\Enums\Mood;
-use App\Enums\StatisticsPeriod;
 use App\Models\Entry;
 use App\Models\Goal;
 use App\Models\Support\GoalChartNode;
 use App\Models\Support\MoodBand;
-use App\Models\Support\NodeEntry;
 use App\Models\Support\NodeGoal;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-use DatePeriod;
 use DateTime;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -97,38 +94,27 @@ class StatisticsCollector
     /**
      * Determines for each date whether the goal has been completed.
      * If there is no value for a date, sets it to FALSE
-     * @param NodeGoal[] $nodes
-     * @param int $daysAgo
+     * @param array $dates
+     * @param Collection|Goal[] $userGoals
      * @return iterable
      */
-    public function forGoalHeatmap(array $nodes, int $daysAgo): iterable
+    public function forGoalHeatmap(array $dates, Collection $completedGoals): iterable
     {
         $heatmap = [];
+        /** @var Goal[] $userGoals */
+        $userGoals = Auth::user()->goals->keyBy('id');
 
-        /** @var Goal[] $goals */
-        $goals = Auth::user()->goals->keyBy('id');
+        $completedGoals = $completedGoals->mapWithKeys(fn(Entry $entry) => [$entry->date->format('Y-m-d') => $entry->goals->keyBy('id')->toArray()]);
 
-        $indexed = [];
-        foreach ($nodes as $node) {
-            $date = (new DateTime())->setDate($node->year, $node->month, $node->day)->format('Y-m-d');
-            $indexed[$date][$node->id] = $node->id;
-        }
-
-        $start = (new Carbon())->subDays($daysAgo)->format('Y-m-d');
-        $period = new CarbonPeriod($start, '1 days', date('Y-m-d'));
-
-        foreach ($goals as $goal) {
+        foreach ($userGoals as $goal) {
             $heatmap[$goal->id] = [
                 'icon' => $goal->icon,
                 'heat' => []
             ];
 
-            foreach ($period as $date) {
-                $date = $date->format('Y-m-d');
-                $heatmap[$goal->id]['heat'][] = isset($indexed[$date][$goal->id]);
+            foreach ($dates as $date) {
+                $heatmap[$goal->id]['heat'][] = isset($completedGoals[$date][$goal->id]);
             }
-
-            $heatmap[$goal->id]['heat'] = array_reverse($heatmap[$goal->id]['heat']);
         }
 
         return array_values($heatmap);

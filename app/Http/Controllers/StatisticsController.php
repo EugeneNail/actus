@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\StatisticsPeriod;
+use App\Enums\Statistics\Period;
 use App\Http\Requests\StatisticsIndexRequest;
-use App\Services\Statistics\StatisticsCollector;
 use App\Services\Statistics\NodeCollector;
+use App\Services\Statistics\StatisticsCollector;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -26,7 +26,7 @@ class StatisticsController extends Controller
 
 
     public function index(StatisticsIndexRequest $request): Response {
-        $period = StatisticsPeriod::toPeriod($request->period);
+        $period = Period::toPeriod($request->period);
         $dates = [];
         for ($i = 0; $i < $period; $i++) {
             $dates[] = date('Y-m-d', strtotime("-$i days"));
@@ -35,8 +35,6 @@ class StatisticsController extends Controller
         $user = $request->user();
         $entries = $user->entries()->with('goals')->get();
 
-        $monthNodeEntries = $this->nodeCollector->collectEntryNodes($user, self::OFFSET_MONTH);
-
         return Inertia::render('Statistics/Index', [
             'mood' => [
                 'band' => $this->statisticsCollector->forMoodBand($dates, $entries),
@@ -44,6 +42,7 @@ class StatisticsController extends Controller
             ],
             'goalChart' => $this->statisticsCollector->forGoalChart($dates, $entries, $user->goals->count()),
             'goalCompletion' => $this->statisticsCollector->forGoalCompletion($dates, $entries, $user->goals),
+            'goalHeatmap' => $this->statisticsCollector->forGoalHeatmap($dates, $entries),
         ]);
     }
 }

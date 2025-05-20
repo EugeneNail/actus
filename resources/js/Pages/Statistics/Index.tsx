@@ -8,6 +8,8 @@ import {Head} from "@inertiajs/react";
 import GoalChart from "@/component/goal-chart/goal-chart";
 import StatisticsLink from "@/component/statistics-link/statistics-link";
 import GoalCompletion, {GoalCompletionModel} from "@/component/goal-completion/goal-completion";
+import GoalHeatmap from "@/component/goal-heatmap/goal-heatmap";
+import GoalHeatmapModel from "@/model/goal-heatmap";
 
 type Props = {
     mood: {
@@ -18,11 +20,12 @@ type Props = {
         plain: number
         percent: number
     }[],
-    goalCompletion: GoalCompletionModel[]
+    goalCompletion: GoalCompletionModel[],
+    goalHeatmap: GoalHeatmapModel[],
 }
 
 export default withLayout(Index)
-function Index({mood, goalChart, goalCompletion}: Props) {
+function Index({mood, goalChart, goalCompletion, goalHeatmap}: Props) {
     const period = new URLSearchParams(window.location.search).get('period')
 
     return (
@@ -38,6 +41,7 @@ function Index({mood, goalChart, goalCompletion}: Props) {
                 <MoodChart values={mood.chart} period={period}/>
                 <GoalChart values={goalChart} period={period}/>
                 <GoalCompletion values={goalCompletion}/>
+                <GoalHeatmap data={goalHeatmap}/> 
             </div>
         </div>
     );
