@@ -12,11 +12,12 @@ type FieldProps = {
     className?: string
     error?: string
     email?: boolean
+    numeric?: boolean
     password?: boolean
     onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function Field({value, name, label, max = 100, className, error = "", email, password, onChange}: FieldProps) {
+export default function Field({value, name, label, max = 100, className, error = "", email, numeric, password, onChange}: FieldProps) {
     const [isVisible, setVisible] = useState(true)
 
     useEffect(() => {
@@ -33,10 +34,10 @@ export default function Field({value, name, label, max = 100, className, error =
                        value={value}
                        placeholder={label}
                        maxLength={max}
-                       type={isVisible ? "text" : "password"}
+                       type={numeric ? 'number' : isVisible ? "text" : "password"}
                        id={name}
                        name={name}
-                       inputMode={email ? "email" : "text"}
+                       inputMode={numeric ? 'numeric' : email ? "email" : "text"}
                        className="field__input"
                        onChange={onChange}/>
                 {password && <Icon className="field__visibility" name={isVisible ? "visibility_off" : "visibility"} onClick={() => setVisible(!isVisible)}/>}
