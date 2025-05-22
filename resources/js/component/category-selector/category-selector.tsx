@@ -22,7 +22,7 @@ export default function CategorySelector({categories, value, name, className, on
         <div className="category-selector">
             <input className="category-selector__input" id={name} name={name} onChange={onChange} type='number'/>
             {categories && categories.map(category => (
-                <div className={classNames("category-selector__category", {'button accent primary': category.value == value})} onClick={() => setCategory(category)}>{category.name}</div>
+                <div key={category.name} className={classNames("category-selector__category", {'button accent primary': category.value == value})} onClick={() => setCategory(category)}>{category.name}</div>
             ))}
         </div>
     )

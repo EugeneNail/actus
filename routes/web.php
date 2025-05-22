@@ -10,6 +10,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -63,6 +64,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('export')->name('export.')->group(function () {
         Route::get('/diaries', [ExportController::class, 'diaries']);
         Route::get('/photos', [ExportController::class, 'photos']);
+    });
+
+    Route::prefix('transactions')->name('transactions.')->group(function () {
+        Route::get('/new', [TransactionController::class, 'create'])->name('create');
+        Route::post('/', [TransactionController::class, 'store'])->name('store');
+        Route::get('/{transaction}', [TransactionController::class, 'edit'])->name('edit');
+        Route::put('/{transaction}', [TransactionController::class, 'update'])->name('update');
+        Route::get('/{transaction}/delete', [TransactionController::class, 'delete'])->name('delete');
+        Route::delete('/{transaction}', [TransactionController::class, 'destroy'])->name('destroy');
     });
 
     Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
