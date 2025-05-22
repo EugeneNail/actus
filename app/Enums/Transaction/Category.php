@@ -33,4 +33,22 @@ enum Category: int
             self::OTHER_INCOMES => 'Other incomes',
         };
     }
+
+
+    public function toIcon(): string
+    {
+        return match ($this) {
+            self::BILLS => 'request_quote',
+            self::FOOD => 'restaurant',
+            self::TRANSPORTATION => 'local_taxi',
+            self::PERSONAL_ITEMS => 'accessibility_new',
+            self::HOME_MAINTENANCE => 'house',
+            self::BEAUTY => 'health_and_beauty',
+            self::FUN_MONEY => 'celebration',
+            self::GIFTS => 'featured_seasonal_and_gifts',
+            self::SAVINGS => 'savings',
+            self::SALARY => 'payments',
+            self::OTHER_INCOMES => 'money_bag',
+        };
+    }
 }

@@ -2,6 +2,7 @@ import React, {ChangeEvent} from "react";
 import "./category-selector.sass"
 import Category from "@/model/category";
 import classNames from "classnames";
+import Icon from "@/component/icon/icon";
 
 type Props = {
     categories: Category[]
@@ -22,7 +23,10 @@ export default function CategorySelector({categories, value, name, className, on
         <div className="category-selector">
             <input className="category-selector__input" id={name} name={name} onChange={onChange} type='number'/>
             {categories && categories.map(category => (
-                <div key={category.name} className={classNames("category-selector__category", {'button accent primary': category.value == value})} onClick={() => setCategory(category)}>{category.name}</div>
+                <div key={category.name} className={classNames("category-selector__category", {'button accent primary': category.value == value})} onClick={() => setCategory(category)}>
+                    <Icon className='category-selector__icon' name={category.icon} />
+                    {category.name}
+                </div>
             ))}
         </div>
     )
