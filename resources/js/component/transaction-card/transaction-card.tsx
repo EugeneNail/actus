@@ -4,6 +4,7 @@ import Transaction from "@/model/transaction";
 import Icon from "@/component/icon/icon";
 import Category from "@/model/category";
 import classNames from "classnames";
+import {router} from "@inertiajs/react";
 
 type Props = {
     transaction: Transaction
@@ -24,11 +25,11 @@ export default function TransactionCard({transaction, categories}: Props) {
     );
 
     return (
-        <div className="transaction-card">
+        <div className="transaction-card" onClick={() => router.get(`/transactions/${transaction.id}`)}>
             <Icon className={iconClassName} name={categories[transaction.category].icon}/>
             <p className="transaction-card__category">{categories[transaction.category].name}</p>
             <p className="transaction-card__description">{transaction.description}</p>
-            <p className={valueClassName}>{transaction.value.toFixed(2)}</p>
+            <p className={valueClassName}>{(transaction.sign == +1 ? '+' : '-') + transaction.value.toFixed(2)}</p>
         </div>
     )
 }

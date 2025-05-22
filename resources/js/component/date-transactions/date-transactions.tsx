@@ -22,7 +22,7 @@ export default function DateTransactions({dateTransactions, categories}: Props) 
                 <p className="date-transactions__day">{dateTransactions.day.toString().padStart(2, '0')}</p>
                 <p className="date-transactions__weekday">{weekdays[weekday]}</p>
                 <p className="date-transactions__date">{month}</p>
-                <p className="date-transactions__total">{dateTransactions.total.toFixed(2)}</p>
+                <p className="date-transactions__total">{(dateTransactions.total > 0 ? '+' : '') + dateTransactions.total.toFixed(2)}</p>
             </div>
             <div className="date-transactions__transactions">
                 {dateTransactions.transactions && dateTransactions.transactions.map(transaction =>
