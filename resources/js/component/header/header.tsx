@@ -9,6 +9,7 @@ export default function Header() {
             <HeaderLink icon="bar_chart" to="/statistics?period=month"/>
             <HeaderLink icon="calendar_add_on" to={"/entries/today"}/>
             <HeaderLink icon="add_card" to="/transactions/new"/>
+            <HeaderLink icon="credit_card" to="/transactions/new"/>
             <HeaderLink icon="menu" to="/menu"/>
         </header>
     )

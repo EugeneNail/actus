@@ -1,9 +1,7 @@
 import Icon from "../icon/icon";
 import classNames from "classnames";
-import {Color} from "../../model/color";
 import React from "react";
 import {Link} from "@inertiajs/react";
-import selectColor from "../../service/select-color";
 
 type Props = {
     icon: string,
