@@ -12,8 +12,31 @@ class TransactionService
      * @return string[]
      */
     public function categoriesToList(): array {
+    public function categoriesToList(): array
+    {
         return collect(Category::cases())
-            ->map(fn (Category $category) => new CategoryResource($category))
+            ->map(fn(Category $category) => new CategoryResource($category))
             ->toArray();
+    }
+
+
+    /**
+     * Maps last $monthCount months into array of ['from' => d/m/Y, 'to' => d/m/Y] objects
+     * @param int $monthCount
+     * @return TransactionPeriod[]
+     */
+    public function collectPeriods(int $monthCount): array
+    {
+        $periods = [];
+        for ($i = 0; $i < $monthCount; $i++) {
+            $current = (new Carbon())->subMonths($i);
+
+            $periods[] = new TransactionPeriod(
+                $current->clone()->startOfMonth()->addDays(4),
+                $current->clone()->startOfMonth()->addMonth()->addDays(3),
+            );
+        }
+
+        return $periods;
     }
 }
