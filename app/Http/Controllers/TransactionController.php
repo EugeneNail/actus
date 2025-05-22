@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Enums\Transaction\Category;
 use App\Http\Requests\Transaction\StoreRequest;
 use App\Http\Requests\Transaction\UpdateRequest;
-use App\Models\Goal;
+use App\Http\Requests\Transaction\IndexRequest;
+use App\Http\Resources\CategoryResource;
 use App\Models\Transaction;
-use App\Models\User;
 use App\Services\TransactionService;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -21,6 +21,25 @@ class TransactionController extends Controller
     public function __construct(TransactionService $service)
     {
         $this->service = $service;
+    }
+
+
+    public function index(IndexRequest $request): Response|RedirectResponse
+    {
+        $periods = $this->service->collectPeriods(12);
+
+        if ($request->missing('from') || $request->missing('to')) {
+            return redirect()->route('transactions.index', [
+                'from' => $periods[0]->from,
+                'to' => $periods[0]->to,
+            ]);
+        }
+
+        return Inertia::render('Transaction/Index', [
+            'periods' => $periods,
+            'transactions' => $this->service->collectTransactions($request->from, $request->to, $request->user()),
+            'categories' => collect(Category::cases())->mapWithKeys(fn (Category $category) => [$category->value => new CategoryResource($category)])
+        ]);
     }
 
 
@@ -69,14 +88,16 @@ class TransactionController extends Controller
     }
 
 
-    public function delete(Transaction $transaction): Response {
+    public function delete(Transaction $transaction): Response
+    {
         return Inertia::render('Transaction/Delete', [
             'id' => $transaction->id,
         ]);
     }
 
 
-    public function destroy(Transaction $transaction): Response|RedirectResponse {
+    public function destroy(Transaction $transaction): Response|RedirectResponse
+    {
         $transaction->delete();
         return redirect()->intended(route('transactions.index'));
     }

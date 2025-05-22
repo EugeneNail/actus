@@ -1,0 +1,41 @@
+@import ../../../css/variables
+
+.transaction-card
+  display: grid
+  grid-template-columns: 30px 1fr auto
+  grid-template-rows: 1fr 1fr
+  grid-template-areas: "icon category value" "icon description value"
+  justify-content: center
+  align-items: center
+  gap: 0 15px
+
+  &__icon
+    text-align: center
+    font-size: 30px
+    grid-area: icon
+
+    &.income
+      color: $blue-1
+
+    &.outcome
+      color: $red-1
+
+  &__category
+    font-size: 14px
+    grid-area: category
+
+
+  &__description
+    color: $font-2
+    font-size: 12px
+    grid-area: description
+
+
+  &__value
+    grid-area: value
+
+    &.income
+      color: $blue-1
+
+    &.outcome
+      color: $red-1

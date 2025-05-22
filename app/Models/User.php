@@ -22,6 +22,7 @@ use Illuminate\Support\Collection;
  * @property Collection|Entry[] $entries
  * @property Collection|Photo[] $photos
  * @property Collection|Goal[] $goals
+ * @property Collection|Transaction[] $transactions
  */
 class User extends Authenticatable
 {

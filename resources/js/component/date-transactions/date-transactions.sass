@@ -1,0 +1,44 @@
+@import ../../../css/variables
+
+.date-transactions
+  padding: 10px 15px
+  background: $background-3
+  border-radius: 8px 8px
+  border: 1px solid $border-1
+  overflow: hidden
+
+  &__header
+    display: grid
+    grid-template-columns: auto 1fr auto
+    grid-template-rows: 1fr 1fr
+    grid-template-areas: "day weekday total" "day date total"
+    justify-content: center
+    align-items: center
+    gap: 0 15px
+    border-bottom: 1px solid $border-1
+    padding-bottom: 5px
+    margin-bottom: 15px
+
+  &__day
+    font-size: 26px
+    grid-area: day
+
+  &__weekday
+    font-size: 12px
+    grid-area: weekday
+
+
+  &__date
+    color: $font-2
+    font-size: 12px
+    grid-area: date
+
+
+  &__total
+    grid-area: total
+
+
+  &__transactions
+    display: flex
+    flex-direction: column
+    gap: 15px

@@ -83,6 +83,7 @@ function Menu({user, counters, exportPeriods}: Props) {
                     <MenuLink icon="calendar_month" label="Entries" to="/entries"/>
                     <MenuLink icon="bar_chart" label="Statistics" to="/statistics"/>
                     <MenuLink icon="check" label="Goals" to="/goals"/>
+                    <MenuLink icon="credit_card" label="Transactions" to="/transactions"/>
                     <MenuLink className="logout-link" icon="logout" label="Log out" to="/logout" method={Method.POST}/>
                 </div>
             </div>
