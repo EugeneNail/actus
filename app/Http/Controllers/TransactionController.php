@@ -66,7 +66,7 @@ class TransactionController extends Controller
         $transaction = new Transaction($request->validated());
         $request->user()->transactions()->save($transaction);
 
-        return redirect(route('entries.index'));
+        return redirect(route('transactions.index'));
     }
 
 
@@ -84,7 +84,7 @@ class TransactionController extends Controller
         $transaction->fill($request->validated());
         $transaction->save();
 
-        return redirect(route('entries.index'));
+        return redirect(route('transactions.index'));
     }
 
 
