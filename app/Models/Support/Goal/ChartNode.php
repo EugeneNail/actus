@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Support;
+namespace App\Models\Support\Goal;
 
-class GoalChartNode
+class ChartNode
 {
     public int $plain;
 

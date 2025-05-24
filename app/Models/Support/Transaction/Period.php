@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Support;
+namespace App\Models\Support\Transaction;
 
 use Carbon\Carbon;
 
-class TransactionPeriod
+class Period
 {
     public const FORMAT = 'd/m/Y';
 

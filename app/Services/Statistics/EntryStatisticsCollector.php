@@ -5,7 +5,7 @@ namespace App\Services\Statistics;
 use App\Enums\Mood;
 use App\Models\Entry;
 use App\Models\Goal;
-use App\Models\Support\GoalChartNode;
+use App\Models\Support\Goal\ChartNode;
 use App\Models\Support\MoodBand;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -130,7 +130,7 @@ class EntryStatisticsCollector
         $goalChart = [];
 
         foreach ($dates as $date) {
-            $goalChart[] = new GoalChartNode($entries[$date] ?? 0, $userGoalCount);
+            $goalChart[] = new ChartNode($entries[$date] ?? 0, $userGoalCount);
         }
 
         return $goalChart;

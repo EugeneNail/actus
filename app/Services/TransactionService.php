@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Enums\Transaction\Category;
 use App\Http\Resources\CategoryResource;
-use App\Models\Support\DateTransactions;
-use App\Models\Support\TransactionPeriod;
+use App\Models\Support\Transaction\DateTransactions;
+use App\Models\Support\Transaction\Period;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -26,7 +26,7 @@ class TransactionService
     /**
      * Maps last $monthCount months into array of ['from' => d/m/Y, 'to' => d/m/Y] objects
      * @param int $monthCount
-     * @return TransactionPeriod[]
+     * @return Period[]
      */
     public function collectPeriods(int $monthCount): array
     {
@@ -34,7 +34,7 @@ class TransactionService
         for ($i = 0; $i < $monthCount; $i++) {
             $current = (new Carbon())->subMonths($i);
 
-            $periods[] = new TransactionPeriod(
+            $periods[] = new Period(
                 $current->clone()->startOfMonth()->addDays(4),
                 $current->clone()->startOfMonth()->addMonth()->addDays(3),
             );
@@ -42,12 +42,19 @@ class TransactionService
 
         return $periods;
     }
-
-
-    public function collectTransactions(string $from, string $to, User $user): iterable
+    
+    
+    /**
+     * Wraps transactions of each date with precise information about the date
+     * @param string $from
+     * @param string $to
+     * @param User $user
+     * @return iterable
+     */
+    public function collectDateTransactions(string $from, string $to, User $user): iterable
     {
-        $from = Carbon::createFromFormat(TransactionPeriod::FORMAT, $from)->format('Y-m-d');
-        $to = Carbon::createFromFormat(TransactionPeriod::FORMAT, $to)->format('Y-m-d');
+        $from = Carbon::createFromFormat(Period::FORMAT, $from)->format('Y-m-d');
+        $to = Carbon::createFromFormat(Period::FORMAT, $to)->format('Y-m-d');
 
         return $user->transactions
             ->where('date', '>=', $from)

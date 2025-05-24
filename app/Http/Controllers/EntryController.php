@@ -12,7 +12,6 @@ use App\Services\EntryService;
 use App\Services\GoalService;
 use App\Services\PhotoService;
 use App\Services\Statistics\EntryStatisticsCollector;
-use App\Services\Statistics\NodeCollector;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -32,21 +31,17 @@ class EntryController extends Controller
     
     private EntryStatisticsCollector $statistics;
     
-    private NodeCollector $nodeCollector;
-    
     
     public function __construct(
         EntryService $entryService,
         PhotoService $photoService,
         GoalService $goalService,
-        EntryStatisticsCollector $statistics,
-        NodeCollector $nodeCollector
+        EntryStatisticsCollector $statistics
     ) {
         $this->entryService = $entryService;
         $this->photoService = $photoService;
         $this->goalService = $goalService;
         $this->statistics = $statistics;
-        $this->nodeCollector = $nodeCollector;
     }
     
     
@@ -129,7 +124,7 @@ class EntryController extends Controller
         }
         
         $user = $request->user();
-        $entries = $user->entries()->with('goals')->get();
+        $entries = $user->entries()->with('goals')->whereIn('date', $dates)->get();
         
         return Inertia::render('Entry/Statistics', [
             'mood' => [

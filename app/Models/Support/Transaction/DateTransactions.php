@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Support;
+namespace App\Models\Support\Transaction;
 
 use App\Models\Transaction;
 use Carbon\Carbon;

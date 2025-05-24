@@ -71,6 +71,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/new', [TransactionController::class, 'create'])->name('create');
         Route::post('/', [TransactionController::class, 'store'])->name('store');
         Route::get('/', [TransactionController::class, 'index'])->name('index');
+        Route::get('/statistics', [TransactionController::class, 'statistics'])->name('statistics');
         Route::get('/{transaction}', [TransactionController::class, 'edit'])->name('edit');
         Route::put('/{transaction}', [TransactionController::class, 'update'])->name('update');
         Route::get('/{transaction}/delete', [TransactionController::class, 'delete'])->name('delete');

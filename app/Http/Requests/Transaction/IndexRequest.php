@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Transaction;
 
+use App\Models\Support\Transaction\Period;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Support\TransactionPeriod;
 
 class IndexRequest extends FormRequest
 {
@@ -16,8 +16,8 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'from' => ['string', 'date', "date_format:" . TransactionPeriod::FORMAT],
-            'to' => ['string', 'date', "date_format:" . TransactionPeriod::FORMAT],
+            'from' => ['string', 'date', "date_format:" . Period::FORMAT],
+            'to' => ['string', 'date', "date_format:" . Period::FORMAT],
         ];
     }
 }

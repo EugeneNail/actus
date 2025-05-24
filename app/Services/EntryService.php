@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Http\Resources\EntryIndexResource;
 use App\Models\Entry;
-use App\Models\Support\IndexMonth;
+use App\Models\Support\Entry\IndexMonth;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
