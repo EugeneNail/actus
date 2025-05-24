@@ -14,7 +14,6 @@ type Props = {
 }
 
 export default function GoalCompletion({values}: Props) {
-    console.log(values)
     return (
         <div className="goal-completion">
             <p className="goal-completion__label">Goal Completion</p>

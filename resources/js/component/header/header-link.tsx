@@ -10,12 +10,16 @@ type Props = {
 
 export default function HeaderLink({icon, to}: Props) {
     function getClass(): string {
-        return
+        return classNames(
+            "header-link__icon",
+            "header-link",
+            {active: window.location.pathname == to.split('?')[0]}
+        )
     }
 
     return (
         <Link className={getClass()} href={to}>
-            <Icon className={classNames("header-link__icon", "header-link", {active: window.location.pathname.includes(to)})} name={icon}/>
+            <Icon className={getClass()} name={icon}/>
         </Link>
     )
 }

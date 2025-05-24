@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Entry;
 
 use App\Enums\Statistics\Period;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StatisticsIndexRequest extends FormRequest
+class StatisticsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

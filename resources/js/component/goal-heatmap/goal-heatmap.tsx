@@ -12,12 +12,12 @@ export default function GoalHeatmap({data}: Props) {
     return (
         <div className="goal-heatmap">
             {data && data.length && data.map(heatmap =>
-                <div className="goal-heatmap__grid">
+                <div key={Math.random()} className="goal-heatmap__grid">
                     <div className="goal-heatmap__icon-container">
                         <Icon8 id={heatmap.icon} className="goal-heatmap__icon"/>
                     </div>
                     {heatmap.heat && heatmap.heat.map(heat =>
-                        <div className={classNames("goal-heatmap__heat", {hot: heat == true})}></div>
+                        <div key={Math.random()} className={classNames("goal-heatmap__heat", {hot: heat == true})}></div>
                     )}
                     <div className="goal-heatmap__icon-container">
                         <Icon8 id={heatmap.icon} className="goal-heatmap__icon"/>

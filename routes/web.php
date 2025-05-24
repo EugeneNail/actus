@@ -50,9 +50,10 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::prefix('entries')->name('entries.')->group(function () {
-        Route::get('/{date}', [EntryController::class, 'open'])->name('open');
         Route::get('/', [EntryController::class, 'index'])->name('index');
         Route::post('/', [EntryController::class, 'save'])->name('save');
+        Route::get('/statistics', [EntryController::class, 'statistics'])->name('statistics');
+        Route::get('/{date}', [EntryController::class, 'open'])->name('open');
     });
 
     Route::prefix('photos')->name('photos.')->group(function () {
@@ -75,8 +76,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{transaction}/delete', [TransactionController::class, 'delete'])->name('delete');
         Route::delete('/{transaction}', [TransactionController::class, 'destroy'])->name('destroy');
     });
-
-    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
 
     Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
 });

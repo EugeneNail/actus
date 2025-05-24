@@ -1,4 +1,4 @@
-import "./index.sass"
+import "./Statistics.sass"
 import withLayout from "../../Layout/default-layout";
 import React from "react";
 import MoodBand from "../../component/mood-band/mood-band";
@@ -24,18 +24,18 @@ type Props = {
     goalHeatmap: GoalHeatmapModel[],
 }
 
-export default withLayout(Index)
-function Index({mood, goalChart, goalCompletion, goalHeatmap}: Props) {
+export default withLayout(Statistics)
+function Statistics({mood, goalChart, goalCompletion, goalHeatmap}: Props) {
     const period = new URLSearchParams(window.location.search).get('period')
 
     return (
-        <div className="statistics-page">
+        <div className="entry-statistics-page">
             <Head title='Statistics'/>
-            <div className="statistics-page__statistics wrapped">
-                <div className="statistics-page__links">
-                    <StatisticsLink to="/statistics?period=month" label="Month" type="month" period={period}/>
-                    <StatisticsLink to="/statistics?period=season" label="Season" type="season" period={period}/>
-                    <StatisticsLink to="/statistics?period=year" label="Year" type="year" period={period}/>
+            <div className="entry-statistics-page__statistics wrapped">
+                <div className="entry-statistics-page__links">
+                    <StatisticsLink to="/entries/statistics?period=month" label="Month" type="month" period={period}/>
+                    <StatisticsLink to="/entries/statistics?period=season" label="Season" type="season" period={period}/>
+                    <StatisticsLink to="/entries/statistics?period=year" label="Year" type="year" period={period}/>
                 </div>
                 <MoodBand values={mood.band}/>
                 <MoodChart values={mood.chart} period={period}/>

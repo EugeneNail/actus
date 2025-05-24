@@ -7,14 +7,10 @@ use App\Models\Entry;
 use App\Models\Goal;
 use App\Models\Support\GoalChartNode;
 use App\Models\Support\MoodBand;
-use App\Models\Support\NodeGoal;
-use Carbon\Carbon;
-use Carbon\CarbonPeriod;
-use DateTime;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
-class StatisticsCollector
+class EntryStatisticsCollector
 {
     /**
      * Collects and calculates mood percentage distribution
