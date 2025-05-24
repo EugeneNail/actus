@@ -92,7 +92,7 @@ class TransactionStatisticsCollector
             $sum = 0;
             foreach ($charts as $chart) {
                 if (!isset($chart[$i])) {
-                    $sum += $chart[count($chart->nodes) - 1]->value;
+                    $sum += $chart[array_key_last($chart->nodes)]->value ?? 0;
                 } else {
                     $sum += $chart[$i]->value;
                 }

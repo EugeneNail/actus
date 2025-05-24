@@ -43,7 +43,7 @@ class Chart implements ArrayAccess
     
     public function max(): float
     {
-        return $this->nodes[array_key_last($this->nodes)]->value;
+        return $this->nodes[array_key_last($this->nodes)]->value ?? 0;
     }
     
     
