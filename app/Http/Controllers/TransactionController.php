@@ -44,7 +44,6 @@ class TransactionController extends Controller
         
         $user = $request->user();
         $transactions = $user->transactions()->get();
-        
         $dates = $this->statistics->collectDates($request->from, $request->to);
         $mainChart = $this->statistics->forChart($dates, $transactions);
         
@@ -55,7 +54,6 @@ class TransactionController extends Controller
         }
         
         $comparedChart = $this->statistics->averageOfCharts($chartsToAggregate);
-        
         $max = max($mainChart->max(), $comparedChart->max());
         $mainChart->calculatePercents($max);
         $comparedChart->calculatePercents($max);

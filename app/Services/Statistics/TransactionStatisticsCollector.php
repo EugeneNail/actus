@@ -56,11 +56,22 @@ class TransactionStatisticsCollector
     {
         $chart = new Chart();
         
-        $transactions = $transactions->where(fn($transaction) => $transaction->sign == -1)->keyBy('date');
+        $transactions = $transactions->where(fn($transaction) => $transaction->sign == -1)->groupBy('date');
+        $latestDate = array_key_first($transactions->toArray());
         $cumulativeSum = 0;
         
         foreach ($dates as $date) {
-            $cumulativeSum += $transactions[$date]->value ?? 0;
+            if (!isset($transactions[$date])) {
+                if ($date < $latestDate) {
+                    $chart[] = new ChartNode($date, $cumulativeSum);
+                }
+                continue;
+            }
+            
+            foreach ($transactions[$date] as $transaction) {
+                $cumulativeSum += $transaction->value;
+            }
+            
             $chart[] = new ChartNode($date, $cumulativeSum);
         }
         

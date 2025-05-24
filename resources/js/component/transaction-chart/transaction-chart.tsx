@@ -37,7 +37,7 @@ export default function TransactionChart({scales, main, compared}: Props) {
             ctx.setLineDash([])
         }
 
-        const stepX = (canvas.width - Xleft - Xright) / main.nodes.length
+        const stepX = (canvas.width - Xleft - Xright) / 31
         stepY = (canvas.height - paddingY * 2 ) / 100
 
         for (let i = 0; i < compared.nodes.length -1; i++) {

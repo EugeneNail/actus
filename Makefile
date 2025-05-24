@@ -15,3 +15,7 @@ refresh:
 	npm run build
 	composer dump-autoload
 	php artisan migrate
+
+up:
+	php artisan serve &
+	npm run dev
