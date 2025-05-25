@@ -9,6 +9,9 @@ import Month from "../../model/month";
 import MonthCarousel from "../../component/month-carousel/month-carousel";
 import GoalHeatmapModel from "@/model/goal-heatmap";
 import GoalHeatmap from "@/component/goal-heatmap/goal-heatmap";
+import Chart from "@/model/transaction/chart";
+import Flow from "@/model/transaction/flow";
+import TransactionChart from "@/component/transaction-chart/transaction-chart";
 
 export type Goals = {
     goalsTotal: number
@@ -19,12 +22,18 @@ type Props = {
     goalHeatmap: GoalHeatmapModel[],
     entries: (Entry & Goals)[],
     months: Month[],
+    chart: {
+        flow: Flow,
+        scales: number[]
+        main: Chart
+        compared: Chart
+    }
 }
 
 
 export default withLayout(Index)
 
-function Index({entries, months, goalHeatmap}: Props) {
+function Index({entries, months, goalHeatmap, chart}: Props) {
 
     const messages = [
         "Let's not leave this diary page blank? ✌",
@@ -71,6 +80,7 @@ function Index({entries, months, goalHeatmap}: Props) {
                         <p className="entries-page-button__label">{getRandomMessage()}</p>
                     </Link>}
                 {goalHeatmap && goalHeatmap.length > 0 && <GoalHeatmap data={goalHeatmap}/>}
+                <TransactionChart scales={chart.scales} main={chart.main} compared={chart.compared} flow={chart.flow}/>
                 {entries && entries.map(entry => (
                     <EntryCard key={entry.id} entry={entry}/>
                 ))}

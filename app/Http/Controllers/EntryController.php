@@ -7,11 +7,15 @@ use App\Http\Requests\Entry\StatisticsRequest;
 use App\Http\Requests\Entry\IndexRequest;
 use App\Http\Requests\Entry\SaveRequest;
 use App\Http\Resources\EntryCardResource;
+use App\Models\Support\Transaction\Chart;
+use App\Models\Support\Transaction\Period as TransactionPeriod;
 use App\Models\User;
+use App\Services\Dates;
 use App\Services\EntryService;
 use App\Services\GoalService;
 use App\Services\PhotoService;
 use App\Services\Statistics\EntryStatisticsCollector;
+use App\Services\Statistics\TransactionStatisticsCollector;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -91,8 +95,10 @@ class EntryController extends Controller
     }
     
     
-    public function index(IndexRequest $request): Response|RedirectResponse
-    {
+    public function index(
+        IndexRequest $request,
+        TransactionStatisticsCollector $transactionStatistics,
+    ): Response|RedirectResponse {
         if ($request->missing('month') || $request->missing('year')) {
             return redirect()->route('entries.index', [
                 'month' => (int)date('m'),
@@ -101,16 +107,15 @@ class EntryController extends Controller
         }
         
         $user = $request->user();
-        $period = 10;
-        $dates = [];
-        for ($i = 0; $i < $period; $i++) {
-            $dates[] = date('Y-m-d', strtotime("-$i days"));
-        }
-        
+        $periods = $transactionStatistics->collectPeriods(4);
         return Inertia::render('Entry/Index', [
-            'goalHeatmap' => $this->statistics->forGoalHeatmap($dates, $user->entries()->with('goals')->get()),
+            'goalHeatmap' => $this->statistics->forGoalHeatmap(Dates::collectLast(10), $user->entries()->with('goals')->get()),
             'entries' => $this->entryService->collectForIndex($request->month, $request->year),
             'months' => $this->entryService->collectMonthData($request->user()),
+            'chart' => $transactionStatistics->forChart(
+                Dates::collect($periods[0]->from, $periods[0]->to, TransactionPeriod::FORMAT),
+                $user->transactions()->get()
+            )
         ]);
     }
     
