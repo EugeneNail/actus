@@ -4,7 +4,7 @@ namespace App\Models\Support\Transaction;
 
 use InvalidArgumentException;
 
-class CashFlow
+class Flow
 {
     public readonly float $income;
     
@@ -19,12 +19,12 @@ class CashFlow
             throw new InvalidArgumentException('$income must be positive');
         }
         
-        if ($outcome > 0) {
-            throw new InvalidArgumentException('$income must be negative');
+        if ($outcome < 0) {
+            throw new InvalidArgumentException('$outcome must be positive');
         }
         
         $this->income = $income;
         $this->outcome = $outcome;
-        $this->summary = $income + $outcome;
+        $this->summary = $income - $outcome;
     }
 }

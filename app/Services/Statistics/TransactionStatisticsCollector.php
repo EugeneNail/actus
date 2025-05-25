@@ -2,61 +2,65 @@
 
 namespace App\Services\Statistics;
 
-use App\Models\Support\Transaction\CashFlow;
+use App\Models\Support\Transaction\Flow;
 use App\Models\Support\Transaction\Chart;
 use App\Models\Support\Transaction\ChartNode;
 use App\Models\Support\Transaction\Period;
-use App\Models\Transaction;
+use App\Services\Dates;
 use Carbon\Carbon;
-use Carbon\CarbonInterval;
-use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
 
 class TransactionStatisticsCollector
 {
-    const DAYS = 31;
+    private const DAYS = 31;
     
-    public function collectDates(string $from, string $to): array
+    
+    /**
+     * Aggregates main and compared charts.
+     * The compared chart is aggregated as the average value of latest months
+     * @param array $dates
+     * @param Collection $transactions
+     * @param int $months
+     * @return array{Chart, Chart, float}
+     */
+    public function forChart(array $dates, Collection $transactions, int $months = 3): array
     {
-        $period = new CarbonPeriod(
-            Carbon::createFromFormat(Period::FORMAT, $from),
-            new CarbonInterval('P1D'),
-            Carbon::createFromFormat(Period::FORMAT, $to)
+        $flowTransactions = $transactions->whereIn('date', $dates);
+        $flow = new Flow(
+            $flowTransactions->where('sign', +1)->sum(fn($transaction) => $transaction->value),
+            $flowTransactions->where('sign', -1)->sum(fn($transaction) => $transaction->value)
         );
         
-        $dates = [];
-        foreach ($period as $date) {
-            $dates[] = $date->format('Y-m-d');
-        }
+        $periods = $this->collectPeriods(4);
+        $transactions = $transactions->where(fn($transaction) => $transaction->sign == -1);
         
-        return $dates;
+        $mainChart = $this->aggregateChart($dates, $transactions);
+        $comparedChart = $this->aggregateAverageChart($periods, $transactions, $months);
+        
+        $max = max($mainChart->max(), $comparedChart->max());
+        $mainChart->calculatePercents($max);
+        $comparedChart->calculatePercents($max);
+        
+        return [
+            'flow' => $flow,
+            'scales' => Chart::extractScales($max),
+            'main' => $mainChart,
+            'compared' => $comparedChart
+        ];
     }
     
     
     /**
+     * Aggregates cumulative chart from transactions
      * @param array $dates
-     * @param Collection|Transaction[] $transactions
-     * @return CashFlow
-     */
-    public function forCashFlow(array $dates, Collection $transactions): CashFlow
-    {
-        $income = $transactions->where('sign', +1)->sum(fn($transaction) => $transaction->value) * +1;
-        $outcome = $transactions->where('sign', -1)->sum(fn($transaction) => $transaction->value) * -1;
-        
-        return new CashFlow($income, $outcome);
-    }
-    
-    
-    /**
-     * @param array $dates
-     * @param Collection|Transaction[] $transactions
+     * @param Collection $transactions
      * @return Chart
      */
-    public function forChart(array $dates, Collection $transactions): Chart
+    private function aggregateChart(array $dates, Collection $transactions): Chart
     {
         $chart = new Chart();
         
-        $transactions = $transactions->where(fn($transaction) => $transaction->sign == -1)->groupBy('date');
+        $transactions = $transactions->groupBy('date');
         $latestDate = array_key_first($transactions->toArray());
         $cumulativeSum = 0;
         
@@ -80,27 +84,54 @@ class TransactionStatisticsCollector
     
     
     /**
-     * @param Chart[] $charts
+     * Aggregates the average value of latest months
+     * @param Period[] $periods
+     * @param Collection $transactions
+     * @param int $months
      * @return Chart
      */
-    public function averageOfCharts(array $charts): Chart
+    private function aggregateAverageChart(array $periods, Collection $transactions, int $months = 3): Chart
     {
-        $averageChart = new Chart();
-        $count = count($charts);
+        $charts = [];
+        for ($i = 1; $i <= $months; $i++) {
+            $dates = Dates::collect($periods[$i]->from, $periods[$i]->to, Period::FORMAT);
+            $charts[] = $this->aggregateChart($dates, $transactions);
+        }
+        
+        $comparedChart = new Chart();
         
         for ($i = 0; $i < static::DAYS; $i++) {
             $sum = 0;
             foreach ($charts as $chart) {
-                if (!isset($chart[$i])) {
-                    $sum += $chart[array_key_last($chart->nodes)]->value ?? 0;
-                } else {
-                    $sum += $chart[$i]->value;
-                }
+                $sum += isset($chart[$i])
+                    ? $chart[$i]->value
+                    : $chart[array_key_last($chart->nodes)]->value ?? 0;
             }
             
-            $averageChart[] = new ChartNode('', $sum / $count);
+            $comparedChart[] = new ChartNode('', $sum / $months);
         }
         
-        return $averageChart;
+        return $comparedChart;
+    }
+    
+    
+    /**
+     * Maps last $monthCount months into array of ['from' => 05/m/Y, 'to' => 04/m/Y] objects
+     * @param int $monthCount
+     * @return Period[]
+     */
+    public function collectPeriods(int $monthCount): array
+    {
+        $periods = [];
+        for ($i = 0; $i < $monthCount; $i++) {
+            $current = (new Carbon())->subMonths($i);
+            
+            $periods[] = new Period(
+                $current->clone()->startOfMonth()->addDays(4),
+                $current->clone()->startOfMonth()->addMonth()->addDays(3),
+            );
+        }
+        
+        return $periods;
     }
 }

@@ -2,11 +2,15 @@ import "./transaction-chart.sass"
 import React, {useEffect, useRef, useState} from "react";
 import Chart from "@/model/transaction/chart";
 import ChartNode from "@/model/transaction/chart-node";
+import FlowModel from "@/model/transaction/flow";
+import Flow from "@/component/transaction/flow/flow";
 
 type Props = {
     scales: number[]
     main: Chart
-    compared: Chart
+    compared: Chart,
+    flow: FlowModel
+
 }
 
 type BreakPoint = {
@@ -17,7 +21,7 @@ type BreakPoint = {
     y: number
 }
 
-export default function TransactionChart({scales, main, compared}: Props) {
+export default function TransactionChart({scales, main, compared, flow}: Props) {
     const [currentBreakPoint, setCurrentBreakPoint] = useState<BreakPoint>(null)
 
     const canvasRef = useRef(null);
@@ -123,6 +127,7 @@ export default function TransactionChart({scales, main, compared}: Props) {
         ctx.fill();
     }
 
+
     function drawCircle(ctx, x: number, y: number): void {
         ctx.strokeStyle = '#D33F49'
         ctx.lineWidth = 5
@@ -143,7 +148,7 @@ export default function TransactionChart({scales, main, compared}: Props) {
     }
 
 
-    const checkHover = (clientX: number) => {
+    function checkHover(clientX: number) {
         const canvas = canvasRef.current;
         const tempCtx = tempCanvasRef.current.getContext('2d')
 
@@ -156,16 +161,25 @@ export default function TransactionChart({scales, main, compared}: Props) {
             if (breakPoints[i].x0 < x && x < breakPoints[i].x1) {
                 setCurrentBreakPoint(breakPoints[i])
                 tempCtx.clearRect(0, 0, 1000, 500)
+
+                tempCtx.beginPath()
+                tempCtx.strokeStyle = '#bbb'
+                tempCtx.lineWidth = 1
+                tempCtx.moveTo(breakPoints[i].x0, paddingY)
+                tempCtx.lineTo(breakPoints[i].x0, canvas.height - paddingY)
+                tempCtx.stroke()
+
                 drawCircle(tempCtx, breakPoints[i].x0, breakPoints[i].y)
+
                 return
             }
         }
-    };
+    }
 
 
     return (
         <div className="transaction-chart">
-            <p className="transaction-chart__label">Transaction Chart</p>
+            <Flow flow={flow}/>
             {currentBreakPoint != null &&
                 <div className="transaction-chart__node-data">
                     <p>{currentBreakPoint.node.date}: <span

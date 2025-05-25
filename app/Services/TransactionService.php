@@ -21,27 +21,6 @@ class TransactionService
             ->map(fn(Category $category) => new CategoryResource($category))
             ->toArray();
     }
-
-
-    /**
-     * Maps last $monthCount months into array of ['from' => d/m/Y, 'to' => d/m/Y] objects
-     * @param int $monthCount
-     * @return Period[]
-     */
-    public function collectPeriods(int $monthCount): array
-    {
-        $periods = [];
-        for ($i = 0; $i < $monthCount; $i++) {
-            $current = (new Carbon())->subMonths($i);
-
-            $periods[] = new Period(
-                $current->clone()->startOfMonth()->addDays(4),
-                $current->clone()->startOfMonth()->addMonth()->addDays(3),
-            );
-        }
-
-        return $periods;
-    }
     
     
     /**

@@ -8,7 +8,9 @@ use App\Http\Requests\Transaction\StoreRequest;
 use App\Http\Requests\Transaction\UpdateRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Support\Transaction\Chart;
+use App\Models\Support\Transaction\Period;
 use App\Models\Transaction;
+use App\Services\Dates;
 use App\Services\Statistics\TransactionStatisticsCollector;
 use App\Services\TransactionService;
 use Illuminate\Http\RedirectResponse;
@@ -33,7 +35,7 @@ class TransactionController extends Controller
     
     public function index(IndexRequest $request): Response|RedirectResponse
     {
-        $periods = $this->service->collectPeriods(12);
+        $periods = $this->statistics->collectPeriods(12);
         
         if (!$request->from || !$request->to) {
             return redirect()->route('transactions.index', [
@@ -44,30 +46,13 @@ class TransactionController extends Controller
         
         $user = $request->user();
         $transactions = $user->transactions()->get();
-        $dates = $this->statistics->collectDates($request->from, $request->to);
-        $mainChart = $this->statistics->forChart($dates, $transactions);
-        
-        $chartsToAggregate = [];
-        for ($i = 1; $i <= 3; $i++) {
-            $dates = $this->statistics->collectDates($periods[$i]->from, $periods[$i]->to);
-            $chartsToAggregate[] = $this->statistics->forChart($dates, $transactions);
-        }
-        
-        $comparedChart = $this->statistics->averageOfCharts($chartsToAggregate);
-        $max = max($mainChart->max(), $comparedChart->max());
-        $mainChart->calculatePercents($max);
-        $comparedChart->calculatePercents($max);
+        $dates = Dates::collect($request->from, $request->to, Period::FORMAT);
         
         return Inertia::render('Transaction/Index', [
             'periods' => $periods,
             'categories' => collect(Category::cases())->mapWithKeys(fn(Category $category) => [$category->value => new CategoryResource($category)]),
             'transactions' => $this->service->collectDateTransactions($request->from, $request->to, $request->user()),
-            'cashFlow' => $this->statistics->forCashFlow($dates, $transactions),
-            'chart' => [
-                'scales' => Chart::extractScales($max),
-                'main' => $mainChart,
-                'compared' => $comparedChart
-            ]
+            'chart' => $this->statistics->forChart($dates, $transactions)
         ]);
     }
     
