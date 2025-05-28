@@ -61,12 +61,12 @@ class TransactionStatisticsCollector
         $chart = new Chart();
         
         $transactions = $transactions->groupBy('date');
-        $latestDate = array_key_first($transactions->toArray());
+        $today = date('Y-m-d');
         $cumulativeSum = 0;
         
         foreach ($dates as $date) {
             if (!isset($transactions[$date])) {
-                if ($date < $latestDate) {
+                if ($date <= $today) {
                     $chart[] = new ChartNode($date, $cumulativeSum);
                 }
                 continue;
