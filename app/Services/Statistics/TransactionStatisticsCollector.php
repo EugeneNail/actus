@@ -116,7 +116,7 @@ class TransactionStatisticsCollector
     
     
     /**
-     * Maps last $monthCount months into array of ['from' => 05/m/Y, 'to' => 04/m/Y] objects
+     * Maps last $monthCount months into array of ['from' => Y-m-d, 'to' => Y-m-d] objects
      * @param int $monthCount
      * @return Period[]
      */
@@ -127,8 +127,8 @@ class TransactionStatisticsCollector
             $current = (new Carbon())->subMonths($i);
             
             $periods[] = new Period(
-                $current->clone()->startOfMonth()->addDays(4),
-                $current->clone()->startOfMonth()->addMonth()->addDays(3),
+                $current->clone()->startOfMonth(),
+                $current->clone()->endOfMonth(),
             );
         }
         

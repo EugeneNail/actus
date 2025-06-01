@@ -38,7 +38,7 @@ export default function PeriodCarousel({periods}: Props) {
 
     function buildTitle(): string {
         const index = getCurrentIndex()
-        return `${periods[index].from} -- ${periods[index].to}`
+        return `${periods[index].from} — ${periods[index].to}`
     }
 
 

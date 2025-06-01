@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class Period
 {
-    public const FORMAT = 'd/m/Y';
+    public const FORMAT = 'Y-m-d';
 
     public string $from;
 

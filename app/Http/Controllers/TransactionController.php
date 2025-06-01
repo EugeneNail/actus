@@ -46,8 +46,8 @@ class TransactionController extends Controller
         
         $user = $request->user();
         $transactions = $user->transactions()->get();
-        $dates = Dates::collect($request->from, $request->to, Period::FORMAT);
-        
+        $dates = Dates::collect($request->from, $request->to);
+
         return Inertia::render('Transaction/Index', [
             'periods' => $periods,
             'categories' => collect(Category::cases())->mapWithKeys(fn(Category $category) => [$category->value => new CategoryResource($category)]),
